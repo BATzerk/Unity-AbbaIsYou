@@ -4,193 +4,275 @@ using UnityEngine;
 
 public class Level : MonoBehaviour {
 	// Components
-	private Board board; // this reference ONLY changes when we undo a move, where we remake-from-scratch both board and boardView.
-	private BoardView boardView;
-	// Constant Properties
-	private bool isBonus;
-	private int worldIndex;
-	private int levelIndex; // index within the entire world.
-	private int parMoves;
-	private string levelKey;
-	// Variable Properties
-	private bool isLevelComplete = false;
-	private int numMovesMade; // reset to 0 at the start of each level. Undoing a move will decrement this.
-	private List<BoardData> boardSnapshots; // for undoing moves! Before each move, we add a snapshot of the board to this list (and remove from list when we undo).
+    [SerializeField] private RectTransform myRectTransform=null;
+    public Board Board { get; private set; } // this reference ONLY changes when we undo a move, where we remake-from-scratch both board and boardView.
+    public BoardView BoardView { get; private set; }
+    private BoardView[,] BoardViewEchoes; // TEST for rendering flipping etc.!
+    // Properties
+    private bool doShowEchoes;
+    public bool IsWon { get; private set; }
+    public LevelAddress MyAddress { get; private set; }
+    private List<BoardData> boardSnapshots = new List<BoardData>(); // note: There's always ONE value in here. These are added immediately AFTER a move.
 	// References
-	private Board preMoveSnapshot; // a serialized version of me taken right before we try to do a move! If the move fails, we revert back to this.
+	//private GameController gameController;
+    private RectTransform rt_boardArea; // a RectTransform that ONLY informs us how the BoardView's size should be, so we can make layout changes in the editor.
 
-	// Getters
-	public bool IsBonus { get { return isBonus; } }
-	public bool IsLevelComplete { get { return isLevelComplete; } }
-	public int WorldIndex { get { return worldIndex; } }
-	public int LevelIndex { get { return levelIndex; } }
-	public int ParMoves { get { return parMoves; } }
-	public string LevelKey { get { return levelKey; } }
-	public bool IsEveryPlayerDead () { if(board==null){return false;} return board.IsEveryPlayerDead (); }
-
-	/** If you ask ME, I'll report what's happened with ME, not if we've ever achieved par here. */
-	public bool DidAchieveParMoves () { return numMovesMade <= parMoves; }
-	public bool DidEverAchieveParMoves { get { return GameManagers.Instance.DataManager.GetLevelData(worldIndex,levelIndex).DidAchieveParMoves; } }
-
-	private bool CanMakeAnyMove () {
-		if (isLevelComplete) { return false; } // Once we beat the level, don't allow further movement. :)
-		if (IsEveryPlayerDead()) { return false; } // If it's a ghost-town, don't allow further movement.
-		// DISABLED waiting for the animation to finish. So we can make moves super quickly! And things will animate their best immediately to the next pos, which could cause visual weirdness. But it will feel snappier!
-//		if (boardView.AreAnyOccupantsAnimating) { return false; } // Don't let me move until everyone's done animating to their positions!
-		return true;
-	}
-	private bool CanUndoMove () {
-		if (NumMovesMade <= 0) { return false; } // Can't go before time started, duhh.
-		return true;
-	}
-
-	private int NumMovesMade {
-		get { return numMovesMade; }
-		set {
-			numMovesMade = value;
-			// Dispatch event!
-			GameManagers.Instance.EventManager.OnNumMovesMadeChanged (numMovesMade);
-		}
-	}
-
-//	public Board PreMoveSnapshot { get { return preMoveSnapshot; } }
-//	public void SetPreMoveSnapshot () {
-//		preMoveSnapshot = board.SerializeAsData ();
-//	}
+    // Getters (Public)
+    public int LevelIndex { get { return MyAddress.level; } }
+    public PackData MyPackData { get { return GameManagers.Instance.DataManager.GetPackData(MyAddress); } }
+    // Getters (Private)
+    private InputController inputController { get { return InputController.Instance; } }
+    private bool CanUndo() { return boardSnapshots.Count >= 2; }
+    private bool IsEveryPlayerDead() { return Board!=null && Board.IsEveryPlayerDead(); }
 
 
-	// ----------------------------------------------------------------
-	//  Initialize / Destroy
-	// ----------------------------------------------------------------
-	public void Initialize (GameController _gameControllerRef, Transform _tfWorld, LevelData _levelData) {
-//		gameControllerRef = _gameControllerRef;
-		this.transform.SetParent (_tfWorld);
-		this.transform.localPosition = Vector3.zero;
-		this.transform.localScale = Vector3.one;
 
-		levelIndex = _levelData.levelIndex;
-		levelKey = _levelData.levelKey;
-		worldIndex = _levelData.worldIndex;
-		parMoves = _levelData.parMoves;
-		isBonus = _levelData.isBonus;
+    // ----------------------------------------------------------------
+    //  Initialize / Destroy
+    // ----------------------------------------------------------------
+    private void Awake() {
+        // Add event listeners!
+        GameManagers.Instance.EventManager.BoardExecutedMoveEvent += OnBoardExecutedMove;
+    }
+    private void OnDestroy() {
+        // Remove event listeners!
+        GameManagers.Instance.EventManager.BoardExecutedMoveEvent -= OnBoardExecutedMove;
+    }
+    public void Initialize (GameController _gameController, Transform tf_parent, RectTransform _rt_boardArea, LevelData _levelData) {
+		//this.gameController = _gameController;
+		this.MyAddress = _levelData.myAddress;
+        this.rt_boardArea = _rt_boardArea;
 
-		// Reset easy stuff
-		boardSnapshots = new List<BoardData>();
-		NumMovesMade = 0;
+        GameUtils.ParentAndReset(this.gameObject, tf_parent);
+        GameUtils.FlushRectTransform(myRectTransform); // fit me into the container 100%.
+        this.transform.SetSiblingIndex(1); // hardcoded! Put me just in FRONT of the background.
+		this.name = "Level " + LevelIndex;
+        doShowEchoes = _levelData.doShowEchoes;
+        SetZoomAmount(_levelData.startingZoom);
 
-		BoardData bd = _levelData.boardData;
-		RemakeModelAndViewFromData (bd);
-		// test
-//		string jsonString = JsonUtility.ToJson (_levelData.boardData);
-//		Debug.Log (jsonString);
-	}
-	public void DestroySelf () {
-		// Tell my boardView it's toast!
-		DestroyBoardModelAndView ();
-		// Destroy my whole GO.
-		Destroy (this.gameObject);
+		// Reset!
+		RemakeModelAndViewFromData (_levelData.boardData);
+        // Take first snapshot.
+        boardSnapshots.Add(Board.ToData());
 	}
 
 	private void RemakeModelAndViewFromData (BoardData bd) {
 		// Destroy them first!
 		DestroyBoardModelAndView ();
 		// Make them afresh!
-		// If we're in PORTRAIT and our Board is too wide, ROTATE the entire board!
-		if (bd.numCols>bd.numRows && ScreenHandler.IsPortrait()) {
-			bd.RotateCCW ();
-		}
-		// If we're in LANDSCAPE and our Board is too tall, ROTATE the entire board!
-		else if (bd.numCols<bd.numRows && ScreenHandler.IsLandscape()) {
-			bd.RotateCW ();
-		}
-		board = new Board (bd);
-		boardView = Instantiate (ResourcesHandler.Instance.prefabGO_boardView).GetComponent<BoardView>();
-		boardView.Initialize (this, board);
+		Board = new Board (bd);
+		BoardView = Instantiate (ResourcesHandler.Instance.BoardView).GetComponent<BoardView>();
+        BoardView.Initialize (this, Board, rt_boardArea);
+        // Make BoardViewEchoes!
+        if (!doShowEchoes) {
+            BoardViewEchoes = new BoardView[0,0];
+        }
+        else {
+            // NOTE: This is all pretty hacked in!! VERY hardcoded values.
+            if (Board.WrapH == WrapTypes.CW) {
+                int cols = 2;
+                int rows = 2;
+                Vector2 bvSize = BoardView.Size;
+                BoardView.transform.localPosition -= new Vector3(bvSize.x*0.5f,bvSize.y*0.5f);
+                BoardViewEchoes = new BoardView[cols,rows];
+                for (int col=0; col<cols; col++) {
+                    for (int row=0; row<rows; row++) {
+                        if (col==0&&row==0) { continue; } // HARDCODED Ignore the middle one. That's what my main BoardView is.
+                        BoardView view = Instantiate (ResourcesHandler.Instance.BoardView).GetComponent<BoardView>();
+                        view.Initialize (this, Board, rt_boardArea);
+                        view.MyCanvasGroup.alpha = 0.6f;
+                        view.transform.localPosition += new Vector3(col*bvSize.x, row*bvSize.y, 0);
+                        view.transform.localPosition -= new Vector3(bvSize.x*0.5f,bvSize.y*0.5f); // offset to center all 4 of 'em.
+                        float rot = 0;
+                        if (col==0 && row==1) { rot = -90; }
+                        if (col==1 && row==0) { rot =  90; }
+                        if (col==1 && row==1) { rot = 180; }
+                        view.transform.localEulerAngles += new Vector3(0, 0, rot);//col==0 ? -90 : 90);
+                        BoardViewEchoes[col,row] = view;
+                    }
+                }
+            }
+            // NORMAL wrapping...
+            else {
+                int cols = Board.DoWrapH ? 3 : 1;
+                int rows = Board.DoWrapV ? 3 : 1;
+                Vector2 bvSize = BoardView.Size;
+                BoardViewEchoes = new BoardView[cols,rows];
+                for (int col=0; col<cols; col++) {
+                    for (int row=0; row<rows; row++) {
+                        if (col==Mathf.FloorToInt(cols*0.5f) && row==Mathf.FloorToInt(rows*0.5f)) { continue; } // HARDCODED Ignore the middle one. That's what my main BoardView is.
+                        
+                        BoardView view = Instantiate (ResourcesHandler.Instance.BoardView).GetComponent<BoardView>();
+                        view.Initialize (this, Board, rt_boardArea);
+                        //view.MyCanvasGroup.alpha = 0.6f;
+                        if (cols > 1) {
+                            view.transform.localPosition += new Vector3(Mathf.Ceil(col-cols*0.5f)*bvSize.x, 0, 0);
+                        }
+                        if (rows > 1) {
+                            view.transform.localPosition += new Vector3(0, Mathf.Ceil(row-rows*0.5f)*bvSize.y, 0);
+                        }
+                        if (col%2==0 && Board.WrapH==WrapTypes.Flip) {
+                            view.transform.localScale = new Vector3(view.transform.localScale.x, -view.transform.localScale.y, 1);
+                        }
+                        if (row%2==0 && Board.WrapV==WrapTypes.Flip) {
+                            view.transform.localScale = new Vector3(-view.transform.localScale.x, view.transform.localScale.y, 1);
+                        }
+                        
+                        if (Board.WrapH==WrapTypes.CW) {
+                            float rot=180;
+                            if (false) {}
+                            if (col==1 && row==0) { rot = 90; }
+                            if (col==1 && row==2) { rot = -90; }
+                            if (col==2 && row==1) { rot = -90; }
+                            if (col==0 && row==0) { rot = 180; }
+                            view.transform.localEulerAngles += new Vector3(0, 0, rot);//col==0 ? -90 : 90);
+                        }
+                        //if (Board.WrapH==WrapTypes.CW) {
+                        //    view.transform.localEulerAngles += new Vector3(0, 0, row==0 ? -90 : 180);
+                        //}
+                        BoardViewEchoes[col,row] = view;
+                    }
+                }
+            }
+        }
+        Debug_ApplyEchoAlphas();
+        
+        UpdateIsWon();
 	}
 	private void DestroyBoardModelAndView () {
 		// Nullify the model (there's nothing to destroy).
-		board = null;
+		Board = null;
 		// Destroy view.
-		if (boardView != null) {
-			boardView.DestroySelf ();
-			boardView = null;
+		if (BoardView != null) {
+			Destroy(BoardView.gameObject);
+			BoardView = null;
+            for (int i=0; i<BoardViewEchoes.GetLength(0); i++) {
+                for (int j=0; j<BoardViewEchoes.GetLength(1); j++) {
+                    if (BoardViewEchoes[i,j] != null) {
+                        Destroy(BoardViewEchoes[i,j].gameObject);
+                    }
+                }
+            }
+            BoardViewEchoes = null;
 		}
 	}
+    
+    
+    // ----------------------------------------------------------------
+    //  Events
+    // ----------------------------------------------------------------
+    private void OnBoardExecutedMove(Board _board) {
+        if (_board != Board) { return; } // Not mine? Ignore.
+        
+        // Take a snapshot!
+        boardSnapshots.Add(Board.ToData());
+        UpdateIsWon();
+    }
+    private void UpdateIsWon() {
+        IsWon = Board.AreGoalsSatisfied && (Board.NumExitSpots==0 || Board.IsAnyPlayerOnExitSpot());
+        if (Board.NumExitSpots==0 && Board.NumGoalObjects==0) { IsWon = false; } // FOR TESTING. No criteria? We're never satisfied.
+        GameManagers.Instance.EventManager.OnLevelSetIsWon(IsWon);
+    }
+
+
+
+    // ----------------------------------------------------------------
+    //  Doers
+    // ----------------------------------------------------------------
+    private void UndoMoveAttempt() {
+        if (CanUndo()) {
+            BoardData snapshot = boardSnapshots[boardSnapshots.Count-2]; // take the previous snapshot (the latest one is the CURRENT version of the board).
+            boardSnapshots.RemoveAt(boardSnapshots.Count-1);
+            RemakeModelAndViewFromData(snapshot);
+        }
+    }
+    
+    private float ZoomAmount;
+    private void MultZoomAmount(float mult) {
+        SetZoomAmount(ZoomAmount * mult);
+    }
+    private void SetZoomAmount(float val) {
+        ZoomAmount = Mathf.Clamp(val, 0.05f, 1f); // keep it reeeasonable.
+        this.transform.localScale = Vector3.one * ZoomAmount;
+    }
+
+    
 
 	// ----------------------------------------------------------------
-	//  Events
+	//  Update
 	// ----------------------------------------------------------------
-	private void OnBoardMoveComplete () {
-		// Update BoardView visuals!!
-		boardView.UpdateAllViewsMoveStart ();
-		// If our goals are satisfied AND the player's at the exit spot, advance to the next level!!
-		if (board.AreGoalsSatisfied && board.IsAnyPlayerOnExitSpot()) {
-			CompleteLevel ();
-		}
-		// Dispatch success/not-yet-success event!
-		GameManagers.Instance.EventManager.OnSetIsLevelCompleted (isLevelComplete);
-	}
-	private void CompleteLevel () {
-		// Tell the WorldData what's up!
-		GameManagers.Instance.DataManager.GetWorldData(worldIndex).OnCompleteLevel (levelKey, NumMovesMade);
-		// Yes, we have!
-		isLevelComplete = true;
+	private void Update() {
+        RegisterButtonInput();
+        //// TEST
+        //this.myRectTransform.anchoredPosition = -(BoardView.Temp_PlayerView.Pos-BoardView.Size*0.5f) * myRectTransform.localScale.x;
 	}
 
-
-	// ----------------------------------------------------------------
-	//  Doers
-	// ----------------------------------------------------------------
-	public void MovePlayerInstances (int dirX,int dirY) { MovePlayerInstances(new Vector2Int(dirX,dirY)); }
-	public void MovePlayerInstances (Vector2Int dir) {
-		// If we can't move anywhere right now, stop.
-		if (!CanMakeAnyMove ()) { return; }
-		// If we can't make this specific move, also stop.
-		if (!BoardUtils.CanExecuteMove (board, dir)) {
-			return;
-		}
-		// We CAN make this move!
-		else {
-			// Take a snapshot and add it to our list!
-			BoardData preMoveSnapshot = board.SerializeAsData();
-			boardSnapshots.Add (preMoveSnapshot);
-			// Move it, move it! :D
-			board.ExecuteMove (dir); // This will always return success, because we already asked if this move was possible.
-			// We make moves.
-			NumMovesMade ++;
-			// Complete this move!
-			OnBoardMoveComplete ();
-		}
+	private void RegisterButtonInput() {
+        // ANY key, and Player's dead? Undo.
+        if (Input.anyKeyDown && IsEveryPlayerDead()) {
+            UndoMoveAttempt();
+            return;
+        }
+        // Z = Undo
+        if (Input.GetKeyDown(KeyCode.Z)) {
+            UndoMoveAttempt();
+            return;
+        }
+        // Level's NOT won...!
+        if (!IsWon) {
+            // Arrow Keys = Move Player
+            if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow)) { MovePlayerAttempt(Vector2Int.L); }
+            else if (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow)) { MovePlayerAttempt(Vector2Int.R); }
+            else if (Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow)) { MovePlayerAttempt(Vector2Int.B); }
+            else if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow)) { MovePlayerAttempt(Vector2Int.T); }
+            // SPACE = Advance time
+            else if (Input.GetKeyDown(KeyCode.Space)) { MovePlayerAttempt(Vector2Int.zero); }
+        }
+        
+        // C = Zoom OUT
+        if (Input.GetKey(KeyCode.C)) { MultZoomAmount(0.95f); }
+        // V = Zoom IN
+        if (Input.GetKey(KeyCode.V)) { MultZoomAmount(1.05f); }
+        
+        
+        // B = Print partial Board layout
+        if (Input.GetKeyDown(KeyCode.B)) { Board.Debug_PrintSomeBoardLayout(); }
+        // H = Toggle echo alphas
+        if (Input.GetKeyDown(KeyCode.H)) { Debug_ToggleEchoAlphas(); }
 	}
-
-	public void UndoLastMove () {
-		if (!CanUndoMove ()) { return; }
-		// Get the snapshot to restore to, restore, and decrement moves made!
-		BoardData boardSnapshotData = boardSnapshots[boardSnapshots.Count-1];
-		// Remake my model and view from scratch!
-		RemakeModelAndViewFromData (boardSnapshotData);
-		boardSnapshots.Remove (boardSnapshotData);
-		NumMovesMade --; // decrement this here!
-		// No, the level is definitely not complete anymore.
-		isLevelComplete = false;
-		// Tie up loose ends by "completing" this move!
-		OnBoardMoveComplete ();
-	}
-
-
-	public void Debug_PrintBoardAttributes() {
-		board.Debug_PrintBoardAttributes();
-	}
-
-	public void UpdateSimulatedMove (Vector2Int _simulatedMoveDir, float _simulatedMovePercent) {
-		if (boardView != null) { // Only for the editor.
-			boardView.UpdateSimulatedMove (_simulatedMoveDir, _simulatedMovePercent);
-		}
-	}
-//	/** When this happens, we want to cancel any animations already taking place. */
-//	public void OnVJTouchDown () {
-//		boardView.OnVJ_TouchDown ();
-//	}
+    
+    private void MovePlayerAttempt(Vector2Int dir) {
+        //// TEST: Rotate dir to match Player's sideFacing!
+        //switch (Board.player.SideFacing) {
+        //    case Sides.R: dir = Vector2Int.CW(dir); break;
+        //    case Sides.B: dir = Vector2Int.Opposite(dir); break;
+        //    case Sides.L: dir = Vector2Int.CCW(dir); break;
+        //}
+        Board.MovePlayerAttempt(dir);
+    }
+    
+    private bool debug_areEchoesLightAlpha = false;
+    private void Debug_ToggleEchoAlphas() {
+        debug_areEchoesLightAlpha = !debug_areEchoesLightAlpha;
+        Debug_ApplyEchoAlphas();
+    }
+    private void Debug_ApplyEchoAlphas() {
+        float alpha = debug_areEchoesLightAlpha ? 0.1f : 1f;
+        for (int i=0; i<BoardViewEchoes.GetLength(0); i++) {
+            for (int j=0; j<BoardViewEchoes.GetLength(1); j++) {
+                if (BoardViewEchoes[i,j] != null) {
+                    BoardViewEchoes[i,j].MyCanvasGroup.alpha = alpha;
+                }
+            }
+        }
+    }
+    
+    
+    
+    
 
 
 }
+
+
+

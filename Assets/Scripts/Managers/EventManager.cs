@@ -5,25 +5,31 @@ using System.Collections.Generic;
 public class EventManager {
 	// Actions and Event Variables
 	public delegate void NoParamAction ();
-//	public delegate void BoardAction (Board _board);
+    public delegate void BoardAction (Board board);
+    public delegate void BoardSpaceAction (BoardSpace space);
 	public delegate void BoolAction (bool _bool);
-	public delegate void IntAction (int _int);
-	public delegate void StartGameAtLevelAction (Level _level);
+	public delegate void StringAction (string _str);
+    public delegate void IntAction (int _int);
+    public delegate void StringBoolAction (string _str, bool _bool);
+	public delegate void LevelAction (Level _level);
 
-	public event NoParamAction ScreenSizeChangedEvent;
-//	public event BoardAction BoardFinishedMoveStepEvent;
-//	public event BoardAction BoardMoveCompleteEvent;
-	public event BoolAction SetIsLevelCompletedEvent;
-	public event IntAction NumMovesMadeChangedEvent;
-	public event StartGameAtLevelAction StartGameAtLevelEvent;
+    // Common
+    public event NoParamAction ScreenSizeChangedEvent;
+    public void OnScreenSizeChanged () { if (ScreenSizeChangedEvent!=null) { ScreenSizeChangedEvent (); } }
+    
+    // Gameplay
+    public event BoardAction BoardExecutedMoveEvent;
+    public event BoolAction LevelSetIsWonEvent;
+    public event IntAction NumMovesMadeChangedEvent;
+    public event LevelAction StartLevelEvent;
 
-	// Events
-//	public void OnBoardFinishedMoveStep (Board board) { if (BoardFinishedMoveStepEvent!=null) { BoardFinishedMoveStepEvent (board); } }
-//	public void OnBoardMoveComplete (Board board) { if (BoardMoveCompleteEvent!=null) { BoardMoveCompleteEvent (board); } }
-	public void OnSetIsLevelCompleted (bool isLevelComplete) { if (SetIsLevelCompletedEvent!=null) { SetIsLevelCompletedEvent (isLevelComplete); } }
+    public void OnStartLevel (Level _level) { if (StartLevelEvent!=null) { StartLevelEvent(_level); } }
+    public void OnLevelSetIsWon (bool isWon) { if (LevelSetIsWonEvent!=null) { LevelSetIsWonEvent (isWon); } }
+	public void OnBoardExecutedMove (Board board) { if (BoardExecutedMoveEvent!=null) { BoardExecutedMoveEvent (board); } }
 	public void OnNumMovesMadeChanged (int numMovesMade) { if (NumMovesMadeChangedEvent!=null) { NumMovesMadeChangedEvent (numMovesMade); } }
-	public void OnScreenSizeChanged () { if (ScreenSizeChangedEvent!=null) { ScreenSizeChangedEvent (); } }
-	public void OnStartGameAtLevel (Level _level) { if (StartGameAtLevelEvent!=null) { StartGameAtLevelEvent(_level); } }
+    
+    
+    
 
 
 

@@ -1,6 +1,0 @@
-introCratePush, introCratePull, crateAndWalls1, crateAndWalls2
-twoCrates4x3, introBeam, twoBeamDifferentDirs, twoBeamStickyFingerPusher
-cratePushBeamSource1, cratePushBeamSource2, cratePushBeamSource3, beamSourcePushBeamSource, twoCrateBeamSourceWorkaround, safetyAlcovePush
-introMirrorImmovable1, introMirrorImmovable2, introMirrorMovable, movableMirrorZigZag1, movableMirrorZigZag2, mirrorPushMirror, mirrorPushBeamSource, oneMirrorTwoBeams, cratePushMirror, crateTemporarilyBlockBeam
-introBeamGoalsMovable, threeBeamGoalOrderUp, beamGoalPushBeamSource, beamGoalPushMirror, twoCratePassageBlock, oneSpaceSplit
-threeBeamShakeup, threeBeamSourceOrderUp, threeBeamGoalOrderUp2, fourMirrorMadness, twoBeamCrateTightQuarters, oneMirrorTwoBeamSourcePush

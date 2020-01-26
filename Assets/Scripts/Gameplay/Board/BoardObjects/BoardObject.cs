@@ -1,85 +1,88 @@
-﻿using System.Collections;
+﻿using UnityEngine;
+using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 
-public class BoardObject {
-	// Properties
-	private bool didRotateThisStep = false; // reset at the end of every step. So we don't rotate 180 from Player AND Crate passing by us in one step. That doesn't feel right.
-	private bool isInPlay = true; // set to false when RemoveFromPlay is called. Set to true in RemoveFromPlay, where we also tell my Board to remove me from its lists. I'm outta here. If true, our matching view will also destroy itself.
-	private BoardPos boardPos; // col, row, and sideFacing!
-	// References
-	protected Board boardRef;
+abstract public class BoardObject {
+    // Properties
+    public BoardPos BoardPos { get; private set; }
+    private bool isInPlay = true; // we set this to false when I'm removed from the Board!
+    public Vector2Int PrevMoveDelta { get; private set; } // how far I moved the last move.
+    // References
+    public Board BoardRef { get; private set; }
 
-	// Getters
-	virtual public BoardPos BoardPos { get { return boardPos; } }
-	virtual public int Col { get { return boardPos.col; } }
-	virtual public int Row { get { return boardPos.row; } }
-	public int Layer { get { return boardPos.layer; } }
-	public int SideFacing { get { return boardPos.sideFacing; } }
-	public Board BoardRef { get { return boardRef; } }
-	protected BoardSpace GetSpace (int _col,int _row) { return BoardUtils.GetSpace (boardRef, _col,_row); }
-	public BoardSpace MySpace { get { return GetSpace (Col,Row); } }
-	public bool DidRotateThisStep { get { return didRotateThisStep; } }
+
+    // Getters
 	public bool IsInPlay { get { return isInPlay; } }
-
-	virtual public void SetLayer (int _layer) {
-		boardPos = new BoardPos(Col,Row, SideFacing, _layer);
-	}
-	/** Call this when we get kicked out of a Container, and want to "awaken" our actual BoardPos (as we were just parroting it until now). */
-	protected void RefreshBoardPos () {
-		boardPos = BoardPos;
-	}
-
+    public Vector2Int ColRow { get { return BoardPos.ColRow; } }
+    public int Col { get { return BoardPos.ColRow.x; } }
+    public int Row { get { return BoardPos.ColRow.y; } }
+    public int ChirH { get { return BoardPos.ChirH; } }
+    public int ChirV { get { return BoardPos.ChirV; } }
+    public int SideFacing { get { return BoardPos.SideFacing; } }
+    protected BoardSpace GetSpace (Vector2Int _colRow) { return BoardUtils.GetSpace (BoardRef, _colRow); }
+    protected BoardSpace GetSpace (int _col,int _row) { return BoardUtils.GetSpace (BoardRef, _col,_row); }
+	public BoardSpace MySpace { get { return GetSpace (Col,Row); } }
+    public bool IsOrientationMatch(BoardObject other) {
+        return BoardPos == other.BoardPos;
+            //&& ChirH == other.ChirH
+            //&& ChirV == other.ChirV
+            //&& SideFacing == other.SideFacing;
+    }
+    
+    // Serializing
+    abstract public BoardObjectData ToData();
+    
+    
 	// ----------------------------------------------------------------
 	//  Initialize
 	// ----------------------------------------------------------------
-	protected void InitializeAsBoardObject (Board _boardRef, BoardPos _boardPos) {//BoardObjectData _data
-		boardRef = _boardRef;
-		boardPos = _boardPos;
-
-		// Call my "official" set-property functions so the accompanying stuff happens too.
-		SetColRow (boardPos.col,boardPos.row);
-		SetSideFacing (boardPos.sideFacing);
-		SetLayer (boardPos.layer);
-		// NOTE: Don't automatically add me to the Board. We need the flexibility of having Occupants starting out in limbo.
-//		AddMyFootprint (false); // add me to the board! And default me being inside whatever's already here.
+	protected void InitializeAsBoardObject (Board _boardRef, BoardObjectData data) {
+		this.BoardRef = _boardRef;
+		this.BoardPos = data.boardPos;
+        
+		// Automatically add me to the board!
+		AddMyFootprint ();
 	}
-
+    
+    
 	// ----------------------------------------------------------------
 	//  Doers
 	// ----------------------------------------------------------------
-	public void ResetDidRotateThisStep () { didRotateThisStep = false; }
-
-	virtual public void SetColRow (int _col, int _row) {
-		boardPos.col = _col;
-		boardPos.row = _row;
-		OnSetColRow ();
+    virtual public void SetColRow(Vector2Int _colRow, Vector2Int _moveDir) {
+        //RemoveMyFootprint();
+        PrevMoveDelta = _moveDir;
+        BoardPos = new BoardPos(_colRow, ChirH,ChirV,SideFacing);
+        //AddMyFootprint();
 	}
-	public void SetSideFacing (int _sideFacing) {
-		boardPos.sideFacing = _sideFacing;
-		OnSetSideFacing ();
-	}
-	virtual protected void OnSetColRow () { }
-	virtual protected void OnSetSideFacing () { }
-
-	virtual public void RotateMe (int dir) {
-		// Just update sideFacing! My extensions will do the rest.
-		SetSideFacing (SideFacing+dir);
-		didRotateThisStep = true;
-	}
-
-//	// Override these!
-//	virtual public void AddMyFootprint () { }
-//	virtual public void RemoveMyFootprint () { }
+    private void SetSideFacing(int _sideFacing) {
+        BoardPos = new BoardPos(ColRow, ChirH,ChirV,_sideFacing);
+        //BoardPos.SideFacing = sideFacing;
+        OnSetSideFacing();
+    }
+    //private void SetChirality(int chirality) { Chirality = chirality; }
+    public void ChangeSideFacing(int delta) { SetSideFacing(SideFacing+delta); }
+    public void ChangeChirality(int deltaH, int deltaV) {
+        BoardPos = new BoardPos(ColRow, ChirH*deltaH,ChirV*deltaV,SideFacing);
+    }
+    
+    public void ResetPrevMoveDelta() {
+        PrevMoveDelta = Vector2Int.zero;
+    }
 
 	/** This removes me from the Board completely and permanently. */
-	protected void RemoveFromPlay () {
-		// I'm donezo.
+	public void RemoveFromPlay () {
+		// Gemme outta here!
 		isInPlay = false;
+		RemoveMyFootprint();
 		// Tell my boardRef I'm toast!
-		boardRef.OnObjectRemovedFromPlay (this);
+		BoardRef.OnObjectRemovedFromPlay (this);
 	}
 
+	// Override these!
+    virtual public void AddMyFootprint () {}
+    virtual public void RemoveMyFootprint () {}
+    virtual public void OnPlayerMoved () {}
+    virtual protected void OnSetSideFacing () {}
 
 
 }
