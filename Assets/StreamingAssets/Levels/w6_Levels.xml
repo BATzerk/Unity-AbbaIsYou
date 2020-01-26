@@ -1,0 +1,1064 @@
+<LevelsCollection>
+<Levels>
+    <!--
+     
+	-->
+    
+    <!-- FloorBeamGoals -->
+    <Level name="floorBeamGoalsWithMirror" desc="" par="99" layout="
+    ..T.,
+    .w.T,
+    @...,
+    $..\,
+    " />
+    <Level name="floorBeamGoalsCrateShield" desc="" par="17" layout="
+    .T.$,
+    .w..,
+    @...,
+    ...o,
+    " />
+    <Level name="floorBeamGoalsRotatableBeamSource" desc="" par="11" layout="
+    ...@,
+    ....,
+    wT.$,
+    ,
+    ....,
+    ....,
+    t...,
+    " />
+    
+    
+    <!-- ================================ PORTALS ================================ -->
+    <!--
+     Immovable Portals...
+     [x] Player, Occupant enter 2m Portals
+     [ ] Player, Occupant enter 0m Portals
+     [ ] Beam through 2m Portals
+     [ ] 0m 1m Portals rotate BeamGoal
+     [ ] Xm Portals rotate Mirror
+     [x] Xm Portals rotate BeamSource
+     
+     Movable Portals...
+     [x] 0m 123M Portals
+     [x] XM XM Portals
+     
+     Rotatable Immovable Portals...
+     
+     Rotatable Movable Portals...
+     
+     3 Portals...
+     
+     
+     ** Assorted ideas **
+     cratePushBeamSourceThroughPortal
+     
+     -->
+    <Level name="introPortalsImmovable" desc="Bland, though appropriate. Player enter 2m Portals." par="99" layout="
+    ....$,
+    j....,
+    ....h,
+    @....,
+    ,
+    .....,
+    m...o,
+    O...m,
+    .....,
+    ,
+    .....,
+    .___.,
+    .....,
+    .....,
+    " />
+    <Level name="immovablePortalsRotateBeamGoal" desc="" par="99" layout="
+    e..$,
+    E...,
+    ...h,
+    @.u~,
+    ,
+    m...,
+    M...,
+    ...m,
+    ..m.,
+    " />
+    <Level name="immovablePortalsRotateBeamSource" desc="" par="99" layout="
+    ....$,
+    ...q.,
+    u...@,
+    ~j..R,
+    ,
+    .....,
+    .....,
+    m....,
+    .m...,
+    " />
+    <Level name="beamThrough90Portals" desc="Easy and brute-forceable, though interesting enough." par="99" layout="
+    ..T.$,
+    j..e.,
+    ~~..@,
+    ~~u..,
+    ,
+    .....,
+    m....,
+    .....,
+    ..m..,
+    " />
+    
+    
+    <Level name="easyPartTheSeas" desc="Great! Unique!" par="99" layout="
+    w.$.R,
+    ~...~,
+    ~...~,
+    ~j@h~,
+    ,
+    m....,
+    .....,
+    .....,
+    .....,
+    " />
+    
+    
+    <Level name="portalRiverCross" desc="Fabulous! This simpler version (with Crate sans CrateGoal) is more satisfying." par="99" layout="
+    @..E~,
+    ....~,
+    .....,
+    nu.qo,
+    ,
+    .....,
+    .....,
+    .....,
+    ...m$,
+    " />
+    
+    
+    <Level name="pushableBlockedPortal" desc="Aha moment not clear enough. Can solve alternate way, which defeats the whole purpose of this level. Also, the novel solution isn't even that obvious that it's happening." par="99" layout="
+    j..$,
+    h...,
+    ....,
+    @...,
+    ,
+    o...,
+    ....,
+    ...O,
+    ...O,
+    " />
+    
+    <Level name="beamSourceOffTheWall" desc="Fabulous!" par="99" layout="
+    @.c.$,
+    .....,
+    .....,
+    hj..Z,
+    " />
+    
+    <Level name="movablePortalsToSatisfyFloorBeamGoal" desc="Very nice! Neat opening irony! Several steps to solve; not as simple as it appears!" par="37" layout="
+    @T.$,
+    ...h,
+    ...h,
+    .Tr.,
+    " />
+    
+    
+    <Level name="portalEscapePlanEasySiblingPush" desc="" par="99" layout="
+    @...T$,
+    ....~~,
+    ....~~,
+    hj..q~,
+    ,
+    ......,
+    ......,
+    ......,
+    ....m.,
+    " />
+    <Level name="satisfyingVacantPortal" desc="Very hard. Neat and unique! Nice setup irony. Requires Portal sibling push move." par="99" layout="
+    @..$,
+    ....,
+    .r..,
+    hj.T,
+    " />
+    
+    <Level name="portalTugboat" desc="SO GOOD. VERY hard!" par="99" layout="
+    ~~~~e~,
+    hj...~,
+    ....T~,
+    ...~~~,
+    ~@...$,
+    ,
+    ....m.,
+    ......,
+    ......,
+    ......,
+    ......,
+    " />
+    
+    <Level name="portalEscapePlan" desc="Very hard, but very good! Combines SEVERAL advanced techniques to great effect. Apt rewards during moments of discovery. Con: Not about 'one' thing." par="57" layout="
+    @..T$,
+    ...~~,
+    ...~~,
+    hj.q~,
+    " />
+    <Level name="portalEscapePlanSuperHard" desc="SO GOOD. OMG. A MAGICALLY more challenging version of the already very-hard original." par="99" layout="
+    @..T$,
+    ...~~,
+    ...~~,
+    hj.q.,
+    " />
+    
+    
+    
+    
+    <!-- ======== MULTI-PORTALS ======== -->
+    <Level name="intro3Portals" desc="" par="99" layout="
+    @....,
+    .....,
+    .....,
+    u.u.u,
+    ,
+    .....,
+    .....,
+    .....,
+    m.m.m,
+    " />
+    
+    
+    
+    
+    
+    <!-- 
+     Add in just neat, probably really easy but really neat, super different levels. Like the Indiana Jones one.
+     Add other stuff to break up the fatigue.
+     Shit that chases you, levels with luck involved...
+     -->
+    
+    
+    <Level name="floorBeamGoalsBehindSourceUseMirrors" desc="" isBonus="true" par="99" layout="
+    T.@$,
+    .w..,
+    ....,
+    ../\,
+    " />
+    <Level name="goAllTheWayThroughPortalWithShield" desc="Redundant." isBonus="true" par="23" layout="
+    ~..$,
+    Q...,
+    q..h,
+    x..h,
+    ,
+    ...@,
+    M...,
+    m..m,
+    m..m,
+    " />
+    <Level name="pushableBlockedPortal2" desc="Neat (and different) enough to justify the redundancy with the original." isBonus="true" par="99" layout="
+    hj..$,
+    ...@.,
+    .|.Tr,
+    ....T,
+    " />
+    
+    
+    <Level name="cratePushBeamSourceThroughPortal" desc="All right idea, but really funky layout. Not really worth it." isBonus="true" par="99" layout="
+    ~N~,
+    ~~~,
+    ..h,
+    .T.,
+    @.H,
+    $wh,
+    ,
+    .m.,
+    ...,
+    ..m,
+    ...,
+    ..m,
+    ..m,
+    " />
+    
+    
+    <Level name="WIP FloorBeamGoals Mirror big spiral" desc="" isBonus="true" par="99" layout="
+    @.....,
+    ......,
+    ..w...,
+    ......,
+    ......,
+    ......,
+    " />
+    <Level name="WIP IDEA Portal 180 infinite funhouse" desc="" par="99" layout="
+    @....,
+    ..w..,
+    j...h,
+    .....,
+    j...h,
+    .....,
+    ,
+    .....,
+    .....,
+    m...m,
+    .....,
+    m...m,
+    .....,
+    " />
+    
+    
+    
+    
+    <!-- TESTS that don't yet work -->
+    <Level name="partition 879324" layout="...," />
+    <Level name="TEST scooching against blocked wall" desc="" par="99" layout="
+    h...,
+    ....,
+    ...j,
+    ,
+    @...,
+    ....,
+    ....,
+    " />
+    <Level name="TEST Player displace Crate between two Portal channels" desc="" par="99" layout="
+    Jh..$,
+    ....H,
+    ..j..,
+    ,
+    o@...,
+    .....,
+    .....,
+    " />
+    <Level name="TEST push Crate in Portal facing itself" desc="" par="99" layout="
+    @jh.,
+    ....,
+    ...$,
+    ,
+    ..o.,
+    ....,
+    ....,
+    " />
+    <Level name="TEST exiting into a Crate AND empty space" desc="" par="99" layout="
+    ....$,
+    ...j.,
+    ..h..,
+    ...jo,
+    .....,
+    ,
+    .....,
+    .....,
+    ..@..,
+    .....,
+    .....,
+    " />
+    <Level name="TEST immediate infinite mirror" desc="" par="99" layout="
+    ....$,
+    .jh..,
+    .....,
+    ,
+    .....,
+    .@...,
+    .....,
+    " />
+    <Level name="TEST push Crate out and displace Portal" desc="" par="99" layout="
+    ....,
+    @h..,
+    .u..,
+    ....,
+    ,
+    ....,
+    .o..,
+    ....,
+    ....,
+    " />
+    <Level name="TEST Clone Player" desc="" par="99" layout="
+    ....$,
+    ..h..,
+    ..h..,
+    ..j@.,
+    .....,
+    " />
+    <Level name="TEST Un-clone Player" desc="" par="99" layout="
+    ....$,
+    ..h..,
+    ..h..,
+    ..j..,
+    .....,
+    ,
+    .....,
+    .....,
+    ..@..,
+    .....,
+    .....,
+    " />
+    <Level name="TEST pushing Crate out of Portal into itself" desc="" par="99" layout="
+    ....$,
+    ..h..,
+    .u...,
+    ..j@.,
+    .....,
+    ,
+    .....,
+    .....,
+    .....,
+    ..o..,
+    .....,
+    " />
+    <Level name="TEST WILL CRASH UNITY pull Bucket into Portal" desc="" par="99" layout="
+    ]h..$,
+    .....,
+    ..j..,
+    ,
+    .@...,
+    .....,
+    .....,
+    " />
+    <Level name="TEST Crate pushed out of Portal to enter Portal" desc="" par="99" layout="
+    Jh..$,
+    ....H,
+    ..j@.,
+    ,
+    .o...,
+    .....,
+    .....,
+    " />
+    
+    <!-- Make these levels!
+     * Use 2 perpendicular immovable Portals to rotate BeamSource (or Goal)
+     * Pull Side-Pull Crate with a Player that disappears through a Portal :D
+     * Pull a Portal 0 through a Portal 1
+     * Kill a cloned Player :)
+     -->
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+        
+        <!-- Rejected levels -->
+         <Level name="floorBeamGoalsRotatableBeamSource_alternate" desc="Redundant with original." par="99" layout="
+         ~[..$,
+         ....T,
+         ....q,
+         @....,
+         ,
+         .m...,
+         .....,
+         .....,
+         .....,
+         ,
+         .t...,
+         .....,
+         .....,
+         .....,
+         " />
+         <Level name="introPortalsImmovable rejected" desc="Too easy." par="99" layout="
+         @.j..,
+         ..~..,
+         ..~..,
+         ..h.$,
+         ,
+         ..m..,
+         .....,
+         .....,
+         ..m..,
+         " />
+         
+         
+         <Level name="oneMovablePortalBeamCircumnavigation" desc="Acceptable. Not pretty. No aha moment." par="99" layout="
+         j..$,
+         ...r,
+         @.T.,
+         ..Th,
+         ,
+         ....,
+         ....,
+         ....,
+         ...m,
+         " />
+         
+         <Level name="WIP movablePortalsToSatisfyFloorBeamGoal_original" desc="It's okay. Nothing new though." par="99" layout="
+         ~@T.$,
+         ~....,
+         Wr...,
+         ~....,
+         ~hj..,
+         " />
+         <Level name="WIP portalRiverCross simpler" desc="Redundant with more intricate version, which is more interesting (albeit less pretty)." par="99" layout="
+         @..E$,
+         .....,
+         .....,
+         nu.q.,
+         ,
+         .....,
+         .....,
+         .....,
+         ...m.,
+         " />
+         <Level name="portalRiverCross_withExtra" desc="Really great basic idea. Last few moves could be better (sudden unrelated discovery/going into auto-pilot detracts from what made the beginning half so cool." par="99" layout="
+         @..E$~,
+         .....~,
+         ......,
+         nuOqo.,
+         ,
+         ......,
+         ......,
+         ......,
+         ...m..,
+         " />
+         <Level name="WIP cratePushBeamSourceThroughPortal consequence more complicated" desc="Too complicated." par="99" layout="
+         NNNN~,
+         ~~~~~,
+         ....h,
+         ....T,
+         @..~H,
+         $..wh,
+         ,
+         mmmm.,
+         .....,
+         ....m,
+         .....,
+         ....m,
+         ....m,
+         " />
+         
+         <Level name="movablePortalsToSatisfyFloorBeamGoal_alternate" desc="Not bad, but nothing new or special. :P Partially REDUNDANT with following one." par="99" layout="
+         @T.$,
+         ...h,
+         ...j,
+         .Tr.,
+         " />
+         <Level name="portalPushItsPartnerAgainstWall" desc="Doesn't work; can solve alternate way. Not easy, and no specific aha moment. Tempting to just tool around in until there's a solution." par="99" layout="
+         hj..$,
+         .....,
+         @Tw..,
+         .T...,
+         " />
+         <Level name="WIP portalTugboat_original" desc="I think this is impossible." par="99" layout="
+         ~~~~e~,
+         ~.....,
+         @..~~~,
+         ...~~~,
+         hj...$,
+         ,
+         ....m.,
+         ......,
+         ......,
+         ......,
+         ......,
+         " />
+         <Level name="WIP IDEA sidePullPortalToggler" desc="" par="99" layout="
+         ....h,
+         ...q.,
+         ....@,
+         .u#.R,
+         ,
+         ....m,
+         .....,
+         .....,
+         .i...,
+         " />
+         
+         
+         <Level name="WIP portalEscapePlan_simpleVersion" desc="Can be solved in super easy way :/ Also, redundant." par="99" layout="
+         @..T.$,
+         ....~~,
+         ......,
+         hj.q..,
+         " />
+         
+         <Level name="WIP portalEscapePlan_alternateRejected" desc="Amazing!! BUT STILL can be solved in a cheaty way. :/" par="99" layout="
+         @..T$.,
+         ...~~~,
+         ......,
+         hj.q..,
+         " />
+         <Level name="WIP portalEscapePlan_alternateRejected2" desc="Can be solved in a cheaty way really easily" par="99" layout="
+         @..T$.,
+         ...~~~,
+         ......,
+         hj.q..,
+         ,
+         ......,
+         ......,
+         ......,
+         ii....,
+         " />
+         <Level name="WIP portalEscapePlan_alternateRejected3" desc="" par="99" layout="
+         @..T.$,
+         ...~~z,
+         ......,
+         hj.q..,
+         ,
+         ......,
+         .....m,
+         ......,
+         ......,
+         " />
+         <Level name="WIP portalEscapePlan_original1" desc="Can be solved in a cheaty way really easily" par="99" layout="
+         @..T.$,
+         ...~~~,
+         ......,
+         hj.q..,
+         " />
+         
+         
+         
+         
+         
+         
+         <!-- TESTS that DO work -->
+         <Level name="partition 3459003" layout="...," />
+         <Level name="TEST rotate properly" desc="" par="99" layout="
+         ..N,
+         ...,
+         @wH,
+         ,
+         ..m,
+         ...,
+         ..m,
+         " />
+         <Level name="WIP can't put BeamGoal in Portal bug" desc="" par="99" layout="
+         ...$,
+         ....,
+         ..Rh,
+         @.u~,
+         ,
+         ....,
+         ....,
+         ..Mm,
+         ..m.,
+         " />
+         <Level name="TEST immovable Portal scooch" desc="" par="99" layout="
+         h...,
+         ....,
+         ...j,
+         ,
+         @...,
+         ....,
+         ...m,
+         " />
+         
+         <Level name="TEST BeamRenderer pops in moving Container" desc="" par="99" layout="
+         ...@,
+         ...j,
+         ....,
+         ,
+         ....,
+         ...r,
+         ....,
+         " />
+         <Level name="TEST lingering Beam after Source falls out of Portal bug" desc="" par="99" layout="
+         ......,
+         ...j..,
+         ......,
+         h@....,
+         ,
+         ......,
+         ......,
+         ......,
+         r.....,
+         " />
+         <Level name="TEST FloorBeamGoal satisfaction" desc="" par="99" layout="
+         ...Tr@,
+         ..[...,
+         ..h.j.,
+         ......,
+         ,
+         ......,
+         ......,
+         ..T.r.,
+         ......,
+         " />
+         <Level name="TEST pushing Occupant and entering same Portal" desc="" par="99" layout="
+         ....,
+         ...@,
+         n..u,
+         ....,
+         ,
+         ....,
+         ....,
+         m..m,
+         ....,
+         ,
+         ....,
+         ....,
+         ...W,
+         ....,
+         ,
+         ....,
+         ....,
+         ...M,
+         ....,
+         " />
+         <Level name="TEST 180 Portal Occupant rotation 2" desc="" par="99" layout="
+         ...@,
+         u..e,
+         n..u,
+         ....,
+         " />
+         <Level name="TEST push Beam through Portal" desc="" par="99" layout="
+         ...@,
+         ...e,
+         n..u,
+         ....,
+         " />
+         <Level name="TEST push Beam facing away from Portal into Portal" desc="" par="99" layout="
+         ...@,
+         ...o,
+         n..u,
+         ....,
+         ,
+         ....,
+         ....,
+         ...q,
+         ....,
+         " />
+         <Level name="TEST infinite Beam catch" desc="" par="99" layout="
+         ....,
+         .@e.,
+         ...u,
+         hg..,
+         " />
+         <Level name="TEST nested Portals 1" desc="" par="99" layout="
+         ....,
+         ...@,
+         n..u,
+         ....,
+         ,
+         ....,
+         ....,
+         m..m,
+         ....,
+         ,
+         ....,
+         ....,
+         ...Y,
+         ....,
+         ,
+         ....,
+         ....,
+         ...o,
+         ....,
+         " />
+         <Level name="TEST portalOccupantRotation" desc="" par="99" layout="
+         ..@..,
+         ..e..,
+         ..u..,
+         .h.j.,
+         ..n..,
+         .....,
+         " />
+         <Level name="TEST beamSourceRotation" desc="" par="99" layout="
+         ...dh,
+         ....~,
+         @...$,
+         ....~,
+         ....u,
+         ,
+         ....m,
+         .....,
+         .....,
+         .....,
+         ....m,
+         " />
+         <Level name="TEST exiting Portal from other direction" desc="" par="99" layout="
+         ....,
+         .h..,
+         ....,
+         ...u,
+         ,
+         ....,
+         .@..,
+         ....,
+         ....,
+         " />
+         <Level name="TEST push Crate through Portal" desc="" par="99" layout="
+         ....,
+         @h..,
+         ....,
+         ...u,
+         ,
+         ....,
+         .o..,
+         ....,
+         ....,
+         " />
+         <Level name="TEST enter occupied Portal against wall" desc="" par="99" layout="
+         ....,
+         .h..,
+         ...@,
+         ...u,
+         ,
+         ....,
+         .o..,
+         ....,
+         ....,
+         " />
+         <Level name="TEST pull Crate through Portal by other direction" desc="" par="99" layout="
+         .h..,
+         .o..,
+         .u..,
+         ....,
+         ,
+         ....,
+         ....,
+         .@..,
+         ....,
+         " />
+         <Level name="TEST mirror in Portal" desc="" par="99" layout="
+         ....,
+         @wh.,
+         ..u.,
+         ....,
+         ,
+         ....,
+         ..\.,
+         ....,
+         ....,
+         " />
+         <Level name="TEST fickle BeamRenderer" desc="" par="99" layout="
+         ....,
+         @wh.,
+         ..u.,
+         ....,
+         " />
+         <Level name="TEST pushing occupied Portal from behind" desc="" par="99" layout="
+         .h.$,
+         ....,
+         @j..,
+         ,
+         ....,
+         ....,
+         .o..,
+         " />
+         <Level name="TEST side-pulling occupied Portal" desc="" par="99" layout="
+         .h.$,
+         .@..,
+         .j..,
+         ,
+         ....,
+         ....,
+         .i..,
+         ,
+         ....,
+         ....,
+         .o..,
+         " />
+         <Level name="TEST nests in Portals 1" desc="" par="99" layout="
+         .h.$,
+         ....,
+         .j@.,
+         ,
+         ....,
+         ....,
+         .=..,
+         ,
+         ....,
+         ....,
+         .[..,
+         ,
+         ....,
+         ....,
+         .o..,
+         " />
+         <Level name="TEST obstructed wall" desc="" par="99" layout="
+         ~h.$,
+         ....,
+         .j@.,
+         ,
+         ....,
+         ....,
+         .o..,
+         " />
+         <Level name="TEST nests in Portals 2" desc="" par="99" layout="
+         .h.$,
+         ....,
+         .ho@,
+         ,
+         ....,
+         ....,
+         .=..,
+         ,
+         ....,
+         ....,
+         .[..,
+         ,
+         ....,
+         ....,
+         .o..,
+         " />
+         <Level name="TEST pushing Crate out of Portal" desc="" par="99" layout="
+         ....$,
+         ..h..,
+         .....,
+         ..jo@,
+         .....,
+         " />
+         <Level name="TEST pushing Portal to eat Crate" desc="" par="99" layout="
+         ....$,
+         ..h..,
+         .....,
+         .@jo.,
+         .....,
+         " />
+         <Level name="TEST Pull Portal and Occupant fall out" desc="" par="99" layout="
+         ....$,
+         ..u..,
+         .....,
+         .@j..,
+         .....,
+         ,
+         .....,
+         .....,
+         .....,
+         ..o..,
+         .....,
+         " />
+         
+         <Level name="TEST push empty Portals facing each other" desc="" par="99" layout="
+         @jh.,
+         ....,
+         ...$,
+         " />
+         <Level name="TEST not pushing Portal if side" desc="" par="99" layout="
+         .bh.$,
+         .....,
+         .j...,
+         ,
+         .....,
+         .....,
+         .@...,
+         " />
+         <Level name="TEST Crate pushed out of Portal to enter Bucket" desc="" par="99" layout="
+         [h..$,
+         .....,
+         ..j@.,
+         ,
+         .o...,
+         .....,
+         .....,
+         " />
+         
+
+         
+         
+         
+         <!-- BUCKET tests! -->
+         <Level name="partition 7814621900" layout="...," />
+         <Level name="TEST Player enter/exit Bucket" desc="" par="99" layout="
+         ....,
+         .@].,
+         ....,
+         " />
+         <Level name="TEST pull Crate out of Bucket left" desc="" par="99" layout="
+         .....,
+         ..@].,
+         .....,
+         ,
+         .....,
+         ...o.,
+         .....,
+         " />
+         <Level name="TEST Crate pushed into double Bucket" desc="" par="99" layout="
+         ....,
+         .[o@,
+         ....,
+         ,
+         ....,
+         .[..,
+         ....,
+         " />
+         <Level name="TEST double Bucket eat Crate" desc="" par="99" layout="
+         ....,
+         @[o.,
+         ....,
+         ,
+         ....,
+         .[..,
+         ....,
+         " />
+         <Level name="TEST perp nested Buckets push Crate" desc="" par="99" layout="
+         ....,
+         @[o.,
+         ....,
+         ,
+         ....,
+         .=..,
+         ....,
+         " />
+         <Level name="TEST eating 180 Bucket" desc="" par="99" layout="
+         ....,
+         @[].,
+         ....,
+         " />
+         <Level name="TEST eating 180 Bucket nested" desc="" par="99" layout="
+         ....,
+         @[].,
+         ....,
+         ,
+         ....,
+         ..o.,
+         ....,
+         " />
+         <Level name="TEST removing 180 Bucket with Crate in it" desc="" par="99" layout="
+         ....,
+         .[@.,
+         ....,
+         ,
+         ....,
+         .]..,
+         ....,
+         ,
+         ....,
+         .o..,
+         ....,
+         " />
+         <Level name="TEST nest eating Bucket" desc="" par="99" layout="
+         ....,
+         @[[.,
+         ....,
+         ,
+         ....,
+         ..[.,
+         ....,
+         " />
+         <Level name="TEST nest eating Bucket2" desc="" par="99" layout="
+         ....,
+         .]]@,
+         ....,
+         ,
+         ....,
+         ..].,
+         ....,
+         " />
+         <Level name="TEST nest eating Bucket3" desc="" par="99" layout="
+         ....,
+         .]]@,
+         ....,
+         " />
+         <Level name="TEST Bucket eat Crate" desc="" par="99" layout="
+         ....,
+         @[o.,
+         ....,
+         " />
+         <Level name="TEST Crate push Bucket" desc="" par="99" layout="
+         ....,
+         .@].,
+         ....,
+         ,
+         ....,
+         ..o.,
+         ....,
+         " />
+         
+         <Level name="TEST Crate fall out of Bucket" desc="" par="99" layout="
+         ....,
+         .@[.,
+         ....,
+         ,
+         ....,
+         ..o.,
+         ....,
+         " />
+
+
+
+</Levels>
+</LevelsCollection>

@@ -1,0 +1,365 @@
+<LevelsCollection>
+<Levels>
+    <!--
+     // Levels to add
+     Side-Pull and have Wall slice my connection to the thing.
+	-->
+
+
+<!-- ================================ SIDE-PULL CRATE ================================ -->
+    <Level name="introSidePullCrate" desc="Intro Side-Pull Crate (corner to corner)" parMoves="14" layout="
+        @.O,
+        ...,
+        o.$,
+        ,
+        ...,
+        ...,
+        i..,
+    " />
+    <Level name="sidePullCrateWall" desc="Side-Pull Crates with Walls" parMoves="16" layout="
+        o..@,
+        ..O.,
+        ...$,
+        ,
+        i._.,
+        .._|,
+        ....,
+    " />
+    <Level name="twoSidePullCrates" desc="Two Side-Pull Crates" parMoves="19" layout="
+        ..@$,
+        ....,
+        .OO.,
+        o..o,
+        ,
+        ....,
+        ....,
+        ....,
+        i..i,
+    " />
+    <Level name="sidePullCrateLaserProtection" desc="Easy but interesting moment. Pull two Side-Crates through a field of lasers pointing towards you." parMoves="25" layout="
+        o..ddddO,
+        ........,
+        @......$,
+        ........,
+        o..aaaaO,
+        ,
+        i..mmmm.,
+        ........,
+        ........,
+        ........,
+        i..mmmm.,
+    " />
+    <Level name="sidePullCrateStuckCorner" desc="Okay. Awkward workaround; Side-Pull Crate gets stuck in a corner (if there's an obstacle diagonal to it)" parMoves="39" layout="
+        ....,
+        .._.,
+        @._.,
+        $..o,
+        w...,
+        ,
+        ....,
+        ....,
+        ..O.,
+        ...i,
+        m...,
+        ,
+        ....,
+        ....,
+        ..|.,
+        ....,
+        ....,
+    " />
+    <Level name="fourCratePull1" desc="Good (though slightly redundant with other pull-4-at-once)! 2 Side-Pull, 2 Behind-Pull. Par moves not only forces you to understand the solution exactly... it's also super hard." parMoves="18" layout="
+        ..@..,
+        .O.O.,
+        ..$..,
+        .O.O.,
+        .....,
+        ,
+        .....,
+        .o.o.,
+        .....,
+        .o.o.,
+        .....,
+        ,
+        .....,
+        ...i.,
+        .....,
+        .i...,
+        .....,
+    " />
+    <Level name="fourCratePull2" desc="AMAZING! Super tough. Pull 4 Crates (2 regular, 2 Side-Pull) all at once. Par moves requires some serious skills. 34 moves is doable, but you've really got to use Undo to shave it down to 30." parMoves="30" layout="
+        o.@.o,
+        ..O..,
+        .O$O.,
+        ..O..,
+        o...o,
+        ,
+        ....i,
+        .....,
+        .....,
+        .....,
+        i....,
+    " />
+    
+    
+    <!-- ================================ SIDE-PULL BEAMSOURCE ================================ -->
+    <Level name="sidePullBeamSourceBarriers" desc="Wonderful, hard Side-Pull BeamSources. Use one BeamSource to block another and get on the other side of the two!" parMoves="31" layout="
+        ..dD..,
+        @....$,
+        ......,
+        ..Aa..,
+        ,
+        ..i...,
+        ......,
+        ......,
+        ...i..,
+    " />
+    <Level name="sidePullBeamGoals1" desc="Pretty decent 2 Side-Pull BeamGoals." parMoves="32" layout="
+        d.@.e,
+        .....,
+        Q...A,
+        ,
+        m.$.m,
+        .....,
+        i...i,
+        ,
+        .....,
+        .....,
+        M...M,
+    " />
+    <!-- maybe add Side-Pull BeamGoals -->
+    <Level name="sidePullBeamSourceReorder" desc="Decent tight-quarters, Side-Pull BeamSource challenge. Three BeamSources/Goals starting into the wrong ones. Can solve elegantly, or not elegantly." parMoves="45" layout="
+        ~~EDC,
+        .....,
+        @.zqa,
+        $...~,
+        ,
+        .....,
+        .....,
+        ..iii,
+        .....,
+    " />
+    
+    
+    <!-- ================================ SIDE-PULL MIRROR ================================ -->
+    <Level name="sidePullMirror" desc="Pretty good! Easy though." parMoves="23" layout="
+        ~~~e\.@,
+        $......,
+        .......,
+        w.....#,
+        .......,
+        .......,
+        ...#...,
+        ,
+        ...mi..,
+        .......,
+        .......,
+        m......,
+        .......,
+        .......,
+        .......,
+    " />
+    <Level name="hardTwoSidePullMirrors1" desc="Hard. Pretty cool 2 Side-Pull Mirrors (though coolness is partially obscured by unplayable top-corners making it way harder)." parMoves="40" layout="
+        ~.@.~,
+        .....,
+        /...\,
+        w...r,
+        ~Q$Q~,
+        ,
+        .....,
+        .....,
+        i...i,
+        m...m,
+        .....,
+    " />
+    
+    
+    <Level name="sidePullCrateStuckCorner2" desc="Okay BONUS level. Large, multi-faceted awkward workaround; Side-Pull Crate gets stuck in a corner (if there's an obstacle diagonal to it). Note: Didn't try hard to set par moves." isBonus="true" parMoves="82" layout="
+    @...o,
+    .....,
+    ...~.,
+    ....o,
+    w...o,
+    ,
+    $...O,
+    .....,
+    ....O,
+    ....i,
+    m...O,
+    " />
+    <Level name="fourRadialSidePullBeamSources" desc="Good BONUS level. 4 radially symmetrical Side-Pull BeamSources. Note: Didn't try hard to set par moves." isBonus="true" parMoves="65" layout="
+    ~~~~E~,
+    We.r.~,
+    ~.$..~,
+    ~.@..~,
+    ~w..qR,
+    ~Q~~~~,
+    ,
+    ......,
+    .i.i..,
+    ......,
+    ......,
+    .i..i.,
+    ......,
+    " />
+    <Level name="hardTwoSidePullMirrors2" desc="BONUS level. (NOTE: Way easier than I thought.) Deceptively hard primarily because it's easy to get fixated down an impossible solution path, and the wrong turn you made was many moves ago (though you don't get stuck this way). Also can get stuck another way, but it's kinda obvious when you are." isBonus="true" parMoves="16" layout="
+        w....r,
+        ~@..~R,
+        ~...~~,
+        ~/\$~~,
+        ,
+        m....m,
+        ......,
+        ......,
+        .ii...,
+    " />
+    
+    
+    <Level name="EmptyLevel" desc="" parMoves="99" layout="
+    ...,
+    ...,
+    ...
+    " />
+
+
+    <!--
+    ======== Interesting moments ========
+    * Use Crate to rotate BeamSource to pull it out of a cove
+     
+    ======== Combinations to explore ========
+    * Side-Pull Rotatable BeamSource, BeamGoal, Mirror
+    * Side-Pull Crates with regular Crates (x3)
+     
+    ======== Rejected/Implemented Interesting moments ========
+    * We can only rotate a Rotatable, Movable BeamSource either clockwise or counter-clockwise. :) (No one level can just do this, but it does come up on its own.)
+    * Exit blocked by Side-Pull  (can't easily make a level based around this small moment)
+    * Walls + Beams (not inherently interesting)
+     -->
+    
+    
+    <!-- Tests -->
+    <Level name="trappedSidePullCrate" desc="Meh. Side-Pull Crate trapped between two beams" parMoves="99" layout="
+        @..Oe,
+        .....,
+        $...o,
+        .....,
+        o..Oq,
+        ,
+        ....m,
+        .....,
+        ....i,
+        .....,
+        i...m,
+    " />
+    <Level name="threeCrateProtection" desc="Meh 3-Crate protection" parMoves="99" layout="
+        ~~~~ee~~~~,
+        ..........,
+        .ooo.....r,
+        ..........,
+        @...qq...$,
+        ,
+        ....mm....,
+        ..........,
+        .ii......m,
+        ..........,
+        ....mm....,
+    " />
+    <Level name="WIP 98234" desc="TEST move a BeamSource in one of two different places at different moments WIP" parMoves="99" layout="
+        .@......,
+        ........,
+        .$......,
+        ........,
+        .o......,
+        ~~~q..~~,
+    " />
+    
+    
+    
+    <!-- Rejected levels-->
+    <Level name="impossibleFourSidePullCrates" desc="IMPOSSIBLE but very interesting 4 Side-Pull Crates on CrateGoals" parMoves="99" layout="
+    o.o.,
+    .$..,
+    .@..,
+    o..o,
+    ,
+    i.i.,
+    ....,
+    ....,
+    i..i,
+    ,
+    O..O,
+    ....,
+    ....,
+    O..O,
+    " />
+    <Level name="sidePullBeamGoals2" desc="Side-Pull BeamGoals. Totally passable, but redundant with another lvl." parMoves="99" layout="
+    e.@.Q,
+    .....,
+    E...q,
+    ,
+    m.$.i,
+    .....,
+    i...m,
+    ,
+    ....M,
+    .....,
+    M....,
+    " />
+    <Level name="rotatableBeamSourceProtection" desc="Unique but unimpressive moment. Rotatable, Movable BeamSource to protect from another Beam." parMoves="99" layout="
+    @..~..$,
+    ...~...,
+    x..~...,
+    ......r,
+    ...~...,
+    ,
+    .......,
+    .......,
+    t......,
+    ......m,
+    .......,
+    " />
+    <Level name="sidePullCrateTightQuarters" desc="Bleh. Side-Pull Crate tight quarters" parMoves="99" layout="
+    O.o$,
+    .@..,
+    o.O~,
+    ,
+    ..i.,
+    ....,
+    i...,
+    " />
+    <Level name="sidePullCrateBigArea" desc="So-so easy-ish Side-Pull Crate in large area with 2 Beams." parMoves="99" layout="
+    .$e~~~~,
+    _o....~,
+    _.....~,
+    ......~,
+    ......r,
+    ......~,
+    ~~~~..~,
+    ,
+    ..m.....,
+    @i......,
+    O.......,
+    ........,
+    ......m,
+    ........,
+    ........,
+    " />
+    <Level name="threeStaggeredWalls1" desc="So-so. 3 staggered Walls + Beams. Possible funny joke at beginning ('don't you wish you could move the bottommost BeamSource to the left'). Solution isn't too satisfying." parMoves="99" layout="
+    $....@,
+    ......,
+    W.|r..,
+    W..|r.,
+    W...|r,
+    ,
+    ......,
+    ......,
+    M.....,
+    M.....,
+    M.....,
+    " />
+
+
+
+
+</Levels>
+</LevelsCollection>

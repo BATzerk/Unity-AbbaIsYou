@@ -1,0 +1,905 @@
+<LevelsCollection>
+<Levels>
+    <!--
+     
+	-->
+
+
+    <!-- ================================ ROTATABLE BEAMGOALS ================================ -->
+    <Level name="introRotateBeamGoals" desc="Intro rotate BeamGoals" parMoves="12" layout="
+    e.@.e,
+    .....,
+    .....,
+    W...R,
+    ,
+    m.$.m,
+    .....,
+    .....,
+    t...t,
+    " />
+    <Level name="easyPlannedRotation" desc="" parMoves="16" layout="
+    ~...,
+    ..~@,
+    ..E.,
+    ..q$,
+    ,
+    ....,
+    ....,
+    ..t.,
+    ..m.,
+    " />
+    <Level name="moveSourceToRotateGoal" desc="Move BeamSource to rotate BeamGoal" parMoves="22" layout="
+    ....~,
+    w...W,
+    ....~,
+    ...@~,
+    ,
+    .....,
+    ....t,
+    .....,
+    ...$.,
+    ,
+    .....,
+    ....m,
+    .....,
+    .....,
+    " />
+    <Level name="crateBlockSourceRotateGoal" desc="Ehh, okay. Use Crate to block BeamSource to rotate BeamGoal" parMoves="21" layout="
+    ~@..$,
+    ~...o,
+    ~....,
+    V...v,
+    ,
+    .....,
+    .....,
+    .....,
+    m...m,
+    ,
+    .....,
+    .....,
+    .....,
+    t....,
+    " />
+    
+    
+    <!-- ================================ ROTATABLE BEAMSOURCES ================================ -->
+    <Level name="introRotateBeamSource2" desc="Kinda funny how tricky it is." parMoves="8" layout="
+    @...$,
+    ..s.F,
+    .....,
+    ,
+    .....,
+    ..t..,
+    .....,
+    ,
+    .....,
+    ..m..,
+    .....,
+    " />
+    <Level name="rotateSourceRotateGoal" desc="Rotate BeamSource to rotate BeamGoal" parMoves="16" layout="
+    ~.....,
+    F...f.,
+    ~.....,
+    ~@....,
+    ,
+    ......,
+    m...m.,
+    ......,
+    ......,
+    ,
+    ......,
+    t...t.,
+    ......,
+    .....$,
+    " />
+    <Level name="rotateRedirectSource" desc="Great challenge for the layout. Temporarily redirect BeamSource" parMoves="24" layout="
+    ..e..,
+    .....,
+    S...s,
+    .....,
+    @.Q..,
+    ,
+    ..t..,
+    .....,
+    ....t,
+    .....,
+    .....,
+    ,
+    ..m..,
+    .....,
+    ....m,
+    .....,
+    ....$,
+    " />
+    <Level name="moveGoalRotateSource" desc="Beautiful. Contains a subtle but unique moment: Beams can't harm us even if they'd move through us at a diagonal during a move! NOTE: It's different now that only the Player rotates things." parMoves="26" layout="
+    ~~.$,
+    @...,
+    ..e.,
+    ..R.,
+    ,
+    ....,
+    ....,
+    ..m.,
+    ..M.,
+    ,
+    ....,
+    ....,
+    ..t.,
+    ....,
+    " />
+    
+    
+    
+    <!-- ================================ ROTATABLE, MOVABLE BEAMGOALS ================================ -->
+    <Level name="tightMoveRotateBeamGoal" desc="Movable, Rotatable BeamGoal" parMoves="20" layout="
+    ~sA,
+    __.,
+    ...,
+    @..,
+    ,
+    .mM,
+    $..,
+    ...,
+    ...,
+    ,
+    ..t,
+    ...,
+    ...,
+    ...,
+    " />
+    
+    
+    
+    <!-- ================================ ROTATABLE, MOVABLE BEAMSOURCES ================================ -->
+    <Level name="introMoveRotateBeamSource" desc="Solid, super-tiny Movable, Rotatable BeamSource intro." parMoves="16" layout="
+    v.$,
+    ...,
+    Z.@,
+    ,
+    t..,
+    ...,
+    ...,
+    " />
+    <Level name="moveRotateSource" desc="Kinda redundant with easyKilterKnocker." parMoves="17" layout="
+    $.wR,
+    ~..~,
+    ...~,
+    @..~,
+    ,
+    ..tm,
+    ....,
+    ....,
+    ....,
+    " />
+    <Level name="easyKilterKnocker" desc="Easy-ish, funny, interesting. Ugh so close to the Exit, but Movable, Rotatable BeamSource gets knocked off kilter when we pass by it." parMoves="14" layout="
+    @..xV,
+    ..|~~,
+    ..|~~,
+    ,
+    ...t.,
+    .....,
+    ..$..,
+    " />
+    
+    <Level name="easySourceBlockSource" desc="Okay, easy. Movable, Rotatable BeamSource to block another BeamSource and cross the road!" parMoves="12" layout="
+    @.dd$,
+    .....,
+    .....,
+    ,
+    ..tm.,
+    .....,
+    .....,
+    " />
+    
+    
+    
+    <!-- ================================ SIDE-PULL AND ROTATE ================================ - - >
+     NOTE: Disabled because only the Player rotates things now!
+    <Level name="sidePullCrateRotateGoal" desc="Not particularly thrilling, and the solution is pretty linear. It is unique and all right, though." parMoves="99" layout="
+    ~~~X,
+    $...,
+    ....,
+    @.oz,
+    ,
+    ...t,
+    ....,
+    ....,
+    ..im,
+    " />
+     -->
+    
+    
+    
+    
+    <!-- ================================ ROTATE MIRROR ================================ -->
+    <Level name="rotateMirrorImmovable" desc="Note: Requires you to step into a Beam!" parMoves="99" layout="
+    @.e.$,
+    .....,
+    ..\.R,
+    .....,
+    .....,
+    ,
+    ..m..,
+    .....,
+    ..m..,
+    .....,
+    .....,
+    ,
+    .....,
+    .....,
+    ..t..,
+    .....,
+    .....,
+    " />
+    <Level name="rotateMirrorsImmovable" desc="Note: Requires you to step into a Beam! (It's *about* that!)" parMoves="99" layout="
+    @E$e.,
+    .....,
+    ./.\.,
+    .....,
+    .....,
+    ,
+    ...m.,
+    .....,
+    .m.m.,
+    .....,
+    .....,
+    ,
+    .....,
+    .....,
+    .t.t.,
+    .....,
+    .....,
+    " />
+    <Level name="rotateMirrorMovable" desc="Meh, not too special from rotateMirrorsImmovable." parMoves="99" layout="
+    @....,
+    ....F,
+    ..\..,
+    ..a.$,
+    ,
+    .....,
+    .....,
+    ..t..,
+    ..m..,
+    " />
+    <Level name="rotateMirrorMovableDoubleBeams" desc="Really good! Simple layout, multi-step solution. No special, unique moment though." parMoves="99" layout="
+    @..d..$,
+    .......,
+    ../....,
+    w.....F,
+    .......,
+    .......,
+    ...Q...,
+    ,
+    ...m...,
+    .......,
+    ..t....,
+    m......,
+    .......,
+    .......,
+    .......,
+    " />
+    
+    
+    
+    
+    
+    <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Bonus Levels ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+    <Level name="oneEightyPassage" desc="Explores a fascinating effect of movement restriction with crates and gaps. Made extra hard by the extra 180 flip though. It's tempting to just brute force it." isBonus="true" parMoves="99" layout="
+    ..ooo~,
+    .....~,
+    .wQWr~,
+    @....$,
+    ,
+    ......,
+    ......,
+    .mmmm.,
+    ......,
+    ,
+    ......,
+    ......,
+    ..tt..,
+    ......,
+    " />
+    <Level name="hardMoveGoalsRotateSourcesTight" desc="Way too hard for beginners, too easy for experts. No one outstanding unique moment. Requires a large number of strategies and maneuvers." isBonus="true" parMoves="99" layout="
+    @..E.$,
+    ...q..,
+    ..e...,
+    ..Q...,
+    ,
+    ...M..,
+    ...m..,
+    ..m...,
+    ..M...,
+    ,
+    ......,
+    ...t..,
+    ..t...,
+    ......,
+    " />
+    
+    <Level name="hardTwoMoveRotateBeamGoals" desc="Okay, hard-early-on Movable, Rotatable BeamGoals" isBonus="true" parMoves="99" layout="
+    sR.Sr,
+    .....,
+    ..@..,
+    ,
+    .t.t.,
+    .....,
+    ..$..,
+    ,
+    mM.Mm,
+    .....,
+    .....,
+    " />
+    
+    <Level name="goalMaybeRotateSource" desc="Interesting and funny-- still. Doesn't work anymore (because we can walk into a Beam to rotate the Source): Use BeamGoal to rotate BeamSource to pull it out of a cove. Contains a frustrating/humorous unique moment at the end, where the Source is too sticky and rotate-y. Note: Could be made easier by adding a row." isBonus="true" parMoves="99" layout="
+    ~~e~~,
+    @...$,
+    ....~,
+    ..Q.~,
+    ,
+    ..t..,
+    .....,
+    .....,
+    ..M..,
+    ,
+    .....,
+    .....,
+    .....,
+    ..O..,
+    " />
+    
+    <Level name="goalRotateSource" desc="Fairly straightforward, not supremely unique, but it's all right." isBonus="true" parMoves="99" layout="
+    ~~e~~,
+    ..O.$,
+    ...|.,
+    @.Q|.,
+    ,
+    ..m..,
+    .....,
+    .....,
+    ..M..,
+    ,
+    ..t..,
+    .....,
+    .....,
+    .....,
+    " />
+    
+    <Level name="hardRotateParityBreak" desc="Fascinating rotation parity broken up by a crate. Could solve eventually accidentally, though. Hard to think this one through; fairly easy to just keep trying tons of different stuff." isBonus="true" parMoves="99" layout="
+    @....$,
+    ...w.R,
+    W.r...,
+    .....o,
+    ,
+    ......,
+    ...m..,
+    ..m...,
+    ......,
+    ,
+    ......,
+    ...t..,
+    ..t...,
+    ......,
+    " />
+    
+    <Level name="tightMoveRotateSourceChallenge" desc="Good BONUS level. Tight, pretty challenging 2 rotatable/movable BeamSources." isBonus="true" parMoves="99" layout="
+    ~~~E,
+    e..O,
+    ..@.,
+    O.$q,
+    Q~~~,
+    ,
+    ....,
+    t...,
+    ....,
+    ...t,
+    ....,
+    " />
+    
+    <Level name="sidePullShieldGoalRotate" desc="Unexciting and mildly redundant with sidePullCrateRotateBeamSource. But neat how the best solution is only a few steps." isBonus="true" parMoves="99" layout="
+    ~~~Q~$,
+    .o....,
+    ......,
+    @..q..,
+    ,
+    ...t..,
+    .i....,
+    ......,
+    ...m..,
+    " />
+    
+    
+    
+    <!-- Levels to add:
+     
+     // BeamSource rotate BeamGoal
+     // BeamGoal rotate BeamGoal
+     // Use a BeamGoal to rotate its BeamSource
+     // Use a BeamSource to rotate its BeamGoal
+     // Crate rotate 2 BeamSources
+     // Crate rotate BeamSource AND BeamGoal
+     
+     -->
+    
+    
+    
+    <Level name="EmptyLevel" desc="" parMoves="99" layout="
+    ...,
+    ...,
+    ...,
+    " />
+    
+    
+    
+    <Level name="WIP rotateSidePullMirror" desc="" parMoves="99" layout="
+    \.....,
+    ......,
+    ......,
+    ......,
+    ,
+    t..d..,
+    ......,
+    ......,
+    ......,
+    ,
+    i..m..,
+    ......,
+    ......,
+    @.....,
+    " />
+    
+    
+    <Level name="WIP rotateMirrorsMovable" desc="" parMoves="99" layout="
+    .....,
+    .....,
+    .....,
+    .....,
+    .....,
+    ,
+    .....,
+    .....,
+    .....,
+    .....,
+    .....,
+    " />
+    <Level name="WIP rotateMirrorsMovable2" desc="" parMoves="99" layout="
+    .....,
+    .....,
+    .....,
+    .....,
+    .....,
+    ,
+    .....,
+    .....,
+    .....,
+    .....,
+    .....,
+    " />
+    
+    
+    
+    
+    <Level name="too easy. crateRotateBeamGoal" desc="Unique, but the solution is basically handed to you." parMoves="99" layout="
+    .o...$,
+    ..~~~.,
+    ..~Q~.,
+    ......,
+    .@.q..,
+    ,
+    ......,
+    ......,
+    ...t..,
+    ......,
+    ...m..,
+    " />
+    
+    <Level name="(I think?) impossible and fascinating" desc="" parMoves="99" layout="
+    ~~e~~~,
+    .....$,
+    ...|..,
+    @.Q|..,
+    ,
+    ..m...,
+    ......,
+    ......,
+    ..M...,
+    ,
+    ..t...,
+    ......,
+    ......,
+    ..i...,
+    " />
+    <Level name="WIP sourceRotateSource" desc="" parMoves="99" layout="
+    ~~~e~~~,
+    ..d....,
+    .......,
+    .......,
+    .......,
+    @.....$,
+    ,
+    ...m...,
+    ..i....,
+    .......,
+    .......,
+    .......,
+    .......,
+    ,
+    ...t...,
+    .......,
+    .......,
+    .......,
+    .......,
+    ...Q...,
+    " />
+    
+    
+    
+    
+    
+    <Level name="WIP moveSourcesTightWalls 25235" desc="" parMoves="99" layout="
+    @....$,
+    ...q.E,
+    Q.e...,
+    ......,
+    ,
+    ......,
+    ._.._M,
+    M.....,
+    ......,
+    ,
+    ......,
+    ..|..|,
+    .|..|.,
+    ......,
+    " />
+    
+    
+    
+    
+    <Level name="WIP moveRotateSourcesTight" desc="Not yet distilled enough, but on its way!" parMoves="99" layout="
+    @....$,
+    ......,
+    ...q.R,
+    W.e...,
+    ......,
+    ......,
+    ,
+    ......,
+    ......,
+    .....M,
+    M.....,
+    ......,
+    ......,
+    ,
+    ......,
+    ......,
+    ..|..|,
+    .|..|.,
+    ......,
+    ......,
+    ,
+    ......,
+    ......,
+    .____t,
+    t.....,
+    ......,
+    ......,
+    " />
+    
+    <Level name="WIP goalRotateSource" desc="Pretty good! Use a BeamGoal to rotate its BeamSource. DOESN'T WORK guaranteed though!! Can solve differently, because BeamGoal can block a BeamSource!" parMoves="99" layout="
+    ~~~w,
+    @...,
+    $...,
+    E...,
+    ~~\/,
+    ,
+    ...m,
+    ....,
+    ....,
+    M...,
+    ..mm,
+    ,
+    ...t,
+    ....,
+    ....,
+    ....,
+    ....,
+    " />
+    
+    
+    
+    <Level name="WIP 32471" desc="TEST WIP BeamSource rotate BeamSource" parMoves="99" layout="
+    @....,
+    .....,
+    .w..R,
+    .....,
+    W...q,
+    ,
+    .....,
+    .....,
+    .....,
+    .....,
+    ....m,
+    ,
+    .....,
+    .....,
+    .....,
+    .....,
+    ....t,
+    " />
+        
+        
+        
+        
+        
+        
+        
+        
+        <!-- Rejected levels
+         
+         // Redundant with oneEightyPassage
+         <Level name="rotateGoals3CrateRestriction" desc="Explores a fascinating effect of movement restriction with crates and gaps." isBonus="true" parMoves="99" layout="
+         ..ooo~,
+         .....~,
+         @wRQr~,
+         ,
+         ......,
+         ......,
+         $mmmm.,
+         ,
+         ......,
+         ......,
+         ..tt..,
+         " />
+         
+         <Level name="moveRotateGoalEasyTinyTrap" desc="Pretty funny because of its maddening/misleading simplicity in layout." parMoves="99" layout="
+         e..~,
+         Q@.$,
+         ,
+         m...,
+         M...,
+         ,
+         ....,
+         t...,
+         " />
+         
+         <Level name="introRotateBeamSource1" desc="Circle around BeamSource in small 2x2 pocket. Easy but interesting" parMoves="99" layout="
+         e..R,
+         ~@.$,
+         ,
+         m...,
+         ....,
+         ,
+         t...,
+         ....,
+         " />
+         
+         <Level name="simpleSyncRotateBeamGoals" desc="Sync Rotating BeamGoals in narrow corridor" parMoves="99" layout="
+         e$e,
+         ...,
+         E.Q,
+         ~..,
+         ~@.,
+         ,
+         m.m,
+         ...,
+         t.t,
+         ...,
+         ...,
+         " />
+         
+         <Level name="rotateTwoBeamSources" desc="Rotating 2 BeamSources. Not particularly special, though it's decent practice." isBonus="true" parMoves="99" layout="
+         .......,
+         .......,
+         .s...f.,
+         .~...~.,
+         .......,
+         ~A.@.A~,
+         ,
+         .......,
+         .......,
+         .t...t.,
+         .......,
+         .......,
+         ...$...,
+         ,
+         .......,
+         .......,
+         .m...m.,
+         .......,
+         .......,
+         .......,
+         " />
+         
+         
+         
+         
+         
+
+        new string[]{ // Might want to resurrect! Okay Side-Pull Crate-Rotate-BeamSource (NOTE: that moment is avoidable if we can rotate BeamSources by stepping into their first Beam space.) Rejected because it gives away that moment more easily than I'd like.
+        ~~$~~,
+        w...r,
+        ~...~,
+        ~...~,
+        ~@.o~,
+        ,
+        .....,
+        m...m,
+        .....,
+        .....,
+        ...i.,
+        ,
+        .....,
+        t....,
+        .....,
+        .....,
+        .....,
+         },
+         
+         <Level name="WIP diagonalRotateGoals" desc="Ehh, it's okay. Not super unique." parMoves="99" layout="
+         @.$~~,
+         ...Q~,
+         ..W~r,
+         ~~~q~,
+         ,
+         .....,
+         ...t.,
+         ..t.m,
+         ...m.,
+         " />
+         
+         <Level name="crateRotateSource" desc="Redundant with goalRotateSource, and slightly less cool." parMoves="99" layout="
+         ~~e~,
+         @..$,
+         ....,
+         ..o.,
+         ,
+         ..t.,
+         ....,
+         ....,
+         ..O.,
+         " />
+        new string[]{ // Basic/easy Movable, Rotatable BeamSource. Nothing too special.
+        ~~E,
+        @.O,
+        ...,
+        ..q,
+        ,
+        ...,
+        ...,
+        ...,
+        ..t,
+        },
+        // new string[]{ // Pusher + Crate rotation. But doesn't really work anymore.
+        // @...o,
+        // .....,
+        // ..]..,
+        // ~~e.R,
+        // ,
+        // .....,
+        // .....,
+        // .....,
+        // ..t..,
+        // ,
+        // .....,
+        // .....,
+        // .....,
+        // ..m..,
+        // },
+        
+        // new string[]{ // Crate Rotate BeamSource variation
+        // o....,
+        // .....,
+        // @....,
+        // ~~#..,
+        // ~~q.R,
+        // ~~~a~,
+        // ,
+        // .....,
+        // .....,
+        // .....,
+        // .....,
+        // ..m..,
+        // ...m.,
+        // ,
+        // .....,
+        // .....,
+        // .....,
+        // .....,
+        // ..t..,
+        // .....,
+        // },
+        
+        };
+         
+         <Level name="" desc="Intro Rotating BeamGoals 2: One-way-wrench technique" parMoves="99" layout=" // Cut because redundant.
+         w..Q,
+         @...,
+         w..E,
+         ,
+         m..t,
+         ....,
+         m..t,
+         " />
+        
+        }
+        // ==== Pushers ====
+        new string[]{ // Intro Pushers WIP
+        ..@..,
+        ..=..,
+        .[...,
+        ..'].,
+        .....,
+        },
+        
+        new string[]{ // Pusher Crate stack-up
+        ..O..,
+        ]]]].,
+        @....,
+        .....,
+        ooo..,
+        },
+        new string[]{ // Pusher single Crate stack-up
+        ...qE,
+        ]]]].,
+        @....,
+        .....,
+        o....,
+        },
+        
+        new string[]{ // Great, multi-step Pusher and BeamSource Rotation
+        ..]].,
+        ...Q.,
+        .....,
+        .....,
+        .@...,
+        ,
+        ..qoo,
+        .....,
+        .....,
+        .....,
+        .....,
+        ,
+        ..t..,
+        .....,
+        .....,
+        .....,
+        .....,
+        },
+        
+        
+        // new string[]{ // TEST idea
+        // @....,
+        // ..]..,
+        // ..e.R,
+        // ,
+        // .....,
+        // .....,
+        // ..t..,
+        // ,
+        // .....,
+        // .....,
+        // ..m..,
+        // },
+        
+        new string[]{ // IDEA
+        ...]],
+        ...##,
+        ....$,
+        .....,
+        .@...,
+        ,
+        ....o,
+        .....,
+        .....,
+        .....,
+        .....,
+        },
+        
+        -->
+
+
+
+
+</Levels>
+</LevelsCollection>
