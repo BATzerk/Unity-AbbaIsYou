@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ExitSpot : BoardObject {
+public class ExitSpot : Tile {
 
     // Serializing
-    override public BoardObjectData ToData() {
+    override public TileData ToData() {
         return new ExitSpotData (BoardPos);
     }
 
@@ -13,7 +13,7 @@ public class ExitSpot : BoardObject {
 	//  Initialize
 	// ----------------------------------------------------------------
 	public ExitSpot (Board _boardRef, ExitSpotData data) {
-		base.InitializeAsBoardObject (_boardRef, data);
+		base.InitializeAsTile (_boardRef, data);
 		// Tell my BoardSpace I'm on it!
 		MySpace.SetMyExitSpot (this);
 	}

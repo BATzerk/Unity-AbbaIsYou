@@ -2,10 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Crate : BoardOccupant {
+public class Crate : Tile {
     // Properties
-    public bool[] IsDimple { get; private set; }
-    public bool DoAutoMove { get; private set; }
+    public bool DoAutoMove { get; private set; } // NOTE: NOT IMPLEMENTED!
     public Vector2Int AutoMoveDir { get; private set; }
     
     // Getters
@@ -19,15 +18,14 @@ public class Crate : BoardOccupant {
 	//  Initialize
 	// ----------------------------------------------------------------
 	public Crate (Board _boardRef, CrateData _data) {
-		base.InitializeAsBoardOccupant (_boardRef, _data);
-        IsDimple = GameUtils.CopyBoolArray(_data.isDimple);
+		base.InitializeAsTile (_boardRef, _data);
         DoAutoMove = _data.doAutoMove;
         AutoMoveDir = _data.autoMoveDir;
     }
     
     // Serializing
-	override public BoardObjectData ToData() {
-        return new CrateData(BoardPos, GameUtils.CopyBoolArray(IsDimple), DoAutoMove, AutoMoveDir);
+	override public TileData ToData() {
+        return new CrateData(BoardPos, DoAutoMove, AutoMoveDir);
 	}
 
 
@@ -40,20 +38,20 @@ public class Crate : BoardOccupant {
     }
     public override void OnPlayerMoved() {
         base.OnPlayerMoved();
-        // I auto-move, I HAVE a dir to auto-move, AND I DIDN'T just move?...
-        if (DoAutoMove && AutoMoveDir!=Vector2Int.zero && PrevMoveDelta==Vector2Int.zero) {
-            BoardSpace spaceTo = GetSpaceAutoMoveTo();
-            bool doMove = !spaceTo.HasOccupant;
-            doMove &= BoardUtils.MayMoveOccupant(BoardRef, ColRow, AutoMoveDir);
-            // We CAN move. Do!
-            if (doMove) {
-                BoardUtils.MoveOccupant(BoardRef, ColRow, AutoMoveDir);
-            }
-            // We CANNOT move. Zero-out AutoMoveDir.
-            else {
-                AutoMoveDir = Vector2Int.zero;
-            }
-        }
+        //// I auto-move, I HAVE a dir to auto-move, AND I DIDN'T just move?...
+        //if (DoAutoMove && AutoMoveDir!=Vector2Int.zero && PrevMoveDelta==Vector2Int.zero) {
+        //    BoardSpace spaceTo = GetSpaceAutoMoveTo();
+        //    bool doMove = !spaceTo.HasOccupant;
+        //    doMove &= BoardUtils.MayMoveTile(BoardRef, ColRow, AutoMoveDir);
+        //    // We CAN move. Do!
+        //    if (doMove) {
+        //        BoardUtils.MoveOccupant(BoardRef, ColRow, AutoMoveDir);
+        //    }
+        //    // We CANNOT move. Zero-out AutoMoveDir.
+        //    else {
+        //        AutoMoveDir = Vector2Int.zero;
+        //    }
+        //}
     }
 
 

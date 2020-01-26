@@ -7,28 +7,31 @@ public class Board {
     // Properties
     public int NumCols { get; private set; }
     public int NumRows { get; private set; }
-    public WrapTypes WrapH { get; private set; }
-    public WrapTypes WrapV { get; private set; }
     public bool AreGoalsSatisfied { get; private set; }
     public int NumExitSpots { get; private set; }
     // Objects
     public BoardSpace[,] spaces;
-    public List<Player> players;
-    public List<BoardObject> allObjects; // includes every object EXCEPT Player!
+    public List<Tile> allTiles; // includes every object EXCEPT Player!
     // Reference Lists
     public List<IGoalObject> goalObjects; // contains JUST the objects that have winning criteria.
-    public List<BoardObject> objectsAddedThisMove;
+    public List<Tile> objectsAddedThisMove;
 
 	// Getters
-    public bool DoWrapH { get { return WrapH==WrapTypes.Parallel || WrapH==WrapTypes.Flip; } }
-    public bool DoWrapV { get { return WrapV==WrapTypes.Parallel || WrapV==WrapTypes.Flip; } }
     public int NumGoalObjects { get { return goalObjects.Count; } }
     public BoardSpace GetSpace(Vector2Int pos) { return GetSpace(pos.x, pos.y); }
     public BoardSpace GetSpace(int col,int row) { return BoardUtils.GetSpace(this, col,row); }
-    public BoardOccupant GetOccupant(int col,int row) { return BoardUtils.GetOccupant(this, col,row); }
-    public BoardOccupant GetOccupant(Vector2Int pos) { return GetOccupant(pos.x, pos.y); }
+    public List<Tile> GetObjects(int col,int row) { return BoardUtils.GetTiles(this, col,row); }
+    public List<Tile> GetObjects(Vector2Int pos) { return GetObjects(pos.x, pos.y); }
 	public BoardSpace[,] Spaces { get { return spaces; } }
+    public List<Tile> GetPlayers() {
+        List<Tile> players = new List<Tile>();
+        foreach (Tile obj in allTiles) {
+            if (obj.IsYou) { players.Add(obj); }
+        }
+        return players;
+    }
     public bool IsAnyPlayerOnExitSpot () {
+        List<Tile> players = GetPlayers();
         for (int i=0; i<players.Count; i++) {
             if (players[i].MySpace.HasExitSpot && players[i].MySpace.MyExitSpot.IsOrientationMatch(players[i])) {
                 return true;
@@ -36,9 +39,8 @@ public class Board {
         }
         return false;
     }
-    public bool IsEveryPlayerDead() {
-        for (int i=0; i<players.Count; i++) { if (!players[i].IsDead) { return false; } }
-        return true;
+    public bool AreAnyPlayers() {
+        return GetPlayers().Count > 0;
     }
     //private bool CheckAreGoalsSatisfied () {
     //    if (goalObjects.Count == 0) { return true; } // If there's NO criteria, then sure, we're satisfied! For levels that're just about getting to the exit.
@@ -55,10 +57,7 @@ public class Board {
 	}
 	public BoardData ToData() {
 		BoardData bd = new BoardData(NumCols,NumRows);
-        bd.wrapH = WrapH;
-        bd.wrapV = WrapV;
-        foreach (Player p in players) { bd.playerDatas.Add(p.ToData() as PlayerData); }
-		foreach (BoardObject obj in allObjects) { bd.allObjectDatas.Add(obj.ToData()); }
+		foreach (Tile obj in allTiles) { bd.allTileDatas.Add(obj.ToData()); }
 		for (int col=0; col<NumCols; col++) {
 			for (int row=0; row<NumRows; row++) {
 				bd.spaceDatas[col,row] = GetSpace(col,row).ToData();
@@ -75,14 +74,11 @@ public class Board {
 	public Board (BoardData bd) {
 		NumCols = bd.numCols;
 		NumRows = bd.numRows;
-        WrapH = bd.wrapH;
-        WrapV = bd.wrapV;
         
         // Empty out lists.
-        players = new List<Player>();
-        allObjects = new List<BoardObject>();
+        allTiles = new List<Tile>();
         goalObjects = new List<IGoalObject>();
-        objectsAddedThisMove = new List<BoardObject>();
+        objectsAddedThisMove = new List<Tile>();
 
 		// Add all gameplay objects!
 		MakeBoardSpaces (bd);
@@ -100,9 +96,12 @@ public class Board {
 	}
 	private void AddPropsFromBoardData (BoardData bd) {
         //player = new Player(this, bd.playerData);
-		foreach (BoardObjectData objData in bd.allObjectDatas) {
+		foreach (TileData objData in bd.allTileDatas) {
             System.Type type = objData.GetType();
             if (false) {}
+            else if (type == typeof(AbbaData)) {
+                AddAbba (objData as AbbaData);
+            }
             else if (type == typeof(CrateData)) {
                 AddCrate (objData as CrateData);
             }
@@ -112,9 +111,6 @@ public class Board {
             else if (type == typeof(ExitSpotData)) {
                 AddExitSpot (objData as ExitSpotData);
             }
-            else if (type == typeof(PlayerData)) {
-                AddPlayer (objData as PlayerData);
-            }
             else {
                 Debug.LogError("PropData not recognized to add to Board: " + type);
             }
@@ -123,25 +119,24 @@ public class Board {
     
     private void AddCrate (CrateData data) {
         Crate prop = new Crate (this, data);
-        allObjects.Add (prop);
+        allTiles.Add (prop);
         objectsAddedThisMove.Add(prop);
     }
     private void AddCrateGoal (CrateGoalData data) {
         CrateGoal prop = new CrateGoal (this, data);
-        allObjects.Add (prop);
+        allTiles.Add (prop);
         objectsAddedThisMove.Add(prop);
         goalObjects.Add (prop);
     }
     private void AddExitSpot (ExitSpotData data) {
         ExitSpot prop = new ExitSpot (this, data);
-        allObjects.Add (prop);
+        allTiles.Add (prop);
         objectsAddedThisMove.Add(prop);
         NumExitSpots ++;
     }
-    private void AddPlayer (PlayerData data) {
-        Player prop = new Player (this, data);
-        allObjects.Add (prop);
-        players.Add(prop);
+    private void AddAbba (AbbaData data) {
+        Abba prop = new Abba (this, data);
+        allTiles.Add (prop);
         objectsAddedThisMove.Add(prop);
     }
 
@@ -149,9 +144,9 @@ public class Board {
 	// ----------------------------------------------------------------
 	//  Events
 	// ----------------------------------------------------------------
-    public void OnObjectRemovedFromPlay (BoardObject bo) {
+    public void OnObjectRemovedFromPlay (Tile bo) {
         // Remove it from its lists!
-        allObjects.Remove (bo);
+        allTiles.Remove (bo);
         if (bo is ExitSpot) { NumExitSpots --; }
         else { Debug.LogError ("Trying to RemoveFromPlay an Object of type " + bo.GetType() + ", but our OnObjectRemovedFromPlay function doesn't recognize this type!"); }
     }
@@ -161,12 +156,12 @@ public class Board {
 	//  Makin' Moves
 	// ----------------------------------------------------------------
     private bool MayExecuteMove(Vector2Int dir) {
-        if (IsEveryPlayerDead()) { return false; }
+        if (AreAnyPlayers()) { return false; }
         //if (AreGoalsSatisfied) { return false; } // We can't execute after we've won.
-        return BoardUtils.MayMovePlayers(this, players, dir); // Ok, now just check if it's legal!
+        return BoardUtils.MayMovePlayers(this, dir); // Ok, now just check if it's legal!
     }
     private bool GetAreGoalsSatisfied() {
-        if (IsEveryPlayerDead()) { return false; } // Players are all kaput? Nah, we need at least one alive.
+        if (AreAnyPlayers()) { return false; } // Players are all kaput? Nah, we need at least one alive.
         if (goalObjects.Count == 0) { return true; } // If there's NO criteria, then sure, we're satisfied! For levels that're just about getting to the exit.
         for (int i=0; i<goalObjects.Count; i++) {
             if (!goalObjects[i].IsOn) { return false; } // return false if any of these guys aren't on.
@@ -180,19 +175,19 @@ public class Board {
             // Clear out the list NOW.
             objectsAddedThisMove.Clear();
             // Reset PrevMoveDelta.
-            ResetOccupantsPrevMoveDelta();
-            // Move Player!
-            BoardUtils.MovePlayers(this, players, dir);
-            // Tell all other Occupants!
-            for (int i=0; i<allObjects.Count; i++) { allObjects[i].OnPlayerMoved(); }
+            ResetTilesPrevMoveDelta();
+            // Move players!
+            BoardUtils.MovePlayers(this, dir);
+            // Tell all other Tiles!
+            for (int i=0; i<allTiles.Count; i++) { allTiles[i].OnPlayerMoved(); }
             // Call OnMoveComplete!
             OnMoveComplete();
         }
     }
     
     private void OnMoveComplete () {
-        // Check if the player's in a toaster oven!
-        UpdatePlayersIsDead();
+        //// Check if the player's in a toaster oven!
+        //UpdatePlayersIsDead();
         // Update Goals!
         foreach (IGoalObject igo in goalObjects) { igo.UpdateIsOn (); }
         AreGoalsSatisfied = GetAreGoalsSatisfied();
@@ -201,18 +196,18 @@ public class Board {
     }
 
 
-    private void ResetOccupantsPrevMoveDelta() {
+    private void ResetTilesPrevMoveDelta() {
         //player.ResetPrevMoveDelta();
-        for (int i=0; i<allObjects.Count; i++) { allObjects[i].ResetPrevMoveDelta(); }
+        for (int i=0; i<allTiles.Count; i++) { allTiles[i].ResetPrevMoveDelta(); }
     }
-    private void UpdatePlayersIsDead() {
-        foreach (Player p in players) {
-            if (p.IsDead) { continue; } // Already dead? Skip 'em.
-            //if (p.MySpace.IsLethalBeamOverMe()) {
-            //    p.Die();
-            //}
-        }
-    }
+    //private void UpdatePlayersIsDead() {
+    //    foreach (Abba p in players) {
+    //        if (p.IsDead) { continue; } // Already dead? Skip 'em.
+    //        //if (p.MySpace.IsLethalBeamOverMe()) {
+    //        //    p.Die();
+    //        //}
+    //    }
+    //}
     
     
     
@@ -231,10 +226,10 @@ public class Board {
         Debug.Log("Board Layout:\n" + str);
     }
     private string Debug_GetPrintoutSpaceChar(int col,int row) {
-        BoardOccupant occupant = GetOccupant(col,row);
-        if (occupant == null) { return "."; }
-        if (occupant is Player) { return "@"; }
-        if (occupant is Crate) { return "o"; }
+        //Tile obj = GetObjects(col,row);
+        //if (obj == null) { return "."; }
+        //if (obj is Player) { return "@"; }
+        //if (obj is Crate) { return "o"; }
         return "?";
     }
 

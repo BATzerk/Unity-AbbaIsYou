@@ -9,12 +9,10 @@ public class BoardData {
 	private readonly char[] LINE_BREAKS_CHARS = { ',' }; // our board layouts are comma-separated (because XML's don't encode line breaks).
 	// Properties
     public int numCols,numRows;
-    public WrapTypes wrapH,wrapV;
-    // BoardObjects
-    public List<PlayerData> playerDatas;// { get; private set; }
+    // Board Objects
     public BoardSpaceData[,] spaceDatas { get; private set; }
-    public List<BoardObjectData> allObjectDatas;
-    private BoardObjectData[,] objectsInBoard; // this is SOLELY so we can go easily back and modify properties of an object we've already announced.
+    public List<TileData> allTileDatas;
+    private TileData[,] tilesInBoard; // this is SOLELY so we can go easily back and modify properties of an object we've already announced.
     
     // Getters
 	private string[] GetLevelStringArrayFromLayoutString (string layout) {
@@ -37,9 +35,6 @@ public class BoardData {
     //  Initialize
     // ----------------------------------------------------------------
 	public BoardData (LevelDataXML ldxml) {
-        wrapH = BoardUtils.IntToWrapType(ldxml.wrapH);
-        wrapV = BoardUtils.IntToWrapType(ldxml.wrapV);
-        
 		// Layout!
 		string[] levelStringArray = GetLevelStringArrayFromLayoutString (ldxml.layout);
 		if (levelStringArray.Length == 0) { levelStringArray = new string[]{"."}; } // Safety catch.
@@ -62,7 +57,7 @@ public class BoardData {
 		MakeEmptyBoardSpaces ();
 		MakeEmptyLists ();
         
-		objectsInBoard = new BoardObjectData[numCols,numRows];
+		tilesInBoard = new TileData[numCols,numRows];
 
 		for (int layer=0; layer<numLayoutLayers; layer++) {
 			for (int i=0; i<numCols; i++) {
@@ -80,45 +75,28 @@ public class BoardData {
                     case '~': GetSpaceData (col,row).isPlayable = false; break;
                     // ExitSpot!
                     case '$': AddExitSpotData (col,row); break;
-                    // Player!
-                    case '@': AddPlayerData(col,row); break;
+                    // Abba!
+                    case '@': AddAbbaData(col,row); break;
                     // Crates!
-                    case 'q': AddCrateGoalData (col,row, Corners.TL, false); break;
-                    case 'w': AddCrateGoalData (col,row, Corners.TR, false); break;
-                    case 's': AddCrateGoalData (col,row, Corners.BR, false); break;
-                    case 'a': AddCrateGoalData (col,row, Corners.BL, false); break;
-                    case 'e': AddCrateGoalData (col,row, Corners.TL, true); break;
-                    case 'r': AddCrateGoalData (col,row, Corners.TR, true); break;
-                    case 'f': AddCrateGoalData (col,row, Corners.BR, true); break;
-                    case 'd': AddCrateGoalData (col,row, Corners.BL, true); break;
-                    case 'Q': AddCrateData (col,row, Corners.TL, false); break;
-                    case 'W': AddCrateData (col,row, Corners.TR, false); break;
-                    case 'S': AddCrateData (col,row, Corners.BR, false); break;
-                    case 'A': AddCrateData (col,row, Corners.BL, false); break;
-                    case 'E': AddCrateData (col,row, Corners.TL, true); break;
-                    case 'R': AddCrateData (col,row, Corners.TR, true); break;
-                    case 'F': AddCrateData (col,row, Corners.BR, true); break;
-                    case 'D': AddCrateData (col,row, Corners.BL, true); break;
+                    case 'Q': AddCrateData (col,row, false); break;
+                    case 'E': AddCrateData (col,row, true); break;
+                    case 'q': AddCrateGoalData (col,row, false); break;
+                    case 'e': AddCrateGoalData (col,row, true); break;
                     //case 'O': AddCrateData (col,row, true); break;
                     //case '#': AddCrateData (col,row, false); break;
 					// Walls!
 					case '_': SetIsWallT (col,row-1); break; // note: because the underscore looks lower, consider it in the next row (so layout text file looks more intuitive).
 					case '|': SetIsWallL (col,row); break;
                     
-                    // MODIFYING properties...
-                    case 'Z': FlipChirH(col,row); break;
-                    case 'X': FlipChirV(col,row); break;
-                    case 'm': SetNotMovable(col,row); break;
+                    //// MODIFYING properties...
+                    //case 'm': SetNotMovable(col,row); break;
 					}
 				}
 			}
 		}
-        
-        // Safety check.
-        if (playerDatas.Count == 0) { AddPlayerData(0,0); }
 
 		// We can empty out those lists now.
-		objectsInBoard = null;
+		tilesInBoard = null;
 	}
 
 	/** Initializes a totally empty BoardData. */
@@ -130,9 +108,8 @@ public class BoardData {
 	}
 
 	private void MakeEmptyLists () {
-        playerDatas = new List<PlayerData>();
-		allObjectDatas = new List<BoardObjectData>();
-		objectsInBoard = new BoardObjectData[numCols,numRows];
+		allTileDatas = new List<TileData>();
+		tilesInBoard = new TileData[numCols,numRows];
 	}
 	private void MakeEmptyBoardSpaces () {
 		spaceDatas = new BoardSpaceData[numCols,numRows];
@@ -144,45 +121,31 @@ public class BoardData {
 	}
 
 	private BoardSpaceData GetSpaceData (int col,int row) { return spaceDatas[col,row]; }
-	private BoardObjectData GetObjectInBoard (int col,int row) { return objectsInBoard[col,row]; }
-	private void SetOccupantInBoard (BoardObjectData data) { objectsInBoard[data.boardPos.ColRow.x,data.boardPos.ColRow.y] = data; }
+	private TileData GetObjectInBoard (int col,int row) { return tilesInBoard[col,row]; }
+	private void SetTileInBoard (TileData data) { tilesInBoard[data.boardPos.ColRow.x,data.boardPos.ColRow.y] = data; }
 
 
     
-    //void SetPlayerData(int col,int row) {
-    //    if (playerData != null) { Debug.LogError("Whoa! Two players defined in Level XML layout."); return; } // Safety check.
-    //    playerData = new PlayerData(new BoardPos(col,row), false);
-    //    //allObjectDatas.Add (playerData);
-    //    SetOccupantInBoard (playerData);
-    //}
-    void AddPlayerData(int col,int row) {
-        PlayerData data = new PlayerData(new BoardPos(col,row), false);
-        playerDatas.Add(data);
-        allObjectDatas.Add (data);
-        SetOccupantInBoard (data);
+    void AddAbbaData(int col,int row) {
+        AbbaData data = new AbbaData(new BoardPos(col,row));
+        allTileDatas.Add (data);
+        SetTileInBoard (data);
     }
     
-    void AddCrateData (int col,int row, int dimpleCorner, bool doAutoMove) {
-        bool[] isDimple = new bool[Corners.NumCorners];
-        isDimple[dimpleCorner] = true;
-        CrateData newData = new CrateData (new BoardPos(col,row), isDimple, doAutoMove, Vector2Int.zero);
-        allObjectDatas.Add (newData);
-        SetOccupantInBoard (newData);
+    void AddCrateData (int col,int row, bool doAutoMove) {
+        CrateData newData = new CrateData (new BoardPos(col,row), doAutoMove, Vector2Int.zero);
+        allTileDatas.Add (newData);
+        SetTileInBoard (newData);
     }
-    //void AddCrateData (int col,int row, bool isMovable) {
-    //    CrateData newData = new CrateData (new Vector2Int(col,row), isMovable);
-    //    allObjectDatas.Add (newData);
-    //    SetOccupantInBoard (newData);
-    //}
     void AddExitSpotData (int col,int row) {
         ExitSpotData newData = new ExitSpotData (new BoardPos(col,row));
-        allObjectDatas.Add (newData);
-        SetOccupantInBoard (newData);
+        allTileDatas.Add (newData);
+        SetTileInBoard (newData);
     }
-    void AddCrateGoalData (int col,int row, int corner, bool doStayOn) {
-        CrateGoalData newData = new CrateGoalData (new BoardPos(col,row), corner, doStayOn, false);
-        allObjectDatas.Add (newData);
-        SetOccupantInBoard (newData);
+    void AddCrateGoalData (int col,int row, bool doStayOn) {
+        CrateGoalData newData = new CrateGoalData (new BoardPos(col,row), doStayOn, false);
+        allTileDatas.Add (newData);
+        SetTileInBoard (newData);
     }
     
     void SetIsWallL(int col,int row) {
@@ -190,23 +153,14 @@ public class BoardData {
         spaceDatas[col,row].isWallL = true;
     }
     void SetIsWallT(int col,int row) {
-        if (row<0) { row += numRows; } // Hardcoded. Wrap bottom walls to top of screen.
         if (!IsInBounds(col,row)) { return; } // Safety check.
         spaceDatas[col,row].isWallT = true;
     }
     
-    private void FlipChirH(int col,int row) {
-        BoardObjectData bo = GetObjectInBoard(col,row);
-        if (bo != null) { bo.boardPos.ChirH *= -1; }
-    }
-    private void FlipChirV(int col,int row) {
-        BoardObjectData bo = GetObjectInBoard(col,row);
-        if (bo != null) { bo.boardPos.ChirV *= -1; }
-    }
-    private void SetNotMovable(int col,int row) {
-        BoardOccupantData bo = GetObjectInBoard(col,row) as BoardOccupantData;
-        if (bo != null) { bo.isMovable = false; }
-    }
+    //private void SetNotMovable(int col,int row) {
+    //    TileData bo = GetObjectInBoard(col,row) as TileData;
+    //    if (bo != null) { bo.isMovable = false; }
+    //}
 
 
 

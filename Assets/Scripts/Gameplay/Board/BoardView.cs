@@ -15,7 +15,7 @@ public class BoardView : MonoBehaviour {
     [SerializeField] public Transform tf_walls=null;
 	// Objects
 	private BoardSpaceView[,] spaceViews;
-	private List<BoardObjectView> allObjectViews = new List<BoardObjectView>(); // includes EVERY single BoardObjectView!
+	private List<TileView> allTileViews = new List<TileView>(); // includes EVERY single TileView!
     // References
     public Board MyBoard { get; private set; } // this reference does NOT change during our existence! (If we undo a move, I'm destroyed completely and a new BoardView is made along with a new Board.)
     public Level MyLevel { get; private set; }
@@ -26,7 +26,7 @@ public class BoardView : MonoBehaviour {
     private int NumRows { get { return MyBoard.NumRows; } }
     public bool AreGoalsSatisfied { get { return MyBoard.AreGoalsSatisfied; } }
     // Getters (Public)
-    public List<BoardObjectView> AllObjectViews { get { return allObjectViews; } }
+    public List<TileView> AllObjectViews { get { return allTileViews; } }
     public Vector2 Pos { get { return myRectTransform.anchoredPosition; } }
     public Vector2 Size { get { return myRectTransform.rect.size; } }
 	public float BoardToX(float col) { return (col+0.5f)*UnitSize; } // +0.5f to center.
@@ -36,10 +36,10 @@ public class BoardView : MonoBehaviour {
     public Vector2 BoardToPos(Vector2Int pos) { return new Vector2(BoardToX(pos.x),BoardToY(pos.y)); }
     public Vector2 BoardToPosGlobal(Vector2Int pos) { return new Vector2(BoardToXGlobal(pos.x),BoardToYGlobal(pos.y)); }
     
-    /** Brute-force finds the corresponding BoardOccupantView. */
-    public BoardObjectView TEMP_GetObjectView(BoardOccupant bo) {
-        foreach (BoardObjectView objectView in allObjectViews) {
-            if (objectView.MyBoardObject == bo) { return objectView;}// as BoardOccupantView; }
+    /** Brute-force finds the corresponding TileView. */
+    public TileView TEMP_GetTileView(Tile bo) {
+        foreach (TileView obj in allTileViews) {
+            if (obj.MyTile == bo) { return obj;}// as TileView; }
         }
         return null; // oops.
     }
@@ -87,12 +87,12 @@ public class BoardView : MonoBehaviour {
         transform.SetParent(MyLevel.transform);
 	}
 
-	private BoardObjectView AddObjectView (BoardObject sourceObject) {
-        GameObject prefab = resourcesHandler.GetBoardObjectView(sourceObject);
+	private TileView AddObjectView (Tile sourceObject) {
+        GameObject prefab = resourcesHandler.GetTileView(sourceObject);
         if (prefab == null) { return null; } // Safety check.
-        BoardObjectView newView = Instantiate(prefab).GetComponent<BoardObjectView>();
+        TileView newView = Instantiate(prefab).GetComponent<TileView>();
         newView.Initialize (this, sourceObject);
-        allObjectViews.Add (newView);
+        allTileViews.Add (newView);
         return newView;
 	}
 
@@ -103,22 +103,22 @@ public class BoardView : MonoBehaviour {
 	public void UpdateViewsPostMove() {
 		RemoveOldViews();
 		AddNewViews();
-		for (int i=allObjectViews.Count-1; i>=0; --i) {
-			allObjectViews[i].UpdateVisualsPostMove();
+		for (int i=allTileViews.Count-1; i>=0; --i) {
+			allTileViews[i].UpdateVisualsPostMove();
 		}
 	}
 	private void AddNewViews() {
-		foreach (BoardObject bo in MyBoard.objectsAddedThisMove) {
+		foreach (Tile bo in MyBoard.objectsAddedThisMove) {
 			AddObjectView(bo);
 		}
 	}
 	private void RemoveOldViews() {
-		for (int i=allObjectViews.Count-1; i>=0; --i) { // Go through backwards, as objects can be removed from the list as we go!
-			if (!allObjectViews[i].MyBoardObject.IsInPlay) {
+		for (int i=allTileViews.Count-1; i>=0; --i) { // Go through backwards, as objects can be removed from the list as we go!
+			if (!allTileViews[i].MyTile.IsInPlay) {
 				// Destroy the object.
-				allObjectViews[i].OnRemovedFromPlay();
+				allTileViews[i].OnRemovedFromPlay();
 				// Remove it from the list of views.
-				allObjectViews.RemoveAt(i);
+				allTileViews.RemoveAt(i);
 			}
 		}
 	}

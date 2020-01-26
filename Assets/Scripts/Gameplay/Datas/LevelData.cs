@@ -7,7 +7,6 @@ public class LevelData {
 	// Properties
 	public BoardData boardData;
 	public LevelAddress myAddress;
-    public bool doShowEchoes { get; private set; }
     public float startingZoom { get; private set; }
     // Variable Properties
     public bool DidCompleteLevel { get; private set; }
@@ -19,7 +18,6 @@ public class LevelData {
 		// Basic properties
 		this.myAddress = myAddress;
 		boardData = new BoardData (ldxml);
-        doShowEchoes = ldxml.doShowEchoes;
         startingZoom = ldxml.zoom;
 
 		// LOAD up stats!

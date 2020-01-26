@@ -8,25 +8,25 @@ public class ResourcesHandler : MonoBehaviour {
     [SerializeField] public GameObject ImageLine;
     [SerializeField] public GameObject ImageLinesJoint;
     
-    [Header ("Mobiusban")]
+    [Header ("AbbaIsYou")]
     // Level, Board
     [SerializeField] public GameObject Level;
     [SerializeField] public GameObject BeamSegmentRenderer;
     [SerializeField] public GameObject BoardView;
     [SerializeField] public GameObject BoardSpaceView;
-    // BoardObjects
+    // TileViews
     [SerializeField] private GameObject CrateView;
     [SerializeField] private GameObject CrateGoalView;
     [SerializeField] private GameObject ExitSpotView;
     [SerializeField] private GameObject PlayerView;
     
     // Getters
-    public GameObject GetBoardObjectView(BoardObject sourceObject) {
+    public GameObject GetTileView(Tile sourceObject) {
         if (sourceObject is Crate) { return CrateView; }
         if (sourceObject is CrateGoal) { return CrateGoalView; }
         if (sourceObject is ExitSpot) { return ExitSpotView; }
-        if (sourceObject is Player) { return PlayerView; }
-        Debug.LogError ("Trying to add BoardObjectView from BoardObject, but no clause to handle this type! " + sourceObject.GetType().ToString());
+        if (sourceObject is Abba) { return PlayerView; }
+        Debug.LogError ("Trying to add TileView from Tile, but no clause to handle this type! " + sourceObject.GetType());
         return null;
     }
     

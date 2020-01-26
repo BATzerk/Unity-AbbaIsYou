@@ -8,7 +8,7 @@ public class BoardSpace {
 	private bool isPlayable = true;
     private bool isWallL, isWallT; // walls can only be on the LEFT and TOP of spaces.
     // References
-    public BoardOccupant MyOccupant { get; private set; } // occupants sit on my face. Only one Occupant occupies each space.
+    public List<Tile> MyTiles { get; private set; } // all the tiles on me.
     public ExitSpot MyExitSpot { get; private set; }
 
     // Getters
@@ -16,8 +16,8 @@ public class BoardSpace {
     public int Col { get { return ColRow.x; } }
     public int Row { get { return ColRow.y; } }
     public bool HasExitSpot { get { return MyExitSpot != null; } }
-    public bool HasOccupant { get { return MyOccupant != null; } }
-    public bool HasImmovableOccupant { get { return MyOccupant!=null && !MyOccupant.IsMovable; } }
+    public bool IsVacant { get { return MyTiles.Count == 0; } }
+    //public bool HasImmovableOccupant { get { return MyOccupant!=null && !MyOccupant.IsMovable; } }
     public bool IsWall(int side) {
         switch(side) {
             case Sides.L: return isWallL;
@@ -25,19 +25,19 @@ public class BoardSpace {
             default: return false;
         }
     }
-    public bool MayOccupantEverExit(Vector2Int dirOut) {
+    public bool MayTileEverExit(Vector2Int dirOut) {
         int side = MathUtils.GetSide(dirOut);
         if (IsWall(side)) { return false; }
         return true;
     }
-    public bool MayOccupantEverEnter(Vector2Int dirIn) {
+    public bool MayTileEverEnter(Vector2Int dirIn) {
         int side = MathUtils.GetSide(dirIn);
-        return MayOccupantEverEnter(side);
+        return MayTileEverEnter(side);
     }
     /** Side: Relative to ME. */
-    private bool MayOccupantEverEnter(int side) {
+    private bool MayTileEverEnter(int side) {
         if (!IsPlayable) { return false; }
-        if (HasImmovableOccupant) { return false; }
+        //if (HasImmovableOccupant) { return false; }
         if (IsWall(side)) { return false; }
         return true;
     }
@@ -51,6 +51,7 @@ public class BoardSpace {
         isPlayable = _data.isPlayable;
         isWallL = _data.isWallL;
         isWallT = _data.isWallT;
+        MyTiles = new List<Tile>();
 	}
 	public BoardSpaceData ToData () {
         BoardSpaceData data = new BoardSpaceData(Col, Row) {
@@ -80,17 +81,14 @@ public class BoardSpace {
         MyExitSpot = bo;
     }
     
-	public void SetMyOccupant (BoardOccupant _bo) {
-		if (MyOccupant != null) {
-			throw new UnityException ("Oops! Trying to set a Space's Occupant, but that Space already has an Occupant! original: " + MyOccupant.GetType() + ", new: " + _bo.GetType().ToString() + ". " + Col + ", " + Row);
+	public void AddTile (Tile _bo) {
+		if (MyTiles.Contains(_bo)) {
+			throw new UnityException ("Oops! Trying to add a Tile to a Space, but that Space already HAS that Tile: " + _bo.GetType() + ". " + Col + ", " + Row);
 		}
-		MyOccupant = _bo;
+        MyTiles.Add(_bo);
 	}
-	public void RemoveMyOccupant (BoardOccupant _bo) {
-		if (MyOccupant != _bo) {
-			throw new UnityException ("Oops! We're trying to remove a " + _bo.GetType() + " from a space that doesn't own it! " + Col + " " + Row + ".");
-		}
-		MyOccupant = null;
+	public void RemoveTile (Tile _bo) {
+        MyTiles.Remove(_bo);
 	}
 
 

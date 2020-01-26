@@ -2,9 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BoardObjectView : MonoBehaviour {
-    // Overridables
-    virtual public float BeamOriginOffsetLoc { get { return 0.38f; } }
+public class TileView : MonoBehaviour {
 	// Components
     [SerializeField] protected RectTransform rt_contents;
     protected RectTransform myRectTransform { get; private set; } // Set in Awake.
@@ -13,7 +11,7 @@ public class BoardObjectView : MonoBehaviour {
 	private Vector2 _scale;
 	// References
     public BoardView MyBoardView { get; private set; }
-    public BoardObject MyBoardObject { get; private set; }
+    public Tile MyTile { get; private set; }
 
     // Getters
     public Vector2 Pos {
@@ -41,10 +39,10 @@ public class BoardObjectView : MonoBehaviour {
 		}
 	}
     protected Vector2 GetPosFromMyObject () {
-        return MyBoardView.BoardToPos (MyBoardObject.ColRow);
+        return MyBoardView.BoardToPos (MyTile.ColRow);
     }
     private float GetRotationFromMyObject () {
-        float returnValue = -90 * MyBoardObject.SideFacing;
+        float returnValue = -90 * MyTile.SideFacing;
         if (returnValue<-180) returnValue += 360;
         if (returnValue> 180) returnValue -= 360;
         if (Mathf.Abs (returnValue-Rotation) > 180) {
@@ -54,7 +52,7 @@ public class BoardObjectView : MonoBehaviour {
         return returnValue;
     }
     private Vector2 GetScaleFromMyObject () {
-        return new Vector2(MyBoardObject.ChirH, MyBoardObject.ChirV);
+        return Vector2.one;
     }
 
 	virtual protected void OnSetPos () { }
@@ -68,9 +66,9 @@ public class BoardObjectView : MonoBehaviour {
     private void Awake() {
         myRectTransform = GetComponent<RectTransform>();
     }
-    virtual public void Initialize(BoardView _myBoardView, BoardObject bo) {
+    virtual public void Initialize(BoardView _myBoardView, Tile bo) {
 		MyBoardView = _myBoardView;
-		MyBoardObject = bo;
+		MyTile = bo;
 
 		// Parent me!
         GameUtils.ParentAndReset(this.gameObject, MyBoardView.tf_boardObjects);
@@ -97,7 +95,7 @@ public class BoardObjectView : MonoBehaviour {
         Rotation = GetRotationFromMyObject();
         Scale = GetScaleFromMyObject();
         // Animate from old to new pos!
-        Vector2 posFrom = MyBoardView.BoardToPos(MyBoardObject.ColRow - MyBoardObject.PrevMoveDelta);
+        Vector2 posFrom = MyBoardView.BoardToPos(MyTile.ColRow - MyTile.PrevMoveDelta);
         Vector2 posTo = GetPosFromMyObject();
         LeanTween.cancel(this.gameObject);
         SetPos(posFrom); // start there now.
