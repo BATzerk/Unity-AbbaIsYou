@@ -14,7 +14,7 @@ public class Abba : Tile {
 	}
     // Serializing
     override public TileData ToData() {
-		AbbaData data = new AbbaData(BoardPos);//, IsDead);
+		AbbaData data = new AbbaData(MyGuid, BoardPos);//, IsDead);
 		return data;
 	}
     

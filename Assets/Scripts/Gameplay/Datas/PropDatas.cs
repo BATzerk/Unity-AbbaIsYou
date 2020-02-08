@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -19,6 +20,7 @@ public class BoardSpaceData {
 
 
 public class TileData : PropData {
+    public System.Guid MyGuid;
     public BoardPos boardPos;
     public bool isPush=false;
     public bool isStop=false;
@@ -26,10 +28,16 @@ public class TileData : PropData {
 }
 
 
+public class AbbaData : TileData {
+    public AbbaData (Guid myGuid, BoardPos boardPos) {
+        this.MyGuid = myGuid;
+        this.boardPos = boardPos;
+    }
+}
 public class CrateData : TileData {
     public bool doAutoMove=false;
     public Vector2Int autoMoveDir=Vector2Int.zero;
-    public CrateData (BoardPos boardPos, bool doAutoMove, Vector2Int autoMoveDir) {
+    public CrateData (Guid myGuid, BoardPos boardPos, bool doAutoMove, Vector2Int autoMoveDir) {
         this.boardPos = boardPos;
         this.doAutoMove = doAutoMove;
         this.autoMoveDir = autoMoveDir;
@@ -38,21 +46,14 @@ public class CrateData : TileData {
 public class CrateGoalData : TileData {
     public bool doStayOn;
     public bool isOn;
-    public CrateGoalData(BoardPos boardPos, bool doStayOn, bool isOn) {
+    public CrateGoalData(Guid myGuid, BoardPos boardPos, bool doStayOn, bool isOn) {
         this.boardPos = boardPos;
         this.doStayOn = doStayOn;
         this.isOn = isOn;
     }
 }
 public class ExitSpotData : TileData {
-    public ExitSpotData(BoardPos boardPos) {
+    public ExitSpotData(Guid myGuid, BoardPos boardPos) {
         this.boardPos = boardPos;
-    }
-}
-public class AbbaData : TileData {
-    //public bool isDead;
-    public AbbaData (BoardPos boardPos) {//, bool isDead) {
-        this.boardPos = boardPos;
-        //this.isDead = isDead;
     }
 }

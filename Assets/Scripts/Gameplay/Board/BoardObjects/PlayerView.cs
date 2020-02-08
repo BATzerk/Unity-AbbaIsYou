@@ -5,8 +5,8 @@ using UnityEngine.UI;
 
 public class PlayerView : TileView {
     // Components
-    [SerializeField] private Image i_body=null;
-    [SerializeField] private ParticleSystem ps_blowUp=null;
+    //[SerializeField] private Image i_body=null;
+    //[SerializeField] private ParticleSystem ps_blowUp=null;
 	// References
 	public Abba MyPlayer { get; private set; }
 

@@ -10,7 +10,7 @@ public class CrateGoal : Tile, IGoalObject {
     
     // Serializing
     override public TileData ToData() {
-        return new CrateGoalData (BoardPos, DoStayOn, IsOn);
+        return new CrateGoalData (MyGuid, BoardPos, DoStayOn, IsOn);
     }
 	// ----------------------------------------------------------------
 	//  Initialize

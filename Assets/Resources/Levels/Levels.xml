@@ -6,6 +6,16 @@
 <LevelPack packName="Tests 0!">
 <Levels>
     <Level layout="
+        .......,
+        .......,
+        .......,
+        ...@Q..,
+        .......,
+        .......,
+        .......,
+    " />
+
+    <Level layout="
         ...q,
         ....,
         ..Q.,

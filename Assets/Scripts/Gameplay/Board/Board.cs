@@ -12,12 +12,21 @@ public class Board {
     // Objects
     public BoardSpace[,] spaces;
     public List<Tile> allTiles; // includes every object EXCEPT Player!
+    private List<TextRule> textRules = new List<TextRule>();
     // Reference Lists
     public List<IGoalObject> goalObjects; // contains JUST the objects that have winning criteria.
     public List<Tile> objectsAddedThisMove;
 
 	// Getters
     public int NumGoalObjects { get { return goalObjects.Count; } }
+    public Tile GetTile(System.Guid guid) {
+        foreach (Tile obj in allTiles) { // Brute-force for now!
+            if (Equals(obj.MyGuid, guid)) {
+                return obj;
+            }
+        }
+        return null; // Oops.
+    }
     public BoardSpace GetSpace(Vector2Int pos) { return GetSpace(pos.x, pos.y); }
     public BoardSpace GetSpace(int col,int row) { return BoardUtils.GetSpace(this, col,row); }
     public List<Tile> GetObjects(int col,int row) { return BoardUtils.GetTiles(this, col,row); }
@@ -39,9 +48,17 @@ public class Board {
         }
         return false;
     }
-    public bool AreAnyPlayers() {
-        return GetPlayers().Count > 0;
+    private bool GetAreGoalsSatisfied() {
+        //if (!AreAnyPlayers()) { return false; } // Players are all kaput? Nah, we need at least one alive.TODO: This.
+        if (goalObjects.Count == 0) { return true; } // If there's NO criteria, then sure, we're satisfied! For levels that're just about getting to the exit.
+        for (int i=0; i<goalObjects.Count; i++) {
+            if (!goalObjects[i].IsOn) { return false; } // return false if any of these guys aren't on.
+        }
+        return true; // Looks like we're soooo satisfied!!
     }
+    //public bool AreAnyPlayers() {
+    //    return GetPlayers().Count > 0;
+    //}
     //private bool CheckAreGoalsSatisfied () {
     //    if (goalObjects.Count == 0) { return true; } // If there's NO criteria, then sure, we're satisfied! For levels that're just about getting to the exit.
     //    for (int i=0; i<goalObjects.Count; i++) {
@@ -155,29 +172,14 @@ public class Board {
 	// ----------------------------------------------------------------
 	//  Makin' Moves
 	// ----------------------------------------------------------------
-    private bool MayExecuteMove(Vector2Int dir) {
-        if (AreAnyPlayers()) { return false; }
-        //if (AreGoalsSatisfied) { return false; } // We can't execute after we've won.
-        return BoardUtils.MayMovePlayers(this, dir); // Ok, now just check if it's legal!
-    }
-    private bool GetAreGoalsSatisfied() {
-        if (AreAnyPlayers()) { return false; } // Players are all kaput? Nah, we need at least one alive.
-        if (goalObjects.Count == 0) { return true; } // If there's NO criteria, then sure, we're satisfied! For levels that're just about getting to the exit.
-        for (int i=0; i<goalObjects.Count; i++) {
-            if (!goalObjects[i].IsOn) { return false; } // return false if any of these guys aren't on.
-        }
-        return true; // Looks like we're soooo satisfied!!
-    }
-    
-    
     public void MovePlayerAttempt(Vector2Int dir) {
-        if (MayExecuteMove(dir)) {
+        if (BoardUtils.MayExecuteMove(this, dir)) {
             // Clear out the list NOW.
             objectsAddedThisMove.Clear();
             // Reset PrevMoveDelta.
             ResetTilesPrevMoveDelta();
             // Move players!
-            BoardUtils.MovePlayers(this, dir);
+            BoardUtils.ExecuteMove(this, dir);
             // Tell all other Tiles!
             for (int i=0; i<allTiles.Count; i++) { allTiles[i].OnPlayerMoved(); }
             // Call OnMoveComplete!
@@ -197,7 +199,6 @@ public class Board {
 
 
     private void ResetTilesPrevMoveDelta() {
-        //player.ResetPrevMoveDelta();
         for (int i=0; i<allTiles.Count; i++) { allTiles[i].ResetPrevMoveDelta(); }
     }
     //private void UpdatePlayersIsDead() {
@@ -208,6 +209,28 @@ public class Board {
     //        //}
     //    }
     //}
+    
+    
+    // ----------------------------------------------------------------
+    //  Text Rules
+    // ----------------------------------------------------------------
+    public void RefreshAndApplyTextRules() {
+        // 1) Remake textRules list.
+        textRules.Clear();
+        // TODO: Set based on text tiles in the board! HACK HARDCODED for now.
+        textRules.Add(new TextRule(typeof(Abba), RuleOperator.IsYou));
+        textRules.Add(new TextRule(typeof(Crate), RuleOperator.IsPush));
+        
+        // 2) RELEASE all tiles' rules.
+        foreach (Tile obj in allTiles) {
+            obj.ReleaseRuleProperties();
+        }
+        
+        // 3) Apply textRules!
+        foreach (TextRule rule in textRules) {
+            rule.ApplyToBoard(this);
+        }
+    }
     
     
     

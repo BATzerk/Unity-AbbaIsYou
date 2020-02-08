@@ -21,7 +21,7 @@ public class Level : MonoBehaviour {
     // Getters (Private)
     private InputController inputController { get { return InputController.Instance; } }
     private bool CanUndo() { return boardSnapshots.Count >= 2; }
-    private bool IsEveryPlayerDead() { return Board!=null && Board.AreAnyPlayers(); }
+    private bool AreAnyPlayers() { return Board!=null && Board.GetPlayers().Count>0; }
 
 
 
@@ -124,11 +124,11 @@ public class Level : MonoBehaviour {
 	}
 
 	private void RegisterButtonInput() {
-        // ANY key, and Player's dead? Undo.
-        if (Input.anyKeyDown && IsEveryPlayerDead()) {
-            UndoMoveAttempt();
-            return;
-        }
+        //// ANY key, and no actual players? Undo.
+        //if (Input.anyKeyDown && !AreAnyPlayers()) {
+        //    UndoMoveAttempt();
+        //    return;
+        //}
         // Z = Undo
         if (Input.GetKeyDown(KeyCode.Z)) {
             UndoMoveAttempt();

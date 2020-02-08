@@ -49,27 +49,28 @@ public static class BoardUtils {
     
     
     // ----------------------------------------------------------------
-    //  Moving Tiles
+    //  Making Moves!
     // ----------------------------------------------------------------
     /// This will FAIL if ANY player-controlled-Tile can't do this move.
-    public static bool MayMovePlayers(Board b, Vector2Int dir) {
+    public static bool MayExecuteMove(Board b, Vector2Int dir) {
         if (b==null) { return false; } // Safety check.
         // Clone the Board!
         Board boardClone = b.Clone();
-        // Move the players, and return the result!
-        return MovePlayers(boardClone, dir) == MoveResults.Success;
+        // Execute the move, and return the result!
+        return ExecuteMove(boardClone, dir) == MoveResults.Success;
     }
     /// This will FAIL if ANY player-controlled-Tile can't do this move.
-    public static MoveResults MovePlayers(Board b, Vector2Int dir) {
+    public static MoveResults ExecuteMove(Board b, Vector2Int dir) {
         // No dir?? Do nothing; return success!
         if (dir == Vector2Int.zero) { return MoveResults.Success; }
+        
+        // Refresh all rules first.
+        b.RefreshAndApplyTextRules();
+        
         // Get list of all things that're considered a "player".
-        List<Tile> players = new List<Tile>();
-        foreach (Tile obj in b.allTiles) {
-            if (obj.IsYou) { players.Add(obj); }
-        }
-        //// Remove these Tiles' footprints!
-        //foreach (BoardObject bo in bosToMove) { bo.RemoveMyFootprint(); }
+        List<Tile> players = b.GetPlayers();
+        if (players.Count == 0) { return MoveResults.Fail; } // No players?? Return FAIL.
+        //if (AreGoalsSatisfied) { return false; } // Already won? Return FAIL.
         
         // Move 'em all, and return is ANY succeeded!
         MoveResults finalResult = MoveResults.Fail;
@@ -88,13 +89,15 @@ public static class BoardUtils {
         if (b==null) { return false; } // Safety check.
         // Clone the Board!
         Board boardClone = b.Clone();
+        Tile tileClone = boardClone.GetTile(tile.MyGuid);
         // Move the Tile, and return the result!
-        return MoveTile(boardClone, tile, dir) == MoveResults.Success;
+        return MoveTile(boardClone, tileClone, dir) == MoveResults.Success;
     }
     
-    public static MoveResults MoveTiles(Board b, Vector2Int occPos, Vector2Int dir) {
+    private static MoveResults MoveTiles(Board b, Vector2Int occPos, Vector2Int dir) {
         // Try to move each one. If ANY one fails, we return a TOTAL fail.
-        foreach (Tile obj in b.GetSpace(occPos).MyTiles) {
+        List<Tile> tilesToMove = new List<Tile>(b.GetSpace(occPos).MyTiles); // copy the list.
+        foreach (Tile obj in tilesToMove) {
             MoveResults result = MoveTile(b, obj, dir);
             if (result != MoveResults.Success) {
                 return MoveResults.Fail;

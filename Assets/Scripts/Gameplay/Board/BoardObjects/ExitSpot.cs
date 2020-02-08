@@ -6,7 +6,7 @@ public class ExitSpot : Tile {
 
     // Serializing
     override public TileData ToData() {
-        return new ExitSpotData (BoardPos);
+        return new ExitSpotData (MyGuid, BoardPos);
     }
 
 	// ----------------------------------------------------------------

@@ -25,7 +25,7 @@ public class Crate : Tile {
     
     // Serializing
 	override public TileData ToData() {
-        return new CrateData(BoardPos, DoAutoMove, AutoMoveDir);
+        return new CrateData(MyGuid, BoardPos, DoAutoMove, AutoMoveDir);
 	}
 
 

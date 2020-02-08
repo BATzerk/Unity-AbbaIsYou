@@ -123,27 +123,28 @@ public class BoardData {
 	private BoardSpaceData GetSpaceData (int col,int row) { return spaceDatas[col,row]; }
 	private TileData GetObjectInBoard (int col,int row) { return tilesInBoard[col,row]; }
 	private void SetTileInBoard (TileData data) { tilesInBoard[data.boardPos.ColRow.x,data.boardPos.ColRow.y] = data; }
+    private System.Guid NewGuid() { return System.Guid.NewGuid(); } // We give each new Tile a random Guid. Only here, only when added from Levels.xml.
 
 
     
     void AddAbbaData(int col,int row) {
-        AbbaData data = new AbbaData(new BoardPos(col,row));
+        AbbaData data = new AbbaData(NewGuid(), new BoardPos(col,row));
         allTileDatas.Add (data);
         SetTileInBoard (data);
     }
     
     void AddCrateData (int col,int row, bool doAutoMove) {
-        CrateData newData = new CrateData (new BoardPos(col,row), doAutoMove, Vector2Int.zero);
+        CrateData newData = new CrateData (NewGuid(), new BoardPos(col,row), doAutoMove, Vector2Int.zero);
         allTileDatas.Add (newData);
         SetTileInBoard (newData);
     }
     void AddExitSpotData (int col,int row) {
-        ExitSpotData newData = new ExitSpotData (new BoardPos(col,row));
+        ExitSpotData newData = new ExitSpotData (NewGuid(), new BoardPos(col,row));
         allTileDatas.Add (newData);
         SetTileInBoard (newData);
     }
     void AddCrateGoalData (int col,int row, bool doStayOn) {
-        CrateGoalData newData = new CrateGoalData (new BoardPos(col,row), doStayOn, false);
+        CrateGoalData newData = new CrateGoalData (NewGuid(), new BoardPos(col,row), doStayOn, false);
         allTileDatas.Add (newData);
         SetTileInBoard (newData);
     }

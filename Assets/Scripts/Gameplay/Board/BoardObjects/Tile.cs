@@ -5,11 +5,13 @@ using System.Collections.Generic;
 abstract public class Tile {
     // Properties
     public BoardPos BoardPos { get; private set; }
-    public bool IsPush { get; private set; }
-    public bool IsStop { get; private set; }
-    public bool IsYou { get; private set; }
     private bool isInPlay = true; // we set this to false when I'm removed from the Board!
     public Vector2Int PrevMoveDelta { get; private set; } // how far I moved the last move.
+    public System.Guid MyGuid { get; private set; } // used to find/move my cloned tile in my cloned board.
+    // Rule Properties
+    public bool IsPush { get; set; }
+    public bool IsStop { get; set; }
+    public bool IsYou { get; set; }
     // References
     public Board BoardRef { get; private set; }
 
@@ -35,6 +37,7 @@ abstract public class Tile {
 	//  Initialize
 	// ----------------------------------------------------------------
 	protected void InitializeAsTile (Board _boardRef, TileData data) {
+        this.MyGuid = data.MyGuid;
 		this.BoardRef = _boardRef;
 		this.BoardPos = data.boardPos;
         this.IsPush = data.isPush;
@@ -49,6 +52,11 @@ abstract public class Tile {
 	// ----------------------------------------------------------------
 	//  Doers
 	// ----------------------------------------------------------------
+    public void ReleaseRuleProperties() {
+        IsYou = false;
+        IsPush = false;
+        IsStop = false;
+    }
     virtual public void SetColRow(Vector2Int _colRow, Vector2Int _moveDir) {
         //RemoveMyFootprint();
         PrevMoveDelta = _moveDir;
