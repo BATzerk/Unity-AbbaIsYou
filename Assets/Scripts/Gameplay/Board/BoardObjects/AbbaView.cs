@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class PlayerView : TileView {
+public class AbbaView : TileView {
     // Components
     //[SerializeField] private Image i_body=null;
     //[SerializeField] private ParticleSystem ps_blowUp=null;

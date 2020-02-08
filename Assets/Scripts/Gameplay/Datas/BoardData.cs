@@ -73,20 +73,26 @@ public class BoardData {
                     switch (spaceChar) {
                     // BoardSpace properties!
                     case '~': GetSpaceData (col,row).isPlayable = false; break;
-                    // ExitSpot!
-                    case '$': AddExitSpotData (col,row); break;
                     // Abba!
                     case '@': AddAbbaData(col,row); break;
                     // Crates!
-                    case 'Q': AddCrateData (col,row, false); break;
-                    case 'E': AddCrateData (col,row, true); break;
-                    case 'q': AddCrateGoalData (col,row, false); break;
-                    case 'e': AddCrateGoalData (col,row, true); break;
-                    //case 'O': AddCrateData (col,row, true); break;
-                    //case '#': AddCrateData (col,row, false); break;
+                    case 'O': AddCrateData (col,row, false); break;
+                    case 'o': AddCrateGoalData (col,row, false); break;
+                    //case 'E': AddCrateData (col,row, true); break;
+                    //case 'e': AddCrateGoalData (col,row, true); break;
+                    // ExitSpot!
+                    case '$': AddExitSpotData (col,row); break;
 					// Walls!
 					case '_': SetIsWallT (col,row-1); break; // note: because the underscore looks lower, consider it in the next row (so layout text file looks more intuitive).
 					case '|': SetIsWallL (col,row); break;
+                    
+                    // TextBlocks!
+                    case '=': AddTextBlockData(col,row, TextType.Is); break;
+                    case 'P': AddTextBlockData(col,row, TextType.Push); break;
+                    case 'S': AddTextBlockData(col,row, TextType.Stop); break;
+                    case 'Y': AddTextBlockData(col,row, TextType.You); break;
+                    case 'A': AddTextBlockData(col,row, TextType.Abba); break;
+                    case 'C': AddTextBlockData(col,row, TextType.Crate); break;
                     
                     //// MODIFYING properties...
                     //case 'm': SetNotMovable(col,row); break;
@@ -132,7 +138,6 @@ public class BoardData {
         allTileDatas.Add (data);
         SetTileInBoard (data);
     }
-    
     void AddCrateData (int col,int row, bool doAutoMove) {
         CrateData newData = new CrateData (NewGuid(), new BoardPos(col,row), doAutoMove, Vector2Int.zero);
         allTileDatas.Add (newData);
@@ -148,6 +153,12 @@ public class BoardData {
         allTileDatas.Add (newData);
         SetTileInBoard (newData);
     }
+    void AddTextBlockData(int col,int row, TextType textType) {
+        TextBlockData data = new TextBlockData(NewGuid(), new BoardPos(col,row), textType);
+        allTileDatas.Add (data);
+        SetTileInBoard (data);
+    }
+    
     
     void SetIsWallL(int col,int row) {
         if (!IsInBounds(col,row)) { return; } // Safety check.

@@ -128,12 +128,20 @@ public class Board {
             else if (type == typeof(ExitSpotData)) {
                 AddExitSpot (objData as ExitSpotData);
             }
+            else if (type == typeof(TextBlockData)) {
+                AddTextBlock (objData as TextBlockData);
+            }
             else {
                 Debug.LogError("PropData not recognized to add to Board: " + type);
             }
         }
 	}
     
+    private void AddAbba (AbbaData data) {
+        Abba prop = new Abba (this, data);
+        allTiles.Add (prop);
+        objectsAddedThisMove.Add(prop);
+    }
     private void AddCrate (CrateData data) {
         Crate prop = new Crate (this, data);
         allTiles.Add (prop);
@@ -151,8 +159,8 @@ public class Board {
         objectsAddedThisMove.Add(prop);
         NumExitSpots ++;
     }
-    private void AddAbba (AbbaData data) {
-        Abba prop = new Abba (this, data);
+    private void AddTextBlock (TextBlockData data) {
+        TextBlock prop = new TextBlock (this, data);
         allTiles.Add (prop);
         objectsAddedThisMove.Add(prop);
     }
@@ -218,6 +226,7 @@ public class Board {
         // 1) Remake textRules list.
         textRules.Clear();
         // TODO: Set based on text tiles in the board! HACK HARDCODED for now.
+        textRules.Add(new TextRule(typeof(TextBlock), RuleOperator.IsPush)); // ALL text is always pushable!
         textRules.Add(new TextRule(typeof(Abba), RuleOperator.IsYou));
         textRules.Add(new TextRule(typeof(Crate), RuleOperator.IsPush));
         

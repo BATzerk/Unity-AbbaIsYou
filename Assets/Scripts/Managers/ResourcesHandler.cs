@@ -11,21 +11,22 @@ public class ResourcesHandler : MonoBehaviour {
     [Header ("AbbaIsYou")]
     // Level, Board
     [SerializeField] public GameObject Level;
-    [SerializeField] public GameObject BeamSegmentRenderer;
     [SerializeField] public GameObject BoardView;
     [SerializeField] public GameObject BoardSpaceView;
     // TileViews
-    [SerializeField] private GameObject CrateView;
-    [SerializeField] private GameObject CrateGoalView;
-    [SerializeField] private GameObject ExitSpotView;
-    [SerializeField] private GameObject PlayerView;
+    [SerializeField] private GameObject AbbaView=null;
+    [SerializeField] private GameObject CrateView=null;
+    [SerializeField] private GameObject CrateGoalView=null;
+    [SerializeField] private GameObject ExitSpotView=null;
+    [SerializeField] private GameObject TextBlockView=null;
     
     // Getters
     public GameObject GetTileView(Tile sourceObject) {
+        if (sourceObject is Abba) { return AbbaView; }
         if (sourceObject is Crate) { return CrateView; }
         if (sourceObject is CrateGoal) { return CrateGoalView; }
         if (sourceObject is ExitSpot) { return ExitSpotView; }
-        if (sourceObject is Abba) { return PlayerView; }
+        if (sourceObject is TextBlock) { return TextBlockView; }
         Debug.LogError ("Trying to add TileView from Tile, but no clause to handle this type! " + sourceObject.GetType());
         return null;
     }
