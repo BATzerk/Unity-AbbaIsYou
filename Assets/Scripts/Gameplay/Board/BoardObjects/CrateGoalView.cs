@@ -21,7 +21,7 @@ public class CrateGoalView : TileView {
         myCrateGoal = bo as CrateGoal;
         base.Initialize (_myBoardView, bo);
         
-        i_body.sprite = myCrateGoal.DoStayOn ? s_bodyStayOn : s_bodyNoStayOn;
+        //i_body.sprite = myCrateGoal.DoStayOn ? s_bodyStayOn : s_bodyNoStayOn;
 	}
 
 	// ----------------------------------------------------------------

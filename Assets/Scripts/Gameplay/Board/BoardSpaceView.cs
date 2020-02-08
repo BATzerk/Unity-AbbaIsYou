@@ -23,7 +23,7 @@ public class BoardSpaceView : MonoBehaviour {
 		this.gameObject.name = "BoardSpace_" + col + "," + row;
 
         // Size/position me right!
-        float diameter = _boardView.UnitSize * 0.95f;
+        float diameter = _boardView.UnitSize - 1;
 		myRectTransform.anchoredPosition = new Vector2(_boardView.BoardToX(col), _boardView.BoardToY(row));
         myRectTransform.sizeDelta = new Vector2(diameter, diameter);
 
