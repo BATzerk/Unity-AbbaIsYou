@@ -100,6 +100,7 @@ public class Board {
 		// Add all gameplay objects!
 		MakeBoardSpaces (bd);
 		AddPropsFromBoardData (bd);
+        RefreshAndApplyTextRules();
         AreGoalsSatisfied = GetAreGoalsSatisfied(); // know from the get-go.
 	}
 
@@ -180,7 +181,7 @@ public class Board {
 	// ----------------------------------------------------------------
 	//  Makin' Moves
 	// ----------------------------------------------------------------
-    public void MovePlayerAttempt(Vector2Int dir) {
+    public void ExecuteMoveAttempt(Vector2Int dir) {
         if (BoardUtils.MayExecuteMove(this, dir)) {
             // Clear out the list NOW.
             objectsAddedThisMove.Clear();
@@ -190,52 +191,77 @@ public class Board {
             BoardUtils.ExecuteMove(this, dir);
             // Tell all other Tiles!
             for (int i=0; i<allTiles.Count; i++) { allTiles[i].OnPlayerMoved(); }
-            // Call OnMoveComplete!
-            OnMoveComplete();
+            // Update Goals!
+            foreach (IGoalObject igo in goalObjects) { igo.UpdateIsOn (); }
+            AreGoalsSatisfied = GetAreGoalsSatisfied();
+            // Dispatch event!
+            GameManagers.Instance.EventManager.OnBoardExecutedMove(this);
         }
-    }
-    
-    private void OnMoveComplete () {
-        //// Check if the player's in a toaster oven!
-        //UpdatePlayersIsDead();
-        // Update Goals!
-        foreach (IGoalObject igo in goalObjects) { igo.UpdateIsOn (); }
-        AreGoalsSatisfied = GetAreGoalsSatisfied();
-        // Dispatch event!
-        GameManagers.Instance.EventManager.OnBoardExecutedMove(this);
     }
 
 
     private void ResetTilesPrevMoveDelta() {
         for (int i=0; i<allTiles.Count; i++) { allTiles[i].ResetPrevMoveDelta(); }
     }
-    //private void UpdatePlayersIsDead() {
-    //    foreach (Abba p in players) {
-    //        if (p.IsDead) { continue; } // Already dead? Skip 'em.
-    //        //if (p.MySpace.IsLethalBeamOverMe()) {
-    //        //    p.Die();
-    //        //}
-    //    }
-    //}
     
+    private TextBlock GetTextWithLoc(int col,int row, TextLoc textLoc) {
+        BoardSpace space = GetSpace(col,row);
+        if (space == null) { return null; }
+        foreach (Tile tile in space.MyTiles) {
+            if (tile is TextBlock && (tile as TextBlock).MyTextLoc==textLoc) {
+                return tile as TextBlock;
+            }
+        }
+        return null; // Nah, didn't find one.
+    }
     
     // ----------------------------------------------------------------
     //  Text Rules
     // ----------------------------------------------------------------
     public void RefreshAndApplyTextRules() {
-        // 1) Remake textRules list.
-        textRules.Clear();
-        // TODO: Set based on text tiles in the board! HACK HARDCODED for now.
-        textRules.Add(new TextRule(typeof(TextBlock), RuleOperator.IsPush)); // ALL text is always pushable!
-        textRules.Add(new TextRule(typeof(Abba), RuleOperator.IsYou));
-        textRules.Add(new TextRule(typeof(Crate), RuleOperator.IsPush));
+        // 1) Find all the BlockSentences in the board.
+        List<BlockSentence> blockSentences = new List<BlockSentence>();
+        foreach (Tile tile in allTiles) {
+            TextBlock start = tile as TextBlock;
+            if (start == null) { continue; } // Skip all non-TextBlocks.
+            if (start.MyTextLoc != TextLoc.Start) { continue; } // Skip all non-Starts.
+            
+            TextBlock middle, end;
+            // Find the HORZ sentence!
+            middle = GetTextWithLoc(start.Col+1, start.Row, TextLoc.Middle);
+            end = GetTextWithLoc(start.Col+2, start.Row, TextLoc.End);
+            if (middle != null && end != null) {
+                blockSentences.Add(new BlockSentence(start, middle, end));
+            }
+            // Find the VERT sentence!
+            middle = GetTextWithLoc(start.Col, start.Row-1, TextLoc.Middle);
+            end = GetTextWithLoc(start.Col, start.Row-2, TextLoc.End);
+            if (middle != null && end != null) {
+                blockSentences.Add(new BlockSentence(start, middle, end));
+            }
+        }
         
-        // 2) RELEASE all tiles' rules.
+        // 2) Update textBlocks' IsInSentence
+        foreach (Tile tile in allTiles) {
+            if (tile is TextBlock) { (tile as TextBlock).IsInSentence = false; }
+        }
+        foreach (BlockSentence sentence in blockSentences) {
+            sentence.SetMyTextBlocksIsInSentenceToTrue();
+        }
+        
+        // 3) Update textRules from sentences!
+        textRules.Clear();
+        textRules.Add(new TextRule(typeof(TextBlock), RuleOperator.IsPush)); // Hardcoded: ALL text is always pushable!
+        foreach (BlockSentence sentence in blockSentences) {
+            textRules.Add(sentence.GetMyRule());
+        }
+        
+        // 4) RELEASE all tiles' rules.
         foreach (Tile obj in allTiles) {
             obj.ReleaseRuleProperties();
         }
         
-        // 3) Apply textRules!
+        // 5) Apply textRules!
         foreach (TextRule rule in textRules) {
             rule.ApplyToBoard(this);
         }

@@ -7,5 +7,5 @@ public class LevelDataXML {
     
 	[XmlAttribute("layout")] public string layout;
     
-    [XmlAttribute("zoom")] public float zoom=0.5f;
+    [XmlAttribute("zoom")] public float zoom=1f;
 }

@@ -16,7 +16,14 @@ public class BoardSpace {
     public int Col { get { return ColRow.x; } }
     public int Row { get { return ColRow.y; } }
     public bool HasExitSpot { get { return MyExitSpot != null; } }
-    public bool IsVacant { get { return MyTiles.Count == 0; } }
+    public bool HasPushTile() {
+        foreach (Tile tile in MyTiles) { if (tile.IsPush) { return true; } }
+        return false;
+    }
+    public bool HasStopTile() {
+        foreach (Tile tile in MyTiles) { if (tile.IsStop) { return true; } }
+        return false;
+    }
     //public bool HasImmovableOccupant { get { return MyOccupant!=null && !MyOccupant.IsMovable; } }
     public bool IsWall(int side) {
         switch(side) {
@@ -37,7 +44,7 @@ public class BoardSpace {
     /** Side: Relative to ME. */
     private bool MayTileEverEnter(int side) {
         if (!IsPlayable) { return false; }
-        //if (HasImmovableOccupant) { return false; }
+        if (HasStopTile()) { return false; }
         if (IsWall(side)) { return false; }
         return true;
     }

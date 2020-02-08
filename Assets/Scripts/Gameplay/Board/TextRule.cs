@@ -2,8 +2,35 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+// TODO: Move these outta here?
 public enum RuleOperator {
+    Undefined,
     IsYou, IsPush, IsStop
+}
+public struct BlockSentence {
+    // Properties
+    public TextBlock start;
+    public TextBlock middle;
+    public TextBlock end;
+    
+    // Constructor
+    public BlockSentence(TextBlock start, TextBlock middle, TextBlock end) {
+        this.start = start;
+        this.middle = middle;
+        this.end = end;
+    }
+    
+    // Getters
+    public TextRule GetMyRule() {
+        return new TextRule(start.MySubject, end.MyOperator);
+    }
+    
+    // Doers
+    public void SetMyTextBlocksIsInSentenceToTrue() {
+        start.IsInSentence = true;
+        middle.IsInSentence = true;
+        end.IsInSentence = true;
+    }
 }
 
 

@@ -64,9 +64,6 @@ public static class BoardUtils {
         // No dir?? Do nothing; return success!
         if (dir == Vector2Int.zero) { return MoveResults.Success; }
         
-        // Refresh all rules first.
-        b.RefreshAndApplyTextRules();
-        
         // Get list of all things that're considered a "player".
         List<Tile> players = b.GetPlayers();
         if (players.Count == 0) { return MoveResults.Fail; } // No players?? Return FAIL.
@@ -79,6 +76,10 @@ public static class BoardUtils {
                 MoveTile(b, obj, dir);
                 finalResult = MoveResults.Success;
             }
+        }
+        // IF success, then update all the TextRules!
+        if (finalResult == MoveResults.Success) {
+            b.RefreshAndApplyTextRules();
         }
         return finalResult;
     }
@@ -123,8 +124,8 @@ public static class BoardUtils {
         // Always remove its footprint first. We're about to move it!
         tile.RemoveMyFootprint();
         
-        // Next space has somethin'? Ok, try to move THAT fella, and return if fail!
-        if (!spaceTo.IsVacant) {
+        // Next space has somethin' to push? Ok, try to move THAT fella, and return if fail!
+        if (spaceTo.HasPushTile()) {
             MoveResults result = MoveTiles(b, ti.to, ti.dirOut);
             if (result!=MoveResults.Success) { return result; }
         }

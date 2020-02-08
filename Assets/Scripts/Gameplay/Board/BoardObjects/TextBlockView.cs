@@ -43,7 +43,9 @@ public class TextBlockView : TileView {
     public override void UpdateVisualsPostMove() {
         base.UpdateVisualsPostMove();
         
-        // TODO: Update alpha if this rule is complete! :)
+        // Set alpha based on IsInSentence!
+        float alpha = MyTextBlock.IsInSentence ? 1 : 0.5f;
+        myText.alpha = alpha;
     }
 
 

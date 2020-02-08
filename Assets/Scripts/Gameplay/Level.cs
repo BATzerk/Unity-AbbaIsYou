@@ -156,7 +156,7 @@ public class Level : MonoBehaviour {
 	}
     
     private void MovePlayerAttempt(Vector2Int dir) {
-        Board.MovePlayerAttempt(dir);
+        Board.ExecuteMoveAttempt(dir);
     }
     
     
