@@ -85,8 +85,8 @@ public class Level : MonoBehaviour {
         UpdateIsWon();
     }
     private void UpdateIsWon() {
-        IsWon = Board.AreGoalsSatisfied && (Board.NumExitSpots==0 || Board.IsAnyPlayerOnExitSpot());
-        if (Board.NumExitSpots==0 && Board.NumGoalObjects==0) { IsWon = false; } // FOR TESTING. No criteria? We're never satisfied.
+        IsWon = Board.AreGoalsSatisfied;// && Board.IsAnyPlayerOnExitSpot();
+        //if (Board.NumExitSpots==0 && Board.NumGoalObjects==0) { IsWon = false; } // FOR TESTING. No criteria? We're never satisfied.
         GameManagers.Instance.EventManager.OnLevelSetIsWon(IsWon);
     }
 

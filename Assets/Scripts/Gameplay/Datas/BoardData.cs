@@ -85,6 +85,7 @@ public class BoardData {
                     
                     // TextBlocks!
                     case '=': AddTextBlockData(TileType.Is, col,row); break;
+                    case 'G': AddTextBlockData(TileType.OverlapGoal, col,row); break;
                     case 'P': AddTextBlockData(TileType.Push, col,row); break;
                     case 'S': AddTextBlockData(TileType.Stop, col,row); break;
                     case 'Y': AddTextBlockData(TileType.You, col,row); break;

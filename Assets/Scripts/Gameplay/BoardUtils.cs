@@ -95,9 +95,12 @@ public static class BoardUtils {
         return MoveTile(boardClone, tileClone, dir) == MoveResults.Success;
     }
     
-    private static MoveResults MoveTiles(Board b, Vector2Int occPos, Vector2Int dir) {
+    private static MoveResults MovePushTiles(Board b, Vector2Int occPos, Vector2Int dir) {
         // Try to move each one. If ANY one fails, we return a TOTAL fail.
-        List<Tile> tilesToMove = new List<Tile>(b.GetSpace(occPos).MyTiles); // copy the list.
+        List<Tile> tilesToMove = new List<Tile>();
+        foreach (Tile tile in b.GetSpace(occPos).MyTiles) {
+            if (tile.IsPush) { tilesToMove.Add(tile); }
+        }
         foreach (Tile obj in tilesToMove) {
             MoveResults result = MoveTile(b, obj, dir);
             if (result != MoveResults.Success) {
@@ -126,7 +129,7 @@ public static class BoardUtils {
         
         // Next space has somethin' to push? Ok, try to move THAT fella, and return if fail!
         if (spaceTo.HasPushTile()) {
-            MoveResults result = MoveTiles(b, ti.to, ti.dirOut);
+            MoveResults result = MovePushTiles(b, ti.to, ti.dirOut);
             if (result!=MoveResults.Success) { return result; }
         }
         

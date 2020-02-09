@@ -20,10 +20,19 @@ public class BoardSpaceData {
 
 
 public class TileData : PropData {
-    public Guid MyGuid;
     public BoardPos boardPos;
+    public Guid MyGuid;
     public TileType MyType;
 }
+//public class ExitSpotData : GenericTileData {
+//    //public ExitSpotData(Guid myGuid, TileType myType, BoardPos boardPos) {
+//    //    this.MyGuid = myGuid;
+//    //    this.MyType = myType;
+//    //    this.boardPos = boardPos;
+//    //}
+//    public ExitSpotData(Guid myGuid, TileType myType, BoardPos boardPos) : base(myGuid, myType, boardPos) {
+//    }
+//}
 public class GenericTileData : TileData {
     public GenericTileData(Guid myGuid, TileType myType, BoardPos boardPos) {
         this.MyGuid = myGuid;

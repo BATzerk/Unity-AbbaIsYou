@@ -6,7 +6,7 @@ public enum TileType {
     Undefined,
     Abba, Brick, Crate, ExitSpot, TextBlock,
     Is,
-    You, Push, Stop
+    You, Push, Stop, OverlapGoal
 }
 public enum TextLoc {
     Undefined,
@@ -54,6 +54,10 @@ public class TextBlock : Tile {
                 break;
                 
             // End
+            case TileType.OverlapGoal:
+                MyOperator = RuleOperator.IsOverlapGoal;
+                this.MyTextLoc = TextLoc.End;
+                break;
             case TileType.Push:
                 MyOperator = RuleOperator.IsPush;
                 this.MyTextLoc = TextLoc.End;
@@ -66,6 +70,8 @@ public class TextBlock : Tile {
                 MyOperator = RuleOperator.IsYou;
                 this.MyTextLoc = TextLoc.End;
                 break;
+                
+            default: Debug.LogError("Oops, TextBlock doesn't have case handled for type: " + MySubjectType); break;
         }
     }
     

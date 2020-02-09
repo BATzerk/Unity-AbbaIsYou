@@ -10,6 +10,7 @@ abstract public class Tile {
     public Vector2Int PrevMoveDelta { get; private set; } // how far I moved the last move.
     public System.Guid MyGuid { get; private set; } // used to find/move my cloned tile in my cloned board.
     // Rule Properties
+    public bool IsOverlapGoal { get; set; }
     public bool IsPush { get; set; }
     public bool IsStop { get; set; }
     public bool IsYou { get; set; }
@@ -52,6 +53,7 @@ abstract public class Tile {
 	//  Doers
 	// ----------------------------------------------------------------
     public void ReleaseRuleProperties() {
+        IsOverlapGoal = false;
         IsYou = false;
         IsPush = false;
         IsStop = false;

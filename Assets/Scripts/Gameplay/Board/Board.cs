@@ -8,17 +8,16 @@ public class Board {
     public int NumCols { get; private set; }
     public int NumRows { get; private set; }
     public bool AreGoalsSatisfied { get; private set; }
-    public int NumExitSpots { get; private set; }
     // Objects
     public BoardSpace[,] spaces;
     public List<Tile> allTiles; // includes every object EXCEPT Player!
     private List<TextRule> textRules = new List<TextRule>();
     // Reference Lists
-    public List<IGoalObject> goalObjects; // contains JUST the objects that have winning criteria.
+    //public List<IGoalObject> goalObjects; // contains JUST the objects that have winning criteria.
     public List<Tile> objectsAddedThisMove;
 
 	// Getters
-    public int NumGoalObjects { get { return goalObjects.Count; } }
+    //public int NumGoalObjects { get { return goalObjects.Count; } }
     public Tile GetTile(System.Guid guid) {
         foreach (Tile obj in allTiles) { // Brute-force for now!
             if (Equals(obj.MyGuid, guid)) {
@@ -39,22 +38,33 @@ public class Board {
         }
         return players;
     }
-    public bool IsAnyPlayerOnExitSpot () {
-        //List<Tile> players = GetPlayers();
-        //for (int i=0; i<players.Count; i++) {
-        //    if (players[i].MySpace.HasExitSpot && players[i].MySpace.MyExitSpot.IsOrientationMatch(players[i])) {
-        //        return true;
-        //    }
-        //}
-        return false;
-    }
+    //public bool IsAnyPlayerOnExitSpot () {
+    //    List<Tile> players = GetPlayers();
+    //    for (int i=0; i<players.Count; i++) {
+    //        if (players[i].MySpace.HasExitSpot()) {
+    //            return true;
+    //        }
+    //    }
+    //    return false;
+    //}
     private bool GetAreGoalsSatisfied() {
-        //if (!AreAnyPlayers()) { return false; } // Players are all kaput? Nah, we need at least one alive.TODO: This.
-        if (goalObjects.Count == 0) { return true; } // If there's NO criteria, then sure, we're satisfied! For levels that're just about getting to the exit.
-        for (int i=0; i<goalObjects.Count; i++) {
-            if (!goalObjects[i].IsOn) { return false; } // return false if any of these guys aren't on.
+        ////if (!AreAnyPlayers()) { return false; } // Players are all kaput? Nah, we need at least one alive.TODO: This.
+        //if (goalObjects.Count == 0) { return true; } // If there's NO criteria, then sure, we're satisfied! For levels that're just about getting to the exit.
+        //for (int i=0; i<goalObjects.Count; i++) {
+        //    if (!goalObjects[i].IsOn) { return false; } // return false if any of these guys aren't on.
+        //}
+        //return true; // Looks like we're soooo satisfied!!
+        int numOverlapGoals = 0;
+        int numOverlapGoalsHappy = 0;
+        foreach (Tile tile in allTiles) {
+            if (tile.IsOverlapGoal) {
+                numOverlapGoals ++;
+                if (tile.MySpace.MyTiles.Count > 1) { // if there's another thing on this space, it's happy!
+                    numOverlapGoalsHappy ++;
+                }
+            }
         }
-        return true; // Looks like we're soooo satisfied!!
+        return numOverlapGoals>0 && numOverlapGoalsHappy>=numOverlapGoals;
     }
     //public bool AreAnyPlayers() {
     //    return GetPlayers().Count > 0;
@@ -94,7 +104,7 @@ public class Board {
         
         // Empty out lists.
         allTiles = new List<Tile>();
-        goalObjects = new List<IGoalObject>();
+        //goalObjects = new List<IGoalObject>();
         objectsAddedThisMove = new List<Tile>();
 
 		// Add all gameplay objects!
@@ -117,6 +127,9 @@ public class Board {
 		foreach (TileData objData in bd.allTileDatas) {
             System.Type type = objData.GetType();
             if (false) {}
+            //else if (type == typeof(ExitSpotData)) {
+            //    AddExitSpot (objData as ExitSpotData);
+            //}
             else if (type == typeof(GenericTileData)) {
                 AddGenericTile (objData as GenericTileData);
             }
@@ -129,28 +142,17 @@ public class Board {
         }
 	}
     
+    //private void AddExitSpot (ExitSpotData data) {
+    //    ExitSpot prop = new ExitSpot (this, data);
+    //    allTiles.Add (prop);
+    //    objectsAddedThisMove.Add(prop);
+    //    goalObjects.Add (prop);
+    //}
     private void AddGenericTile (GenericTileData data) {
         GenericTile obj = new GenericTile (this, data);
         allTiles.Add (obj);
         objectsAddedThisMove.Add(obj);
     }
-    //private void AddCrate (CrateData data) {
-    //    Crate prop = new Crate (this, data);
-    //    allTiles.Add (prop);
-    //    objectsAddedThisMove.Add(prop);
-    //}
-    //private void AddCrateGoal (CrateGoalData data) {
-    //    CrateGoal prop = new CrateGoal (this, data);
-    //    allTiles.Add (prop);
-    //    objectsAddedThisMove.Add(prop);
-    //    goalObjects.Add (prop);
-    //}
-    //private void AddExitSpot (ExitSpotData data) {
-    //    ExitSpot prop = new ExitSpot (this, data);
-    //    allTiles.Add (prop);
-    //    objectsAddedThisMove.Add(prop);
-    //    NumExitSpots ++;
-    //}
     private void AddTextBlock (TextBlockData data) {
         TextBlock prop = new TextBlock (this, data);
         allTiles.Add (prop);
@@ -183,7 +185,7 @@ public class Board {
             // Tell all other Tiles!
             for (int i=0; i<allTiles.Count; i++) { allTiles[i].OnPlayerMoved(); }
             // Update Goals!
-            foreach (IGoalObject igo in goalObjects) { igo.UpdateIsOn (); }
+            //foreach (IGoalObject igo in goalObjects) { igo.UpdateIsOn (); }
             AreGoalsSatisfied = GetAreGoalsSatisfied();
             // Dispatch event!
             GameManagers.Instance.EventManager.OnBoardExecutedMove(this);
