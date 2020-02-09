@@ -73,29 +73,26 @@ public class BoardData {
                     switch (spaceChar) {
                     // BoardSpace properties!
                     case '~': GetSpaceData (col,row).isPlayable = false; break;
-                    // Abba!
-                    case '@': AddAbbaData(col,row); break;
-                    // Crates!
-                    case 'O': AddCrateData (col,row, false); break;
-                    case 'o': AddCrateGoalData (col,row, false); break;
-                    //case 'E': AddCrateData (col,row, true); break;
-                    //case 'e': AddCrateGoalData (col,row, true); break;
-                    // ExitSpot!
-                    case '$': AddExitSpotData (col,row); break;
-					// Walls!
-					case '_': SetIsWallT (col,row-1); break; // note: because the underscore looks lower, consider it in the next row (so layout text file looks more intuitive).
-					case '|': SetIsWallL (col,row); break;
+                    // Walls!
+                    case '_': SetIsWallT (col,row-1); break; // note: because the underscore looks lower, consider it in the next row (so layout text file looks more intuitive).
+                    case '|': SetIsWallL (col,row); break;
+                    
+                    // GenericTiles!
+                    case '@': AddGenericTileData(TileType.Abba, col,row); break;
+                    case '#': AddGenericTileData(TileType.Brick, col,row); break;
+                    case '*': AddGenericTileData(TileType.Crate, col,row); break;
+                    case '$': AddGenericTileData(TileType.ExitSpot, col,row); break;
                     
                     // TextBlocks!
-                    case '=': AddTextBlockData(col,row, TextType.Is); break;
-                    case 'P': AddTextBlockData(col,row, TextType.Push); break;
-                    case 'S': AddTextBlockData(col,row, TextType.Stop); break;
-                    case 'Y': AddTextBlockData(col,row, TextType.You); break;
-                    case 'A': AddTextBlockData(col,row, TextType.Abba); break;
-                    case 'C': AddTextBlockData(col,row, TextType.Crate); break;
+                    case '=': AddTextBlockData(TileType.Is, col,row); break;
+                    case 'P': AddTextBlockData(TileType.Push, col,row); break;
+                    case 'S': AddTextBlockData(TileType.Stop, col,row); break;
+                    case 'Y': AddTextBlockData(TileType.You, col,row); break;
                     
-                    //// MODIFYING properties...
-                    //case 'm': SetNotMovable(col,row); break;
+                    case 'A': AddTextBlockData(TileType.Abba, col,row); break;
+                    case 'B': AddTextBlockData(TileType.Brick, col,row); break;
+                    case 'C': AddTextBlockData(TileType.Crate, col,row); break;
+                    case 'E': AddTextBlockData(TileType.ExitSpot, col,row); break;
 					}
 				}
 			}
@@ -133,28 +130,13 @@ public class BoardData {
 
 
     
-    void AddAbbaData(int col,int row) {
-        AbbaData data = new AbbaData(NewGuid(), new BoardPos(col,row));
+    void AddGenericTileData(TileType tileType, int col,int row) {
+        GenericTileData data = new GenericTileData(NewGuid(), tileType, new BoardPos(col,row));
         allTileDatas.Add (data);
         SetTileInBoard (data);
     }
-    void AddCrateData (int col,int row, bool doAutoMove) {
-        CrateData newData = new CrateData (NewGuid(), new BoardPos(col,row), doAutoMove, Vector2Int.zero);
-        allTileDatas.Add (newData);
-        SetTileInBoard (newData);
-    }
-    void AddExitSpotData (int col,int row) {
-        ExitSpotData newData = new ExitSpotData (NewGuid(), new BoardPos(col,row));
-        allTileDatas.Add (newData);
-        SetTileInBoard (newData);
-    }
-    void AddCrateGoalData (int col,int row, bool doStayOn) {
-        CrateGoalData newData = new CrateGoalData (NewGuid(), new BoardPos(col,row), doStayOn, false);
-        allTileDatas.Add (newData);
-        SetTileInBoard (newData);
-    }
-    void AddTextBlockData(int col,int row, TextType textType) {
-        TextBlockData data = new TextBlockData(NewGuid(), new BoardPos(col,row), textType);
+    void AddTextBlockData(TileType tileType, int col,int row) {
+        TextBlockData data = new TextBlockData(NewGuid(), new BoardPos(col,row), tileType);
         allTileDatas.Add (data);
         SetTileInBoard (data);
     }
@@ -169,10 +151,6 @@ public class BoardData {
         spaceDatas[col,row].isWallT = true;
     }
     
-    //private void SetNotMovable(int col,int row) {
-    //    TileData bo = GetObjectInBoard(col,row) as TileData;
-    //    if (bo != null) { bo.isMovable = false; }
-    //}
 
 
 

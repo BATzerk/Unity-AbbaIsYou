@@ -11,20 +11,6 @@ public class TextBlockView : TileView {
     [SerializeField] private Image i_backing=null;
 	// References
     public TextBlock MyTextBlock { get; private set; }
-    
-    //private string GetDisplayText() {
-    //    switch (MyTextBlock.MyTextType) {
-    //        case TextType.Abba: return "Abba";
-    //        case TextType.Crate: return "Crate";
-            
-    //        case TextType.Is: return "=";
-            
-    //        case TextType.Push: return "push";
-    //        case TextType.Stop: return "stop";
-    //        case TextType.You: return "you";
-    //        default: return "UNDEFINED";
-    //    }
-    //}
 
 
 	// ----------------------------------------------------------------
@@ -35,13 +21,7 @@ public class TextBlockView : TileView {
         base.Initialize (_myBoardView, bo);
         
         // Set text!
-        //myText.text = GetDisplayText();
-        i_myIcon.sprite = ResourcesHandler.Instance.GetTextBlockViewIconSprite(MyTextBlock.MyTextType);
-        // HACK hardcoded color some sprites.
-        switch (MyTextBlock.MyTextType) {
-            case TextType.Abba: i_myIcon.color = new Color255(100,190,155).ToColor(); break;
-            case TextType.Crate: i_myIcon.color = new Color255(209,188,159).ToColor(); break;
-        }
+        i_myIcon.sprite = ResourcesHandler.Instance.GetTileSprite(MyTextBlock.MySubjectType);
 	}
 
 

@@ -9,13 +9,13 @@ public class BoardSpace {
     private bool isWallL, isWallT; // walls can only be on the LEFT and TOP of spaces.
     // References
     public List<Tile> MyTiles { get; private set; } // all the tiles on me.
-    public ExitSpot MyExitSpot { get; private set; }
+    //public ExitSpot MyExitSpot { get; private set; }
 
     // Getters
     public bool IsPlayable { get { return isPlayable; } }
     public int Col { get { return ColRow.x; } }
     public int Row { get { return ColRow.y; } }
-    public bool HasExitSpot { get { return MyExitSpot != null; } }
+    //public bool HasExitSpot { get { return MyExitSpot != null; } }
     public bool HasPushTile() {
         foreach (Tile tile in MyTiles) { if (tile.IsPush) { return true; } }
         return false;
@@ -81,12 +81,12 @@ public class BoardSpace {
         }
     }
     
-    public void SetMyExitSpot(ExitSpot bo) {
-        if (MyExitSpot != null) {
-            throw new UnityException ("Oops! Trying to set a Space's MyExitSpot, but that Space already has an ExitSpot! " + Col + ", " + Row);
-        }
-        MyExitSpot = bo;
-    }
+    //public void SetMyExitSpot(ExitSpot bo) {
+    //    if (MyExitSpot != null) {
+    //        throw new UnityException ("Oops! Trying to set a Space's MyExitSpot, but that Space already has an ExitSpot! " + Col + ", " + Row);
+    //    }
+    //    MyExitSpot = bo;
+    //}
     
 	public void AddTile (Tile _bo) {
 		if (MyTiles.Contains(_bo)) {

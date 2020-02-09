@@ -40,9 +40,10 @@ public class BoardSpaceView : MonoBehaviour {
 	}
     
     private void AddWallImage(int side) {
-        Image img = new GameObject().AddComponent<Image>();
-        img.color = new Color(0,0,0, 0.32f);
-        GameUtils.ParentAndReset(img.gameObject, myBoardView.tf_walls);
+        GameObject wallGO = Instantiate(ResourcesHandler.Instance.WallView);
+        GameUtils.ParentAndReset(wallGO, myBoardView.tf_walls);
+        
+        Image img = wallGO.GetComponent<Image>();
         img.rectTransform.sizeDelta = new Vector2(myBoardView.UnitSize, myBoardView.UnitSize*0.1f);
         Vector2Int dir = MathUtils.GetDir(side);
         img.rectTransform.anchoredPosition = this.transform.localPosition;

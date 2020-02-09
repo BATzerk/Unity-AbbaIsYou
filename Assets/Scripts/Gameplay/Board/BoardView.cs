@@ -9,10 +9,9 @@ public class BoardView : MonoBehaviour {
     // Components
     [SerializeField] public CanvasGroup MyCanvasGroup=null;
     [SerializeField] private RectTransform myRectTransform=null;
-    [SerializeField] public Transform tf_beamLines=null;
     [SerializeField] public Transform tf_boardObjects=null;
     [SerializeField] public Transform tf_boardSpaces=null;
-    [SerializeField] public Transform tf_walls=null;
+    [SerializeField] public Transform tf_walls=null;//TODO: Remove Canvas from WallView prefab. We already have this layer.
 	// Objects
 	private BoardSpaceView[,] spaceViews;
 	private List<TileView> allTileViews = new List<TileView>(); // includes EVERY single TileView!

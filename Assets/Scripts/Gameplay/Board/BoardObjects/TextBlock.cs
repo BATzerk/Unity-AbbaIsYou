@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum TextType {
+public enum TileType {
     Undefined,
-    Abba, Crate,
+    Abba, Brick, Crate, ExitSpot, TextBlock,
     Is,
     You, Push, Stop
 }
@@ -15,9 +15,9 @@ public enum TextLoc {
 
 public class TextBlock : Tile {
     // Properties
-    public TextType MyTextType { get; private set; }
+    public TileType MySubjectType { get; private set; }
     public TextLoc MyTextLoc { get; private set; }
-    public System.Type MySubject { get; private set; } // ONLY exists for Starts.
+    //public TileType MySubject { get; private set; } // ONLY exists for Starts.
     public RuleOperator MyOperator { get; private set; } // ONLY exists for Ends.
     public bool IsInSentence;
     
@@ -28,34 +28,41 @@ public class TextBlock : Tile {
     // ----------------------------------------------------------------
     public TextBlock (Board _boardRef, TextBlockData _data) {
         base.InitializeAsTile (_boardRef, _data);
-        this.MyTextType = _data.MyTextType;
+        this.MyType = _data.MyType;
+        this.MySubjectType = _data.MySubjectType;
         // Infer MyTextLoc and MySubject from my type!
-        switch (MyTextType) {
+        switch (MySubjectType) {
             // Start
-            case TextType.Abba:
+            case TileType.Abba:
+            case TileType.Brick:
+            case TileType.Crate:
+            case TileType.ExitSpot:
                 this.MyTextLoc = TextLoc.Start;
-                this.MySubject = typeof(Abba);
                 break;
-            case TextType.Crate:
-                this.MyTextLoc = TextLoc.Start;
-                this.MySubject = typeof(Crate);
-                break;
+            //case TileType.Abba:
+            //    this.MyTextLoc = TextLoc.Start;
+            //    this.MySubject = TileType.Abba;
+            //    break;
+            //case TileType.Crate:
+                //this.MyTextLoc = TextLoc.Start;
+                //this.MySubject = TileType.Crate;
+                //break;
                 
             // Middle
-            case TextType.Is:
+            case TileType.Is:
                 this.MyTextLoc = TextLoc.Middle;
                 break;
                 
             // End
-            case TextType.Push:
+            case TileType.Push:
                 MyOperator = RuleOperator.IsPush;
                 this.MyTextLoc = TextLoc.End;
                 break;
-            case TextType.Stop:
+            case TileType.Stop:
                 MyOperator = RuleOperator.IsStop;
                 this.MyTextLoc = TextLoc.End;
                 break;
-            case TextType.You:
+            case TileType.You:
                 MyOperator = RuleOperator.IsYou;
                 this.MyTextLoc = TextLoc.End;
                 break;
@@ -64,7 +71,7 @@ public class TextBlock : Tile {
     
     // Serializing
     override public TileData ToData() {
-        return new TextBlockData(MyGuid, BoardPos, MyTextType);
+        return new TextBlockData(MyGuid, BoardPos, MySubjectType);
     }
 
 

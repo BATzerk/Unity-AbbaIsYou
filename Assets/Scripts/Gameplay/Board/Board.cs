@@ -40,12 +40,12 @@ public class Board {
         return players;
     }
     public bool IsAnyPlayerOnExitSpot () {
-        List<Tile> players = GetPlayers();
-        for (int i=0; i<players.Count; i++) {
-            if (players[i].MySpace.HasExitSpot && players[i].MySpace.MyExitSpot.IsOrientationMatch(players[i])) {
-                return true;
-            }
-        }
+        //List<Tile> players = GetPlayers();
+        //for (int i=0; i<players.Count; i++) {
+        //    if (players[i].MySpace.HasExitSpot && players[i].MySpace.MyExitSpot.IsOrientationMatch(players[i])) {
+        //        return true;
+        //    }
+        //}
         return false;
     }
     private bool GetAreGoalsSatisfied() {
@@ -117,17 +117,8 @@ public class Board {
 		foreach (TileData objData in bd.allTileDatas) {
             System.Type type = objData.GetType();
             if (false) {}
-            else if (type == typeof(AbbaData)) {
-                AddAbba (objData as AbbaData);
-            }
-            else if (type == typeof(CrateData)) {
-                AddCrate (objData as CrateData);
-            }
-            else if (type == typeof(CrateGoalData)) {
-                AddCrateGoal (objData as CrateGoalData);
-            }
-            else if (type == typeof(ExitSpotData)) {
-                AddExitSpot (objData as ExitSpotData);
+            else if (type == typeof(GenericTileData)) {
+                AddGenericTile (objData as GenericTileData);
             }
             else if (type == typeof(TextBlockData)) {
                 AddTextBlock (objData as TextBlockData);
@@ -138,28 +129,28 @@ public class Board {
         }
 	}
     
-    private void AddAbba (AbbaData data) {
-        Abba prop = new Abba (this, data);
-        allTiles.Add (prop);
-        objectsAddedThisMove.Add(prop);
+    private void AddGenericTile (GenericTileData data) {
+        GenericTile obj = new GenericTile (this, data);
+        allTiles.Add (obj);
+        objectsAddedThisMove.Add(obj);
     }
-    private void AddCrate (CrateData data) {
-        Crate prop = new Crate (this, data);
-        allTiles.Add (prop);
-        objectsAddedThisMove.Add(prop);
-    }
-    private void AddCrateGoal (CrateGoalData data) {
-        CrateGoal prop = new CrateGoal (this, data);
-        allTiles.Add (prop);
-        objectsAddedThisMove.Add(prop);
-        goalObjects.Add (prop);
-    }
-    private void AddExitSpot (ExitSpotData data) {
-        ExitSpot prop = new ExitSpot (this, data);
-        allTiles.Add (prop);
-        objectsAddedThisMove.Add(prop);
-        NumExitSpots ++;
-    }
+    //private void AddCrate (CrateData data) {
+    //    Crate prop = new Crate (this, data);
+    //    allTiles.Add (prop);
+    //    objectsAddedThisMove.Add(prop);
+    //}
+    //private void AddCrateGoal (CrateGoalData data) {
+    //    CrateGoal prop = new CrateGoal (this, data);
+    //    allTiles.Add (prop);
+    //    objectsAddedThisMove.Add(prop);
+    //    goalObjects.Add (prop);
+    //}
+    //private void AddExitSpot (ExitSpotData data) {
+    //    ExitSpot prop = new ExitSpot (this, data);
+    //    allTiles.Add (prop);
+    //    objectsAddedThisMove.Add(prop);
+    //    NumExitSpots ++;
+    //}
     private void AddTextBlock (TextBlockData data) {
         TextBlock prop = new TextBlock (this, data);
         allTiles.Add (prop);
@@ -173,8 +164,8 @@ public class Board {
     public void OnObjectRemovedFromPlay (Tile bo) {
         // Remove it from its lists!
         allTiles.Remove (bo);
-        if (bo is ExitSpot) { NumExitSpots --; }
-        else { Debug.LogError ("Trying to RemoveFromPlay an Object of type " + bo.GetType() + ", but our OnObjectRemovedFromPlay function doesn't recognize this type!"); }
+        //if (bo is ExitSpot) { NumExitSpots --; }
+        //else { Debug.LogError ("Trying to RemoveFromPlay an Object of type " + bo.GetType() + ", but our OnObjectRemovedFromPlay function doesn't recognize this type!"); }
     }
 
 
@@ -251,7 +242,7 @@ public class Board {
         
         // 3) Update textRules from sentences!
         textRules.Clear();
-        textRules.Add(new TextRule(typeof(TextBlock), RuleOperator.IsPush)); // Hardcoded: ALL text is always pushable!
+        textRules.Add(new TextRule(TileType.TextBlock, RuleOperator.IsPush)); // Hardcoded: ALL text is always pushable!
         foreach (BlockSentence sentence in blockSentences) {
             textRules.Add(sentence.GetMyRule());
         }

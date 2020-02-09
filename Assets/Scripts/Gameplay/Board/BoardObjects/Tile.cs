@@ -4,6 +4,7 @@ using System.Collections.Generic;
 
 abstract public class Tile {
     // Properties
+    public TileType MyType { get; protected set; }
     public BoardPos BoardPos { get; private set; }
     private bool isInPlay = true; // we set this to false when I'm removed from the Board!
     public Vector2Int PrevMoveDelta { get; private set; } // how far I moved the last move.
@@ -37,12 +38,10 @@ abstract public class Tile {
 	//  Initialize
 	// ----------------------------------------------------------------
 	protected void InitializeAsTile (Board _boardRef, TileData data) {
+        this.MyType = data.MyType;
         this.MyGuid = data.MyGuid;
 		this.BoardRef = _boardRef;
 		this.BoardPos = data.boardPos;
-        this.IsPush = data.isPush;
-        this.IsStop = data.isStop;
-        this.IsYou = data.isYou;
         
 		// Automatically add me to the board!
 		AddMyFootprint ();
@@ -94,5 +93,13 @@ abstract public class Tile {
     virtual public void OnPlayerMoved () {}
     virtual protected void OnSetSideFacing () {}
 
+
+
+//    // ----------------------------------------------------------------
+//    //  Doers
+//    // ----------------------------------------------------------------
+//    //public void Die() {
+//    //    IsDead = true;
+//    //}
 
 }
