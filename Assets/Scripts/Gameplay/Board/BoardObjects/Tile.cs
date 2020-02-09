@@ -70,6 +70,9 @@ abstract public class Tile {
         OnSetSideFacing();
     }
     public void ChangeSideFacing(int delta) { SetSideFacing(SideFacing+delta); }
+    public void ConvertMyType(TileType newType) {
+        this.MyType = newType;
+    }
     
     public void ResetPrevMoveDelta() {
         PrevMoveDelta = Vector2Int.zero;

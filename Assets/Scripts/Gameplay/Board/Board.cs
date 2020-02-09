@@ -223,12 +223,16 @@ public class Board {
             // Find the HORZ sentence!
             middle = GetTextWithLoc(start.Col+1, start.Row, TextLoc.Middle);
             end = GetTextWithLoc(start.Col+2, start.Row, TextLoc.End);
+            // HACK TEMP sloppy
+            if (end == null) { end = GetTextWithLoc(start.Col+2, start.Row, TextLoc.Start); }
             if (middle != null && end != null) {
                 blockSentences.Add(new BlockSentence(start, middle, end));
             }
             // Find the VERT sentence!
             middle = GetTextWithLoc(start.Col, start.Row-1, TextLoc.Middle);
             end = GetTextWithLoc(start.Col, start.Row-2, TextLoc.End);
+            // HACK TEMP sloppy
+            if (end == null) { end = GetTextWithLoc(start.Col, start.Row-2, TextLoc.Start); }
             if (middle != null && end != null) {
                 blockSentences.Add(new BlockSentence(start, middle, end));
             }
@@ -254,9 +258,16 @@ public class Board {
             obj.ReleaseRuleProperties();
         }
         
-        // 5) Apply textRules!
+        // 5) Apply conversions, THEN all other rules.
         foreach (TextRule rule in textRules) {
-            rule.ApplyToBoard(this);
+            if (rule.MyOperator == RuleOperator.Convert) {
+                rule.ApplyToBoard(this);
+            }
+        }
+        foreach (TextRule rule in textRules) {
+            if (rule.MyOperator != RuleOperator.Convert) {
+                rule.ApplyToBoard(this);
+            }
         }
     }
     

@@ -21,8 +21,10 @@ public class GenericTileView : TileView {
         MyGenericTile = bo as GenericTile;
         base.Initialize (_myBoardView, bo);
         gameObject.name = "Tile_" + bo.MyType;
-        
-        // Set body sprite!
+    }
+    
+    private void UpdateBodyImage() {
+        // Set sprite!
         i_body.sprite = ResourcesHandler.Instance.GetTileSprite(MyGenericTile.MyType);
         
         // Set sorting order! HARDCODED.
@@ -42,6 +44,8 @@ public class GenericTileView : TileView {
     // ----------------------------------------------------------------
     public override void UpdateVisualsPostMove() {
         base.UpdateVisualsPostMove();
+        
+        UpdateBodyImage();
         
         //if (MyCrate.DoAutoMove) {
         //    bool isArrow = MyCrate.AutoMoveDir!=Vector2Int.zero;
