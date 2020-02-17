@@ -59,7 +59,7 @@ public class Board {
         foreach (Tile tile in allTiles) {
             if (tile.IsOverlapGoal) {
                 numOverlapGoals ++;
-                if (tile.MySpace.MyTiles.Count > 1) { // if there's another thing on this space, it's happy!
+                if (tile.IsOverlapGoalSatisfied()) { // if there's another thing on this space, it's happy!
                     numOverlapGoalsHappy ++;
                 }
             }

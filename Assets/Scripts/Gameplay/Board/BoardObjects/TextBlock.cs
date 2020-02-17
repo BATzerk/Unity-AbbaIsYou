@@ -6,7 +6,7 @@ public enum TileType {
     Undefined,
     Abba, Brick, Crate, ExitSpot, TextBlock,
     Is,
-    You, Push, Stop, OverlapGoal
+    You, Push, Stop, OverlapGoal, Destroys,
 }
 public enum TextLoc {
     Undefined,
@@ -54,6 +54,10 @@ public class TextBlock : Tile {
                 break;
                 
             // End
+            case TileType.Destroys:
+                MyOperator = RuleOperator.IsDestroys;
+                this.MyTextLoc = TextLoc.End;
+                break;
             case TileType.OverlapGoal:
                 MyOperator = RuleOperator.IsOverlapGoal;
                 this.MyTextLoc = TextLoc.End;

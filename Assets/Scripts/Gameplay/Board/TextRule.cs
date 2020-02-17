@@ -5,7 +5,7 @@ using UnityEngine;
 // TODO: Move these outta here?
 public enum RuleOperator {
     Undefined,
-    IsYou, IsPush, IsStop, IsOverlapGoal,
+    IsYou, IsPush, IsStop, IsOverlapGoal, IsDestroys,
     Convert
 }
 public struct BlockSentence {
@@ -59,6 +59,7 @@ public class TextRule {
         foreach (Tile obj in b.allTiles) {
             if (obj.MyType != MySubject) { continue; } // Skip tiles that aren't my subject.
             switch (MyOperator) {
+                case RuleOperator.IsDestroys: obj.IsDestroys = true; break;
                 case RuleOperator.IsOverlapGoal: obj.IsOverlapGoal = true; break;
                 case RuleOperator.IsPush: obj.IsPush = true; break;
                 case RuleOperator.IsStop: obj.IsStop = true; break;

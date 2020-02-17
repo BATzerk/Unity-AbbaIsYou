@@ -77,6 +77,20 @@ public static class BoardUtils {
                 finalResult = MoveResults.Success;
             }
         }
+        // Destroy any tiles on destroy-spaces.
+        List<Tile> tilesToDestroy = new List<Tile>();
+        for (int i=b.allTiles.Count-1; i>=0; --i) {
+            Tile tile = b.allTiles[i];
+            if (tile.MySpace.ShouldDestroyTile(tile)) {
+                foreach (Tile t in tile.MySpace.MyTiles) {
+                    tilesToDestroy.Add(t);
+                }
+            }
+        }
+        foreach (Tile tile in tilesToDestroy) {
+            tile.RemoveFromPlay();
+        }
+
         // IF success, then update all the TextRules!
         if (finalResult == MoveResults.Success) {
             b.RefreshAndApplyTextRules();

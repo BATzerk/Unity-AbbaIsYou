@@ -50,6 +50,13 @@ public class BoardSpace {
         if (IsWall(side)) { return false; }
         return true;
     }
+    public bool ShouldDestroyTile(Tile tile) {
+        foreach (Tile t in MyTiles) {
+            if (tile==t) { continue; } // Don't destroy itself.
+            if (t.IsDestroys) { return true; }
+        }
+        return false;
+    }
     
     
 	// ----------------------------------------------------------------

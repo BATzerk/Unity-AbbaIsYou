@@ -10,6 +10,7 @@ abstract public class Tile {
     public Vector2Int PrevMoveDelta { get; private set; } // how far I moved the last move.
     public System.Guid MyGuid { get; private set; } // used to find/move my cloned tile in my cloned board.
     // Rule Properties
+    public bool IsDestroys { get; set; }
     public bool IsOverlapGoal { get; set; }
     public bool IsPush { get; set; }
     public bool IsStop { get; set; }
@@ -29,6 +30,14 @@ abstract public class Tile {
 	public BoardSpace MySpace { get { return GetSpace (Col,Row); } }
     public bool IsOrientationMatch(Tile other) {
         return BoardPos == other.BoardPos;
+    }
+    public bool IsOverlapGoalSatisfied() {
+        foreach (Tile tile in MySpace.MyTiles) {
+            if (tile!=this && tile.MyType!=TileType.TextBlock) {
+                return true;
+            }
+        }
+        return false;
     }
     
     // Serializing
@@ -53,6 +62,7 @@ abstract public class Tile {
 	//  Doers
 	// ----------------------------------------------------------------
     public void ReleaseRuleProperties() {
+        IsDestroys = false;
         IsOverlapGoal = false;
         IsYou = false;
         IsPush = false;

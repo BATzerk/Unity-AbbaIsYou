@@ -34,6 +34,7 @@ public class GenericTileView : TileView {
             case TileType.Brick: myCanvas.sortingOrder = 2; break;
             case TileType.Crate: myCanvas.sortingOrder = 5; break;
             case TileType.ExitSpot: myCanvas.sortingOrder = 50; break;
+            // NOTE: TextBlocks have TextBlockView, so their case is not handled here.
             default: Debug.LogWarning("Yo! TileType not handled for sorting order in GenericTileView.cs. Type: " + MyGenericTile.MyType); break;
         }
 	}
@@ -62,7 +63,7 @@ public class GenericTileView : TileView {
         
         isOverlapGoal = MyGenericTile.IsOverlapGoal;
         isGoalSatisfied = MyGenericTile.IsOverlapGoalSatisfied();
-        float alpha = isOverlapGoal&&!isGoalSatisfied ? 0.4f : 1f;
+        float alpha = isOverlapGoal&&!isGoalSatisfied ? 0.6f : 1f;
         GameUtils.SetUIGraphicAlpha(i_body, alpha);
         //// Put OverlapGoals above other things!
         //if (isOverlapGoal) {

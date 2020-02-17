@@ -28,6 +28,7 @@ public class ResourcesHandler : MonoBehaviour {
     [SerializeField] private Sprite s_exitSpot=null;
     
     [SerializeField] private Sprite s_is=null;
+    [SerializeField] private Sprite s_destroys=null;
     [SerializeField] private Sprite s_overlapGoal=null;
     [SerializeField] private Sprite s_push=null;
     [SerializeField] private Sprite s_stop=null;
@@ -51,6 +52,7 @@ public class ResourcesHandler : MonoBehaviour {
             
             case TileType.Is: return s_is;
             
+            case TileType.Destroys: return s_destroys;
             case TileType.OverlapGoal: return s_overlapGoal;
             case TileType.Push: return s_push;
             case TileType.Stop: return s_stop;
