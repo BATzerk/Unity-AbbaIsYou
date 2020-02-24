@@ -4,7 +4,7 @@ using UnityEngine;
 
 public enum TileType {
     Undefined,
-    Abba, Brick, Crate, ExitSpot, TextBlock,
+    Abba, Brick, Crate, Star, TextBlock,
     Is,
     You, Push, Stop, OverlapGoal, Destroys,
 }
@@ -36,7 +36,7 @@ public class TextBlock : Tile {
             case TileType.Abba:
             case TileType.Brick:
             case TileType.Crate:
-            case TileType.ExitSpot:
+            case TileType.Star:
                 this.MyTextLoc = TextLoc.Start;
                 break;
             //case TileType.Abba:

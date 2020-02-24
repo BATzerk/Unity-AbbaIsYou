@@ -15,17 +15,13 @@ public class ResourcesHandler : MonoBehaviour {
     [SerializeField] public GameObject BoardSpaceView;
     [SerializeField] public GameObject WallView;
     // TileViews
-    //[SerializeField] private GameObject AbbaView=null;
-    //[SerializeField] private GameObject CrateView=null;
-    //[SerializeField] private GameObject CrateGoalView=null;
-    //[SerializeField] private GameObject ExitSpotView=null;
     [SerializeField] private GameObject GenericTileView=null;
     [SerializeField] private GameObject TextBlockView=null;
     // Sprites
     [SerializeField] private Sprite s_abba=null;
     [SerializeField] private Sprite s_brick=null;
     [SerializeField] private Sprite s_crate=null;
-    [SerializeField] private Sprite s_exitSpot=null;
+    [SerializeField] private Sprite s_star=null;
     
     [SerializeField] private Sprite s_is=null;
     [SerializeField] private Sprite s_destroys=null;
@@ -48,7 +44,7 @@ public class ResourcesHandler : MonoBehaviour {
             case TileType.Abba: return s_abba;
             case TileType.Brick: return s_brick;
             case TileType.Crate: return s_crate;
-            case TileType.ExitSpot: return s_exitSpot;
+            case TileType.Star: return s_star;
             
             case TileType.Is: return s_is;
             

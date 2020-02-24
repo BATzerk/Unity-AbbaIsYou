@@ -81,20 +81,21 @@ public class BoardData {
                     case '@': AddGenericTileData(TileType.Abba, col,row); break;
                     case '#': AddGenericTileData(TileType.Brick, col,row); break;
                     case '*': AddGenericTileData(TileType.Crate, col,row); break;
-                    case '$': AddGenericTileData(TileType.ExitSpot, col,row); break;
+                    case '$': AddGenericTileData(TileType.Star, col,row); break;
                     
                     // TextBlocks!
                     case '=': AddTextBlockData(TileType.Is, col,row); break;
-                    case 'D': AddTextBlockData(TileType.Destroys, col,row); break;
-                    case 'G': AddTextBlockData(TileType.OverlapGoal, col,row); break;
-                    case 'P': AddTextBlockData(TileType.Push, col,row); break;
-                    case 'S': AddTextBlockData(TileType.Stop, col,row); break;
-                    case 'Y': AddTextBlockData(TileType.You, col,row); break;
+                    
+                    case 'd': AddTextBlockData(TileType.Destroys, col,row); break;
+                    case 'g': AddTextBlockData(TileType.OverlapGoal, col,row); break;
+                    case 'p': AddTextBlockData(TileType.Push, col,row); break;
+                    case 's': AddTextBlockData(TileType.Stop, col,row); break;
+                    case 'y': AddTextBlockData(TileType.You, col,row); break;
                     
                     case 'A': AddTextBlockData(TileType.Abba, col,row); break;
                     case 'B': AddTextBlockData(TileType.Brick, col,row); break;
                     case 'C': AddTextBlockData(TileType.Crate, col,row); break;
-                    case 'E': AddTextBlockData(TileType.ExitSpot, col,row); break;
+                    case 'S': AddTextBlockData(TileType.Star, col,row); break;
 					}
 				}
 			}

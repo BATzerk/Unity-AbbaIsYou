@@ -33,7 +33,7 @@ public class GenericTileView : TileView {
             case TileType.Abba: myCanvas.sortingOrder = 40; break;
             case TileType.Brick: myCanvas.sortingOrder = 2; break;
             case TileType.Crate: myCanvas.sortingOrder = 5; break;
-            case TileType.ExitSpot: myCanvas.sortingOrder = 50; break;
+            case TileType.Star: myCanvas.sortingOrder = 50; break;
             // NOTE: TextBlocks have TextBlockView, so their case is not handled here.
             default: Debug.LogWarning("Yo! TileType not handled for sorting order in GenericTileView.cs. Type: " + MyGenericTile.MyType); break;
         }

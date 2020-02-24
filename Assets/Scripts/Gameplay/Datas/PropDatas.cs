@@ -24,15 +24,6 @@ public class TileData : PropData {
     public Guid MyGuid;
     public TileType MyType;
 }
-//public class ExitSpotData : GenericTileData {
-//    //public ExitSpotData(Guid myGuid, TileType myType, BoardPos boardPos) {
-//    //    this.MyGuid = myGuid;
-//    //    this.MyType = myType;
-//    //    this.boardPos = boardPos;
-//    //}
-//    public ExitSpotData(Guid myGuid, TileType myType, BoardPos boardPos) : base(myGuid, myType, boardPos) {
-//    }
-//}
 public class GenericTileData : TileData {
     public GenericTileData(Guid myGuid, TileType myType, BoardPos boardPos) {
         this.MyGuid = myGuid;
@@ -75,11 +66,5 @@ public class TextBlockData : TileData {
 //        this.boardPos = boardPos;
 //        this.doStayOn = doStayOn;
 //        this.isOn = isOn;
-//    }
-//}
-//public class ExitSpotData : TileData {
-//    public ExitSpotData(Guid myGuid, BoardPos boardPos) {
-//        this.MyGuid = myGuid;
-//        this.boardPos = boardPos;
 //    }
 //}
