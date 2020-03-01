@@ -96,6 +96,21 @@ public class BoardData {
                     case 'B': AddTextBlockData(TileType.Brick, col,row); break;
                     case 'C': AddTextBlockData(TileType.Crate, col,row); break;
                     case 'S': AddTextBlockData(TileType.Star, col,row); break;
+                    
+                    // TESTING TextBlocks!!
+                    case 'i': AddTextBlockData(TileType.If, col,row); break;
+                    case 't': AddTextBlockData(TileType.Then, col,row); break;
+                    case 'e': AddTextBlockData(TileType.Else, col,row); break;
+                    case '!': AddTextBlockData(TileType.Not, col,row); break;
+                    case 'a': AddTextBlockData(TileType.And, col,row); break;
+                    case 'o': AddTextBlockData(TileType.Or, col,row); break;
+                    case 'T': AddTextBlockData(TileType.True, col,row); break;
+                    case 'F': AddTextBlockData(TileType.False, col,row); break;
+                    case 'w': AddTextBlockData(TileType.Win, col,row); break;
+                    case 'l': AddTextBlockData(TileType.Lose, col,row); break;
+                    case 'X': AddTextBlockData(TileType.X, col,row); break;
+                    case 'Y': AddTextBlockData(TileType.Y, col,row); break;
+                    case 'Z': AddTextBlockData(TileType.Z, col,row); break;
 					}
 				}
 			}

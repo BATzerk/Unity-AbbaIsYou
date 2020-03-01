@@ -7,6 +7,8 @@ public enum TileType {
     Abba, Brick, Crate, Star, TextBlock,
     Is,
     You, Push, Stop, OverlapGoal, Destroys,
+    
+    If, Then, Else, Not, And, Or, True, False, Win, Lose, X, Y, Z,
 }
 public enum TextLoc {
     Undefined,
@@ -73,6 +75,24 @@ public class TextBlock : Tile {
             case TileType.You:
                 MyOperator = RuleOperator.IsYou;
                 this.MyTextLoc = TextLoc.End;
+                break;
+                
+            // TESTING If-Else
+            case TileType.If:
+            case TileType.Else:
+            case TileType.Then:
+            case TileType.Not:
+            case TileType.And:
+            case TileType.Or:
+            case TileType.True:
+            case TileType.False:
+            case TileType.Win:
+            case TileType.Lose:
+            case TileType.X:
+            case TileType.Y:
+            case TileType.Z:
+                MyOperator = RuleOperator.Undefined;
+                this.MyTextLoc = TextLoc.Undefined;
                 break;
                 
             default: Debug.LogError("Oops, TextBlock doesn't have case handled for type: " + MySubjectType); break;

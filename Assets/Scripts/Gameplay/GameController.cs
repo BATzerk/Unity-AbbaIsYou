@@ -44,6 +44,7 @@ public class GameController : MonoBehaviour {
     private void StartNextPack() { StartPack(currAddress.pack + 1); }
     private void StartPack(int packIndex) {
         int levelIndex = SaveStorage.GetInt(SaveKeys.LastPlayedLevelInPack(packIndex));
+        levelIndex = 0;//QQQ
         StartLevel(new LevelAddress(packIndex, levelIndex));
     }
 	public void StartLevel (LevelAddress address) {

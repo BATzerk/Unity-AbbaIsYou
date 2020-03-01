@@ -53,7 +53,8 @@ public class ResourcesHandler : MonoBehaviour {
             case TileType.Push: return s_push;
             case TileType.Stop: return s_stop;
             case TileType.You: return s_you;
-            default: Debug.LogError("Oops, no Tile sprite for type: " + tileType); return null;
+            //default: Debug.LogError("Oops, no Tile sprite for type: " + tileType); return null;
+            default: return null;
         }
     }
     
